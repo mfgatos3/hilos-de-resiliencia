@@ -1,0 +1,1721 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hilos de Resiliencia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Plataforma pedagógica sobre la memoria del conflicto armado en Colombia: territorios, diálogo crítico, cuidado socioemocional y pactos de no repetición.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Concepto: un tapiz cosido. Colombia es un patchwork de departamentos en relieve,
+   la banda está teñida de añil y cuatro hilos (tierra, maíz, agua, añil) unen territorios e ideas. */
+:root{
+  --tela:#ECF0EE; --lienzo:#F8FAF9; --tinta:#1B2040; --tinta-suave:#4B5270; --borde:#C6CDD0;
+  --banda:#1E2556; --banda-2:#2A3270; --sobre-banda:#F1F3FB; --sobre-banda-suave:#C3C9E6;
+  --b-tierra:#F19474; --b-maiz:#EFC45A; --b-agua:#5AD3BF; --b-anil:#B4BCFF;
+  --hilo-tierra:#AE3F28; --hilo-anil:#3A47A8; --hilo-agua:#0C7566; --hilo-maiz:#8C6200;
+  --parche-tierra:#F6E4DE; --parche-anil:#E2E5F7; --parche-agua:#D9EFEA; --parche-maiz:#F5EACB;
+  --alerta:#8E2A1E; --alerta-fondo:#F9E3DF; --ok:#0C6B5D;
+  --mapa-1:#D3DAD9; --mapa-2:#C8D0D3; --mapa-3:#D8D4CB; --mapa-4:#C6D2CB; --mapa-puntada:#8F98AE;
+  --f-texto:"Alegreya",Georgia,"Times New Roman",serif;
+  --f-ui:"Alegreya Sans","Trebuchet MS",Verdana,sans-serif;
+  --hilo:var(--hilo-anil); --parche:var(--parche-anil); --alto-enc:58px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --tela:#11142B; --lienzo:#191D3A; --tinta:#E9EBF7; --tinta-suave:#AEB4D2; --borde:#343A63;
+  --hilo-tierra:#F19474; --hilo-anil:#A4AEF7; --hilo-agua:#5AD3BF; --hilo-maiz:#EFC45A;
+  --parche-tierra:#3B2430; --parche-anil:#262C5C; --parche-agua:#16353D; --parche-maiz:#39321F;
+  --alerta:#FFB4A6; --alerta-fondo:#43232A; --ok:#5AD3BF;
+  --mapa-1:#2C3360; --mapa-2:#323A6A; --mapa-3:#283058; --mapa-4:#363E70; --mapa-puntada:#6A73A8; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --tela:#11142B; --lienzo:#191D3A; --tinta:#E9EBF7; --tinta-suave:#AEB4D2; --borde:#343A63;
+  --hilo-tierra:#F19474; --hilo-anil:#A4AEF7; --hilo-agua:#5AD3BF; --hilo-maiz:#EFC45A;
+  --parche-tierra:#3B2430; --parche-anil:#262C5C; --parche-agua:#16353D; --parche-maiz:#39321F;
+  --alerta:#FFB4A6; --alerta-fondo:#43232A; --ok:#5AD3BF;
+  --mapa-1:#2C3360; --mapa-2:#323A6A; --mapa-3:#283058; --mapa-4:#363E70; --mapa-puntada:#6A73A8; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--tela);color:var(--tinta);font:400 1.0625rem/1.6 var(--f-ui);overflow-wrap:break-word}
+h1,h2,h3{font-family:var(--f-texto);font-weight:800;line-height:1.12;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.75rem,4.4vw,2.5rem)}
+h3{font-size:1.35rem;font-weight:700}
+p{margin:0}
+a{color:inherit;text-underline-offset:3px}
+ul,ol{margin:0;padding-left:1.2em}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--hilo);outline-offset:2px}
+.marco{max-width:1160px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.lectura{max-width:65ch}
+.etiqueta{font:700 .8rem/1.3 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--hilo)}
+.suave{color:var(--tinta-suave)}
+.pila{display:grid;gap:14px}
+.pila>*{min-width:0}
+[data-modulo="tierra"]{--hilo:var(--hilo-tierra);--parche:var(--parche-tierra)}
+[data-modulo="anil"]{--hilo:var(--hilo-anil);--parche:var(--parche-anil)}
+[data-modulo="agua"]{--hilo:var(--hilo-agua);--parche:var(--parche-agua)}
+[data-modulo="maiz"]{--hilo:var(--hilo-maiz);--parche:var(--parche-maiz)}
+.puntada{border:0;border-top:2px dashed var(--hilo);margin:0;opacity:.75}
+
+/* Encabezado */
+.encabezado{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--lienzo);border-bottom:2px dashed var(--borde)}
+.encabezado .marco{display:flex;align-items:center;gap:4px 22px;flex-wrap:wrap;padding-block:8px}
+.marca{font:800 1.3rem/1 var(--f-texto);text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.marca i{width:14px;height:14px;border-radius:50%;border:2px dashed var(--hilo-tierra);display:block}
+.nav{display:flex;gap:2px;overflow-x:auto;flex:1 1 320px;min-width:0;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{text-decoration:none;padding:7px 10px;white-space:nowrap;font-weight:500;color:var(--tinta-suave);border-bottom:2px dashed transparent}
+.nav a:hover{color:var(--tinta)}
+.nav a[aria-current="page"]{color:var(--tinta);border-bottom-color:var(--hilo);font-weight:700}
+.progreso{position:absolute;left:0;right:0;bottom:-2px;height:3px;pointer-events:none}
+.progreso i{display:block;height:100%;background:repeating-linear-gradient(90deg,var(--hilo-tierra) 0 9px,transparent 9px 14px);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+
+/* Botones */
+.boton{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:2px solid var(--hilo);background:var(--hilo);color:var(--lienzo);font-weight:700;padding:9px 16px;border-radius:4px;cursor:pointer;text-decoration:none;text-align:center}
+.boton:hover{filter:brightness(1.08)}
+.boton.secundario{background:transparent;color:var(--hilo);border-style:dashed}
+.boton[disabled]{opacity:.5;cursor:not-allowed;filter:none}
+.fila{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* Recorrido 3D de la portada */
+.gira{background:var(--banda);color:var(--sobre-banda);display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)}
+.gira-escenario{grid-column:2;grid-row:1;position:sticky;top:var(--alto-enc);height:calc(100vh - var(--alto-enc));height:calc(100svh - var(--alto-enc));min-height:420px;background:radial-gradient(ellipse at 50% 55%,var(--banda-2),var(--banda) 70%)}
+.gira-pasos{grid-column:1;grid-row:1;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:28px;width:100%;max-width:600px;justify-self:end}
+.paso{min-height:80vh;min-height:80svh;display:flex;flex-direction:column;justify-content:center;padding-block:48px}
+.paso-caja{display:grid;gap:12px;transition:opacity .5s}
+.paso:not(.activo) .paso-caja{opacity:.42}
+.paso-intro{min-height:calc(100svh - var(--alto-enc))}
+.gira h1{font-size:clamp(2.9rem,7.6vw,5.4rem);line-height:.98;letter-spacing:-.01em}
+.gira .etiqueta{color:var(--hilo,var(--sobre-banda-suave))}
+.gira .lema{font:500 clamp(1.3rem,2.8vw,1.7rem)/1.28 var(--f-texto)}
+.gira .suave{color:var(--sobre-banda-suave)}
+.gira h3{font-size:clamp(2rem,4.6vw,3rem);font-weight:800;color:var(--sobre-banda)}
+.gira .boton{--hilo:#F1F3FB;color:#1E2556}
+.gira .boton.secundario{color:#F1F3FB}
+.gira .boton.region{--hilo:var(--c);color:var(--c);background:transparent;border-style:dashed}
+.temas{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0}
+.temas li{border:1px dashed var(--c);color:var(--sobre-banda);padding:2px 9px;border-radius:3px;font-size:.92rem}
+.indicacion{display:flex;align-items:center;gap:10px;color:var(--sobre-banda-suave);font-size:.95rem;margin-top:10px}
+.indicacion i{width:2px;height:34px;background:repeating-linear-gradient(var(--sobre-banda-suave) 0 5px,transparent 5px 9px);display:block}
+
+/* Lienzo del mapa (3D o 2D) */
+.mapa-caja{position:relative;width:100%;height:100%;overflow:hidden}
+.mapa-caja canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.capa-3d{position:absolute;inset:0;pointer-events:none}
+.etq{position:absolute;left:0;top:0;white-space:nowrap;font:700 .95rem/1 var(--f-ui);padding:5px 9px;border-radius:3px;background:var(--fondo-etq);color:var(--tinta-etq);transition:opacity .3s;margin:-12px 0 0 14px}
+.etq.izq{margin-left:0;transform-origin:right}
+.etq.origen{font-weight:500;font-size:.85rem;opacity:.9}
+.mapa-caja.banda{--fondo-etq:#F1F3FB;--tinta-etq:#1E2556}
+.mapa-caja.pagina{--fondo-etq:var(--tinta);--tinta-etq:var(--lienzo)}
+.nudo-btn{position:absolute;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:0;background:none;border-radius:50%;cursor:pointer;pointer-events:auto;padding:0}
+.nudo-btn span{position:absolute;left:28px;top:50%;transform:translateY(-50%);white-space:nowrap;font:700 .9rem/1 var(--f-ui);padding:5px 9px;border-radius:3px;background:var(--fondo-etq);color:var(--tinta-etq);opacity:0;pointer-events:none;transition:opacity .2s}
+.nudo-btn.izq span{left:auto;right:28px}
+.nudo-btn:hover span,.nudo-btn:focus-visible span,.nudo-btn[aria-pressed="true"] span{opacity:1}
+.mapa-2d{width:100%;height:100%;display:block}
+.mapa-2d path.depto{stroke-width:1.2}
+.mapa-2d.banda path.depto{fill:#333B83;stroke:#1E2556}
+.mapa-2d.pagina path.depto{fill:var(--mapa-1);stroke:var(--lienzo)}
+.mapa-2d path.depto.on{fill:var(--c)}
+.mapa-2d .hebra{fill:none;stroke-width:3;stroke-dasharray:7 6;opacity:.25}
+.mapa-2d .hebra.on{opacity:1}
+.mapa-2d .nudo{cursor:pointer}
+
+.seccion{padding-block:38px}
+.acuerdos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.acuerdos>div{border-top:2px dashed var(--borde);padding-top:10px;min-width:0}
+.acuerdos b{display:block;font:700 1.15rem/1.25 var(--f-texto);margin-bottom:4px}
+.ruta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+.parada{display:block;text-align:left;background:var(--parche);border:0;padding:16px;cursor:pointer;color:var(--tinta);position:relative;min-width:0;width:100%;text-decoration:none}
+.parada::after{content:"";position:absolute;inset:6px;border:2px dashed var(--hilo);opacity:.55;pointer-events:none}
+.parada b{display:block;font:800 1.4rem/1.15 var(--f-texto);margin:4px 0 6px}
+.parada:hover::after{opacity:1}
+.parada.transversal{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:4px 18px;align-items:center}
+.areas{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:18px}
+.areas>div{min-width:0}
+.areas b{display:block;font:700 1.08rem/1.25 var(--f-texto)}
+.cita-tesis{font:500 clamp(1.3rem,3vw,1.75rem)/1.32 var(--f-texto);max-width:30em}
+
+/* Cabecera de módulo */
+.cabecera{background:var(--parche);padding-block:26px;border-bottom:2px dashed var(--hilo)}
+.cabecera p{margin-top:8px;max-width:62ch}
+
+/* Territorios */
+.filtros{display:flex;flex-wrap:wrap;gap:8px}
+.filtro{border:2px dashed var(--borde);background:transparent;padding:6px 13px;border-radius:4px;cursor:pointer;font-weight:700}
+.filtro[aria-pressed="true"]{border-color:var(--c,var(--hilo));border-style:solid;background:var(--c,var(--hilo));color:var(--lienzo)}
+.territorio{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start;margin-top:18px}
+.territorio>*{min-width:0}
+.mapa-terr{position:sticky;top:calc(var(--alto-enc) + 12px);height:min(78svh,680px);min-height:380px;background:radial-gradient(ellipse at 50% 55%,var(--lienzo),var(--tela) 72%);border-radius:6px}
+.nota-mapa{font-size:.9rem;color:var(--tinta-suave);margin-top:8px}
+.bloque-titulo{font:700 .82rem/1.3 var(--f-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--hilo);margin-bottom:6px}
+.causas{display:grid;gap:10px}
+.causas div{border-left:2px dashed var(--hilo);padding-left:12px;min-width:0}
+.causas b{font-family:var(--f-texto);font-size:1.08rem}
+.linea-tiempo{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;margin:0}
+.linea-tiempo dt{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.linea-tiempo dd{margin:0;min-width:0}
+.fuentes-mini{font-size:.92rem;color:var(--tinta-suave);list-style:none;padding:0;display:grid;gap:3px}
+.cronicas{display:grid;gap:18px;margin-top:10px}
+.cronica{background:var(--lienzo);padding:24px;position:relative}
+.cronica::after{content:"";position:absolute;inset:7px;border:2px dashed var(--hilo);opacity:.35;pointer-events:none}
+.cronica>*{position:relative;z-index:1}
+.cronica .tipo{font-size:.9rem;color:var(--tinta-suave)}
+.cronica h3{font-size:clamp(1.5rem,3.4vw,2rem);font-weight:800;margin-top:4px;color:var(--hilo)}
+.aviso{background:var(--parche);padding:12px 14px;margin-top:12px;display:grid;gap:10px}
+.texto-cronica{font:400 1.18rem/1.62 var(--f-texto);max-width:64ch;display:grid;gap:12px;margin-top:14px}
+.pregunta-final{border-top:2px dashed var(--borde);padding-top:12px;margin-top:16px;max-width:64ch}
+.estado-animo{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+/* Perspectivas */
+.compuerta{max-width:560px;margin-inline:auto;text-align:center;display:grid;gap:12px;justify-items:center}
+.resp{display:grid;justify-items:center;gap:8px;width:100%}
+.resp-aro{width:190px;height:190px;border-radius:50%;border:3px dashed var(--hilo);background:var(--parche);display:grid;place-items:center;transform:scale(.62);transition:transform 1s ease-in-out}
+.resp-aro span{width:34%;height:34%;border-radius:50%;background:var(--hilo);opacity:.85}
+.resp-fase{font:700 1.45rem/1.2 var(--f-texto);min-height:1.2em}
+.resp-cuenta{color:var(--tinta-suave);min-height:1.4em;font-variant-numeric:tabular-nums}
+.pasos-dilema{margin-bottom:14px}
+.dilema{background:var(--lienzo);padding:22px;display:grid;gap:14px}
+.dilema>*{min-width:0}
+.opciones{display:grid;gap:10px}
+.opcion{display:block;width:100%;text-align:left;background:transparent;border:2px dashed var(--borde);padding:11px 14px;cursor:pointer;border-radius:4px}
+.opcion b{font:700 1.1rem/1.25 var(--f-texto);display:block}
+.opcion[aria-pressed="true"]{border:2px solid var(--hilo);background:var(--parche)}
+.analisis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.analisis>div{background:var(--parche);padding:12px 14px;min-width:0}
+.barras{display:grid;gap:6px}
+.barra-fila{display:grid;grid-template-columns:minmax(0,1fr) 2.6em;gap:8px;align-items:center;font-size:.95rem}
+.barra-pista{background:var(--parche);height:9px;margin-top:3px}
+.barra-valor{background:var(--hilo);height:100%}
+.barra-fila span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.campo{display:grid;gap:4px}
+.campo label{font-weight:700}
+.campo textarea,.campo input,.campo select{width:100%;background:var(--tela);border:2px solid var(--borde);border-radius:4px;padding:8px 10px}
+.campo textarea{min-height:82px;resize:vertical;line-height:1.45}
+.campo small{color:var(--tinta-suave)}
+.revision{padding:10px 12px;display:grid;gap:6px;border-left:3px solid var(--borde);background:var(--tela);font-size:.98rem}
+.revision.bloquea{border-left-color:var(--alerta);background:var(--alerta-fondo)}
+.revision.bloquea b{color:var(--alerta)}
+.revision.bien{border-left-color:var(--ok)}
+.aportes{display:grid;gap:10px;list-style:none;padding:0}
+.aportes li{border-left:2px dashed var(--hilo);padding-left:12px}
+.entreno{background:var(--parche);padding:22px;margin-top:26px;display:grid;gap:12px}
+.entreno .frase{font:500 1.3rem/1.35 var(--f-texto)}
+.resultado{background:var(--lienzo);padding:10px 14px}
+
+/* Refugio */
+.banda-crisis{background:var(--alerta-fondo);padding:10px 14px;border-left:3px solid var(--alerta)}
+.pestanas{display:flex;flex-wrap:wrap;gap:6px;border-bottom:2px dashed var(--borde)}
+.pestana{background:none;border:0;padding:8px 12px;cursor:pointer;font-weight:700;color:var(--tinta-suave);border-bottom:3px solid transparent;margin-bottom:-2px}
+.pestana[aria-selected="true"]{color:var(--tinta);border-bottom-color:var(--hilo-agua)}
+.refugio{--hilo:var(--hilo-agua);--parche:var(--parche-agua);display:grid;gap:14px}
+.refugio>*{min-width:0}
+.panel-refugio{padding-block:8px;display:grid;gap:12px}
+.rutas{display:grid;gap:10px;list-style:none;padding:0}
+.rutas li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;border-bottom:1px dashed var(--borde);padding-bottom:9px}
+.rutas .num{font:800 1.3rem/1.2 var(--f-texto);font-variant-numeric:tabular-nums;user-select:all}
+.rutas .det{grid-column:1;color:var(--tinta-suave);font-size:.97rem}
+.copiar{grid-column:2;grid-row:1/span 2;border:2px dashed var(--borde);background:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-weight:700;font-size:.92rem}
+.anclaje-paso{font:500 1.35rem/1.35 var(--f-texto);min-height:3.6em}
+dialog{border:0;padding:0;background:var(--lienzo);color:var(--tinta);width:min(640px,calc(100vw - 24px));max-height:calc(100dvh - 24px);border-radius:6px}
+dialog::backdrop{background:rgba(12,15,40,.62)}
+.dlg-cuerpo{padding:20px;display:grid;gap:14px}
+.dlg-cuerpo>*{min-width:0}
+.dlg-cabeza{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.cerrar{border:2px dashed var(--borde);background:none;border-radius:4px;padding:4px 12px;cursor:pointer;font-weight:700}
+.boton-refugio{position:fixed;z-index:40;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:8px;background:var(--hilo-agua);color:var(--lienzo);border:0;border-radius:999px;padding:11px 18px 11px 13px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(10,20,40,.3)}
+.boton-refugio i{width:17px;height:17px;border-radius:50%;border:2px dashed currentColor;display:block}
+
+/* Reconciliación */
+.dos-col{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:30px;align-items:start}
+.dos-col>*{min-width:0}
+.formulario{background:var(--lienzo);padding:20px;display:grid;gap:12px}
+.dos-campos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:2px dashed var(--borde);background:none;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.95rem;text-align:left}
+details{border-bottom:2px dashed var(--borde);padding-block:9px}
+summary{cursor:pointer;font:700 1.15rem/1.3 var(--f-texto)}
+details p{margin-top:6px}
+.tapiz{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0;margin-top:14px}
+.parche{position:relative;padding:20px 18px 16px;min-height:190px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.parche::after{content:"";position:absolute;inset:7px;border:2px dashed var(--c);opacity:.6;pointer-events:none}
+.parche>*{position:relative;z-index:1}
+.parche[data-s="maiz"]{--c:var(--hilo-maiz);background:var(--parche-maiz)}
+.parche[data-s="ceiba"]{--c:var(--hilo-agua);background:var(--parche-agua)}
+.parche[data-s="guayacan"]{--c:var(--hilo-tierra);background:var(--parche-tierra)}
+.parche[data-s="cacao"]{--c:var(--hilo-anil);background:var(--parche-anil)}
+.parche blockquote{margin:0;font:500 1.14rem/1.35 var(--f-texto);flex:1}
+.parche footer{font-size:.9rem;color:var(--tinta-suave)}
+.parche svg{width:30px;height:30px;stroke:var(--c);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.quitar{align-self:flex-start;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;font-size:.88rem;color:var(--tinta-suave)}
+.tapiz-vacio{border:2px dashed var(--borde);padding:32px 22px;text-align:center;margin-top:14px;display:grid;gap:6px;justify-items:center}
+
+/* Proyecto */
+.bloque{padding-block:26px;border-bottom:2px dashed var(--borde);display:grid;gap:12px}
+.bloque>*{min-width:0}
+.tabla-caja{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.98rem}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px dashed var(--borde)}
+th{font-weight:700;color:var(--tinta-suave);white-space:nowrap}
+td:first-child{font-weight:700}
+.equipo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.equipo>div{min-width:0}
+.equipo b{display:block;font:700 1.15rem/1.25 var(--f-texto)}
+.lista-fuentes{display:grid;gap:9px;padding-left:1.4em}
+.pie{background:var(--banda);color:var(--sobre-banda-suave);font-size:.95rem}
+.pie .marco{padding-block:24px 76px;display:grid;gap:6px}
+.pie b{color:var(--sobre-banda)}
+
+/* Tu historia */
+.dos-opciones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.tarjeta{background:var(--lienzo);padding:16px 18px;display:grid;gap:6px;text-align:left;border:0;cursor:pointer;color:inherit;font:inherit;position:relative;min-width:0}
+.tarjeta::after{content:"";position:absolute;inset:6px;border:2px dashed var(--hilo);opacity:.5;pointer-events:none}
+.tarjeta:hover::after{opacity:1}
+.tarjeta b{font:800 1.3rem/1.2 var(--f-texto)}
+.radio-grupo{display:grid;gap:8px;border:0;padding:0;margin:0;min-width:0}
+.radio-grupo legend{font-weight:700;margin-bottom:6px;padding:0}
+.radio-grupo label,.consentimiento label,.check-ayuda{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.radio-grupo input,.consentimiento input,.check-ayuda input{margin-top:4px;accent-color:var(--hilo);flex:none;width:18px;height:18px}
+.consentimiento{display:grid;gap:8px;background:var(--parche);padding:12px 14px}
+.check-ayuda{font-weight:700}
+.crisis{background:var(--alerta-fondo);border-left:3px solid var(--alerta);padding:12px 14px;display:grid;gap:6px}
+.estado-chip{display:inline-block;font-size:.85rem;font-weight:700;padding:2px 8px;border-radius:3px;border:1px dashed var(--hilo)}
+.acudir{display:grid;gap:10px;list-style:none;padding:0}
+.acudir li{border-left:2px dashed var(--hilo);padding-left:12px}
+.mod-item{background:var(--lienzo);padding:16px;display:grid;gap:10px;border-left:3px solid var(--hilo);min-width:0}
+.mod-item select{background:var(--tela);border:2px solid var(--borde);border-radius:4px;padding:7px 8px;max-width:100%}
+.voces{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.voz{background:var(--lienzo);padding:20px;display:grid;gap:10px;position:relative;align-content:start;min-width:0}
+.voz::after{content:"";position:absolute;inset:7px;border:2px dashed var(--hilo);opacity:.35;pointer-events:none}
+.voz>*{position:relative;z-index:1}
+.voz .texto{font:400 1.12rem/1.6 var(--f-texto);white-space:pre-line}
+.texto-largo{white-space:pre-line}
+@media (max-width:520px){.dos-opciones{grid-template-columns:minmax(0,1fr)}}
+
+@media (max-width:860px){
+  .gira{display:block}
+  .gira-escenario{position:sticky;top:var(--alto-enc);height:44vh;height:44svh;min-height:280px;z-index:2;box-shadow:0 10px 18px -12px rgba(0,0,0,.5)}
+  .gira-pasos{max-width:none;padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .paso{min-height:62vh;min-height:62svh;justify-content:flex-start;padding-block:26px 40px}
+  .paso-intro{min-height:auto;padding-top:22px}
+  .territorio,.dos-col{grid-template-columns:minmax(0,1fr)}
+  .mapa-terr{position:relative;top:auto;height:56svh;min-height:320px}
+  .acuerdos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ruta,.equipo{grid-template-columns:minmax(0,1fr)}
+  .parada.transversal{grid-template-columns:minmax(0,1fr)}
+  .areas{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:520px){
+  .acuerdos,.areas,.analisis,.dos-campos{grid-template-columns:minmax(0,1fr)}
+  .cronica,.dilema,.entreno,.formulario{padding:18px 16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .resp-aro{transform:none!important}
+}
+</style>
+
+<header class="encabezado" id="encabezado">
+  <div class="marco">
+    <a class="marca" href="#inicio" data-ir="inicio"><i></i>Hilos de Resiliencia</a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#inicio" data-ir="inicio" aria-current="page">Inicio</a>
+      <a href="#territorios" data-ir="territorios" data-modulo="tierra">Territorios</a>
+      <a href="#perspectivas" data-ir="perspectivas" data-modulo="anil">Perspectivas</a>
+      <a href="#refugio" data-ir="refugio" data-modulo="agua">Refugio</a>
+      <a href="#historia" data-ir="historia" data-modulo="agua">Tu historia</a>
+      <a href="#reconciliacion" data-ir="reconciliacion" data-modulo="maiz">Reconciliación</a>
+      <a href="#proyecto" data-ir="proyecto">El proyecto</a>
+    </nav>
+  </div>
+  <div class="progreso" aria-hidden="true"><i id="progreso"></i></div>
+</header>
+
+<main>
+<!-- INICIO -->
+<section data-vista="inicio">
+  <div class="gira" id="gira">
+    <div class="gira-escenario"><div class="mapa-caja banda" id="mapa-gira"></div></div>
+    <div class="gira-pasos" id="gira-pasos">
+      <div class="paso paso-intro activo" data-paso="intro"><div class="paso-caja">
+        <p class="etiqueta">Memoria del conflicto armado en Colombia</p>
+        <h1>Hilos de Resiliencia</h1>
+        <p class="lema">Un espacio para remendar la memoria, escuchar el dolor y restaurar la esperanza.</p>
+        <p class="suave">Colombia tiene 10.330.152 personas en el Registro Único de Víctimas, con corte al 1 de agosto de 2026. Aquí te acercas a esa historia por sus territorios y sus relatos, con pausas de cuidado y preguntas para pensar.</p>
+        <div class="fila">
+          <a class="boton" href="#territorios" data-ir="territorios">Empezar el recorrido</a>
+          <a class="boton secundario" href="#refugio" data-ir="refugio">Necesito una pausa</a>
+        </div>
+        <p class="indicacion"><i></i>Baja para recorrer el mapa</p>
+      </div></div>
+      <div class="paso" data-paso="hilos"><div class="paso-caja">
+        <p class="etiqueta">Desde Ibagué</p>
+        <h3>Nueve territorios, nueve hilos</h3>
+        <p>Leemos esta historia desde Ibagué. De aquí salen nueve hilos hacia regiones donde la guerra tomó formas distintas y donde la gente encontró formas distintas de resistir.</p>
+        <p class="suave">Cada parche del mapa es un departamento. Al bajar, el mapa viaja a cada territorio.</p>
+      </div></div>
+      <div id="pasos-regiones" style="display:contents"></div>
+      <div class="paso" data-paso="fin"><div class="paso-caja">
+        <p class="etiqueta">Lo que une a los territorios</p>
+        <h3>Ninguna región es solo lo que le hicieron</h3>
+        <p>En casi todas aparece la misma respuesta: organizarse, hablar con quien tiene las armas, cantar, coser, volver. El recorrido sigue con esas historias.</p>
+        <div class="fila"><a class="boton" href="#territorios" data-ir="territorios">Explorar los territorios</a></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="seccion"><div class="marco pila">
+    <p class="etiqueta">Antes de empezar</p>
+    <div class="acuerdos">
+      <div><b>Vas a tu ritmo</b>Puedes leer una crónica, parar y volver otro día.</div>
+      <div><b>Sabes qué vas a leer</b>Cada relato tiene un aviso previo. Ninguno incluye detalles gráficos.</div>
+      <div><b>Nadie te exige perdonar</b>El perdón es una decisión libre de cada persona.</div>
+      <div><b>El Refugio siempre está</b>El botón de abajo a la derecha abre pausas y rutas de ayuda.</div>
+    </div>
+  </div></div>
+
+  <div class="seccion" style="padding-top:0"><div class="marco">
+    <h2>El recorrido</h2>
+    <p class="suave lectura" style="margin-top:8px">Tres pasos en orden y un módulo que te acompaña en todos.</p>
+    <div class="ruta">
+      <a class="parada" href="#territorios" data-ir="territorios" data-modulo="tierra"><span class="etiqueta">Módulo 1</span><b>Territorios y Memoria</b>Recorre nueve regiones en el mapa y lee sus crónicas.</a>
+      <a class="parada" href="#perspectivas" data-ir="perspectivas" data-modulo="anil"><span class="etiqueta">Módulo 2</span><b>Choque de Perspectivas</b>Compara posturas en dilemas éticos y aprende a reconocer falacias.</a>
+      <a class="parada" href="#reconciliacion" data-ir="reconciliacion" data-modulo="maiz"><span class="etiqueta">Módulo 4</span><b>Tejiendo Reconciliación</b>Convierte lo aprendido en un pacto de no repetición y una siembra simbólica.</a>
+      <a class="parada transversal" href="#refugio" data-ir="refugio" data-modulo="agua"><span><span class="etiqueta">Módulo 3 · Transversal</span><b>Refugio Socioemocional</b></span><span>Respiración, anclaje, orientación para el duelo, rutas de atención y un espacio para contar tu historia. Disponible desde cualquier parte del sitio.</span></a>
+    </div>
+  </div></div>
+
+  <div class="seccion" style="padding-top:0"><div class="marco pila">
+    <hr class="puntada" style="--hilo:var(--borde)">
+    <p class="etiqueta">Nuestra postura</p>
+    <p class="cita-tesis">Publicar relatos de dolor no genera paz por sí solo. El recuerdo repara cuando el debate crítico desmonta los dogmatismos de la guerra y las emociones de la comunidad están protegidas.</p>
+    <div class="areas">
+      <div><b>Ciencias Sociales</b><span class="suave">Territorio y multicausalidad</span></div>
+      <div><b>Lengua Castellana</b><span class="suave">Crónica y dignidad del relato</span></div>
+      <div><b>Filosofía</b><span class="suave">Dialéctica y ética de la alteridad</span></div>
+      <div><b>Socioemocional</b><span class="suave">Autorregulación y cuidado</span></div>
+      <div><b>ERE</b><span class="suave">Justicia restaurativa y dignidad</span></div>
+    </div>
+    <p><a href="#proyecto" data-ir="proyecto">Conoce la investigación detrás de la plataforma</a></p>
+  </div></div>
+</section>
+
+<!-- TERRITORIOS -->
+<section data-vista="territorios" data-modulo="tierra" hidden>
+  <div class="cabecera"><div class="marco">
+    <p class="etiqueta">Módulo 1</p>
+    <h2>Territorios y Memoria</h2>
+    <p>Elige una región en el mapa o en los botones. Verás por qué el conflicto tomó esa forma allí, quiénes actuaron y cómo se organizó su gente. Los hilos salen de Ibagué, desde donde leemos esta historia.</p>
+  </div></div>
+  <div class="seccion"><div class="marco">
+    <div class="filtros" id="filtros-region" role="group" aria-label="Elegir región"></div>
+    <div class="territorio">
+      <div><div class="mapa-caja pagina mapa-terr" id="mapa-terr"></div><p class="nota-mapa">Toca un nudo o un departamento resaltable. Se eleva el departamento donde está cada territorio.</p></div>
+      <div id="panel-region" class="pila" aria-live="polite"></div>
+    </div>
+    <div style="margin-top:34px" class="pila" id="zona-cronicas">
+      <hr class="puntada">
+      <h3 id="titulo-cronicas" style="font-size:1.6rem;font-weight:800"></h3>
+      <p class="suave lectura">Crónicas colectivas escritas a partir de fuentes públicas. No son testimonios directos, usan solo nombres que ya son públicos y evitan cualquier detalle gráfico.</p>
+      <div class="cronicas" id="cronicas"></div>
+      <p class="suave">¿Viviste algo parecido? <a href="#historia" data-ir="historia">Puedes contar tu historia</a>, solo para ti o para compartirla sin tu nombre.</p>
+    </div>
+  </div></div>
+</section>
+
+<!-- PERSPECTIVAS -->
+<section data-vista="perspectivas" data-modulo="anil" hidden>
+  <div class="cabecera"><div class="marco">
+    <p class="etiqueta">Módulo 2</p>
+    <h2>Choque de Perspectivas y Diálogo Crítico</h2>
+    <p>Aquí no se gana una discusión. Examinas lo que cada postura asume, escuchas su objeción más fuerte y argumentas la tuya con respeto.</p>
+  </div></div>
+  <div class="seccion"><div class="marco">
+    <div class="compuerta" id="compuerta">
+      <p class="etiqueta">Paso obligatorio</p>
+      <h3 style="font-size:1.6rem">Respira antes de debatir</h3>
+      <p class="suave">Pasar de una crónica a un debate puede ser brusco. Este módulo empieza con una pausa de 30 segundos para que entres con calma.</p>
+      <div id="resp-compuerta" style="width:100%"></div>
+      <div class="fila" style="justify-content:center">
+        <button class="boton" id="compuerta-iniciar" type="button">Iniciar la pausa</button>
+        <button class="boton" id="compuerta-entrar" type="button" disabled>Entrar a los dilemas</button>
+      </div>
+    </div>
+    <div id="perspectivas-contenido" hidden>
+      <div class="pasos-dilema filtros" id="pasos-dilema" role="group" aria-label="Elegir dilema"></div>
+      <div id="dilema"></div>
+      <div class="entreno" id="entreno"></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- REFUGIO -->
+<section data-vista="refugio" data-modulo="agua" hidden>
+  <div class="cabecera"><div class="marco">
+    <p class="etiqueta">Módulo 3 · Transversal</p>
+    <h2>Refugio Socioemocional</h2>
+    <p>Hablar de la guerra mueve emociones. Este espacio sirve para bajar el ritmo, volver al presente y saber a quién acudir.</p>
+  </div></div>
+  <div class="seccion"><div class="marco"><div id="refugio-pagina" style="max-width:720px"></div></div></div>
+</section>
+
+<!-- TU HISTORIA -->
+<section data-vista="historia" data-modulo="agua" hidden>
+  <div class="cabecera"><div class="marco">
+    <p class="etiqueta">Módulo 3 · Refugio Socioemocional</p>
+    <h2>Tu historia</h2>
+    <p>Lo que viviste importa. Puedes escribirlo solo para ti o compartirlo para que otras personas lo lean sin saber quién eres. Tú decides qué contar y hasta dónde llega.</p>
+  </div></div>
+  <div class="seccion"><div class="marco pila" style="gap:24px">
+    <div class="dos-opciones">
+      <button class="tarjeta" type="button" data-refugio="rutas"><span class="etiqueta">Si es urgente</span><b>Necesito ayuda ahora</b><span>Abre las rutas de atención del Refugio.</span></button>
+      <button class="tarjeta" type="button" data-refugio="respirar"><span class="etiqueta">Antes de escribir</span><b>Quiero hacer una pausa</b><span>No tienes que contarlo todo. Puedes parar cuando quieras y volver otro día.</span></button>
+    </div>
+    <div class="dos-col">
+      <div class="pila">
+        <form class="formulario" id="form-relato" novalidate>
+          <h3>Escribe tu historia</h3>
+          <fieldset class="radio-grupo"><legend>¿Qué quieres hacer con ella?</legend>
+            <label><input type="radio" name="rel-modo" id="rel-modo-privado" value="privado" checked><span><b>Escribirla solo para mí.</b> Se guarda en este dispositivo y nadie más la lee.</span></label>
+            <label><input type="radio" name="rel-modo" id="rel-modo-compartir" value="compartir"><span><b>Compartirla con la comunidad.</b> Llega al equipo del proyecto, se revisa con cuidado y se publica sin tu nombre.</span></label>
+          </fieldset>
+          <div class="campo"><label for="rel-texto">Lo que quiero contar</label>
+            <textarea id="rel-texto" maxlength="1500" style="min-height:190px"></textarea>
+            <small><span id="rel-cuenta">0</span> de 1.500 caracteres. Cuenta solo lo que quieras contar.</small></div>
+          <div class="chips" id="rel-ideas" aria-label="Frases para empezar"></div>
+          <div class="dos-campos">
+            <div class="campo"><label for="rel-region">Región (opcional)</label><select id="rel-region"></select></div>
+            <div class="campo"><label for="rel-firma">Firma (opcional)</label><input id="rel-firma" maxlength="30" autocomplete="off" placeholder="Iniciales o seudónimo"></div>
+          </div>
+          <div id="rel-compartir" class="pila" hidden>
+            <fieldset class="radio-grupo"><legend>¿Hasta dónde puede llegar?</legend>
+              <label><input type="radio" name="rel-difusion" id="rel-dif-plataforma" value="plataforma" checked><span>Solo dentro de Hilos de Resiliencia.</span></label>
+              <label><input type="radio" name="rel-difusion" id="rel-dif-fuera" value="fuera"><span>También se puede compartir fuera, sin cambiarla y diciendo que viene de esta plataforma.</span></label>
+            </fieldset>
+            <fieldset class="radio-grupo"><legend>Tu edad</legend>
+              <label><input type="radio" name="rel-edad" id="rel-edad-adulto" value="adulto" checked><span>Tengo 18 años o más.</span></label>
+              <label><input type="radio" name="rel-edad" id="rel-edad-menor" value="menor"><span>Soy menor de 18 años.</span></label>
+            </fieldset>
+            <div class="consentimiento">
+              <label><input type="checkbox" id="rel-c1"><span>Es mi historia, o la persona que la vivió me dio permiso de contarla.</span></label>
+              <label><input type="checkbox" id="rel-c2"><span>No incluí nombres completos, lugares exactos ni datos que permitan identificarme a mí o a otras personas.</span></label>
+              <label><input type="checkbox" id="rel-c3"><span>Entiendo que el equipo la revisará antes de publicarla y que puedo pedir que la retiren.</span></label>
+              <label id="rel-c4-caja" hidden><input type="checkbox" id="rel-c4"><span>Un adulto de confianza sabe que voy a compartir mi historia.</span></label>
+            </div>
+          </div>
+          <label class="check-ayuda"><input type="checkbox" id="rel-ayuda"><span>Además de contarlo, necesito ayuda.</span></label>
+          <div id="rel-ayuda-caja" class="pila" hidden></div>
+          <div id="rel-revision" class="pila"></div>
+          <div class="fila"><button class="boton" id="rel-enviar" type="submit" disabled>Guardar solo para mí</button><span id="rel-estado" role="status"></span></div>
+          <div id="rel-despues" class="aviso" hidden><p>Escribir sobre lo vivido puede remover emociones.</p><div class="fila"><button class="boton secundario" type="button" data-refugio="respirar">Hacer una pausa</button><button class="boton secundario" type="button" data-refugio="rutas">Ver a quién acudir</button></div></div>
+          <p class="suave" style="font-size:.95rem">No pedimos tu nombre, tu correo ni tu teléfono. Esta página no envía pedidos de ayuda a ninguna entidad. Al lado están los lugares que sí pueden ayudarte.</p>
+        </form>
+        <div id="mis-relatos" class="pila"></div>
+      </div>
+      <aside class="pila">
+        <div class="pila"><h3>¿A quién acudir?</h3><div id="rel-acudir"></div></div>
+        <hr class="puntada">
+        <div class="pila"><h3>Cómo cuidamos las historias</h3>
+          <ul class="acudir">
+            <li>No pedimos nombre, correo ni teléfono.</li>
+            <li>Lo que escribes solo para ti nunca sale de tu dispositivo.</li>
+            <li>Antes de publicarse, el equipo revisa cada historia con la tutora del proyecto.</li>
+            <li>No se publican nombres completos, lugares exactos, descripciones gráficas ni acusaciones contra personas identificables.</li>
+            <li>Puedes pedir que retiren tu historia cuando quieras, desde esta página y con la misma cuenta.</li>
+          </ul></div>
+      </aside>
+    </div>
+  </div></div>
+  <div class="seccion" style="padding-top:0"><div class="marco pila">
+    <hr class="puntada">
+    <h3 style="font-size:1.6rem;font-weight:800">Voces de la comunidad</h3>
+    <p class="suave lectura" id="voces-estado">Cargando historias…</p>
+    <div id="voces"></div>
+  </div></div>
+  <div class="seccion" id="moderacion" hidden style="padding-top:0"><div class="marco pila">
+    <hr class="puntada">
+    <div class="fila" style="justify-content:space-between"><h3 style="font-size:1.6rem;font-weight:800">Revisión de historias</h3><span class="estado-chip" id="mod-pendientes"></span></div>
+    <p class="lectura">Solo tú ves esta sección, porque publicas la plataforma. Revisa cada historia con la tutora o con orientación escolar antes de publicarla. Publica solo si no tiene nombres completos ni lugares exactos, no tiene descripciones gráficas y no señala a personas identificables. Las historias son anónimas, así que no hay forma de contactar a quien escribió. Si una historia muestra que alguien está en riesgo, no la publiques y avisa a orientación escolar.</p>
+    <p id="mod-estado" role="status" class="suave"></p>
+    <div id="mod-lista" class="pila"></div>
+  </div></div>
+</section>
+
+<!-- RECONCILIACIÓN -->
+<section data-vista="reconciliacion" data-modulo="maiz" hidden>
+  <div class="cabecera"><div class="marco">
+    <p class="etiqueta">Módulo 4</p>
+    <h2>Tejiendo Reconciliación</h2>
+    <p>La memoria también mira hacia adelante. Cada pacto de no repetición se cose al tapiz como un parche con su siembra simbólica.</p>
+  </div></div>
+  <div class="seccion"><div class="marco dos-col">
+    <form class="formulario" id="form-pacto" novalidate>
+      <h3>Escribe tu pacto</h3>
+      <div class="dos-campos">
+        <div class="campo"><label for="pacto-tipo">Tipo de pacto</label>
+          <select id="pacto-tipo"><option value="Individual">Individual</option><option value="Colectivo">Colectivo</option></select></div>
+        <div class="campo"><label for="pacto-ambito">Dónde lo voy a cumplir</label>
+          <select id="pacto-ambito"><option>En mi forma de hablar</option><option>En redes sociales</option><option>En mi colegio</option><option>En mi familia</option><option>En mi comunidad</option></select></div>
+      </div>
+      <div class="campo"><label for="pacto-texto">Mi compromiso</label>
+        <textarea id="pacto-texto" maxlength="240" placeholder="Me comprometo a…"></textarea>
+        <small><span id="pacto-cuenta">0</span> de 240 caracteres. Sé concreto: una acción que puedas cumplir.</small></div>
+      <div class="chips" id="pacto-ideas" aria-label="Ideas para empezar"></div>
+      <div class="dos-campos">
+        <div class="campo"><label for="pacto-semilla">Qué siembras</label><select id="pacto-semilla"></select></div>
+        <div class="campo"><label for="pacto-dedicatoria">Por quién lo siembras</label>
+          <select id="pacto-dedicatoria"><option>La memoria de las víctimas de mi región</option><option>Las personas desplazadas</option><option>Quienes buscan a sus desaparecidos</option><option>Las mujeres que sostienen la vida</option><option>Los niños, niñas y jóvenes</option><option>Los líderes y lideresas sociales</option></select></div>
+      </div>
+      <div class="campo"><label for="pacto-firma">Firma (opcional)</label>
+        <input id="pacto-firma" maxlength="30" autocomplete="off" placeholder="Iniciales, curso o seudónimo">
+        <small>No escribas teléfonos, correos ni datos de otras personas.</small></div>
+      <div id="pacto-revision"></div>
+      <div class="fila"><button class="boton" id="pacto-enviar" type="submit" disabled>Coser mi pacto al tapiz</button><span id="pacto-estado" role="status"></span></div>
+    </form>
+    <div class="pila">
+      <h3>Preguntas sobre el perdón consciente</h3>
+      <div>
+        <details open><summary>¿Perdonar es olvidar?</summary><p>No. Paul Ricoeur habla de una memoria justa: recordar para reparar el daño y hacer el trabajo de duelo para no quedar atado al resentimiento. La encíclica <i>Fratelli Tutti</i> también separa el perdón del olvido.</p></details>
+        <details><summary>¿Alguien me puede exigir que perdone?</summary><p>No. El perdón es una decisión consciente y libre. Nadie debe pedírselo a una víctima como condición para respetarla o escucharla.</p></details>
+        <details><summary>¿El perdón cancela la justicia?</summary><p>No. La justicia restaurativa pone el centro en reparar el daño a la víctima y restaurar a la comunidad. Las víctimas conservan sus derechos a la verdad, la justicia y la reparación (Ley 1448 de 2011).</p></details>
+        <details><summary>¿Qué significa no repetición?</summary><p>Son cambios concretos para que la violencia no vuelva. En el colegio empiezan por lo cotidiano: cómo hablamos de los demás, qué compartimos y a quién escuchamos.</p></details>
+      </div>
+    </div>
+  </div></div>
+  <div class="seccion" style="padding-top:0"><div class="marco">
+    <h3 style="font-size:1.6rem;font-weight:800">Tapiz comunitario</h3>
+    <p class="suave lectura" id="tapiz-estado" style="margin-top:4px">Cargando el tapiz…</p>
+    <div id="tapiz"></div>
+  </div></div>
+</section>
+
+<!-- PROYECTO -->
+<section data-vista="proyecto" hidden>
+  <div class="cabecera" style="--parche:var(--lienzo);--hilo:var(--borde)"><div class="marco">
+    <p class="etiqueta" style="--hilo:var(--tinta-suave)">Ciclo Proyectivo · Grado 10B · 2026</p>
+    <h2>El proyecto</h2>
+    <p>La investigación interdisciplinar que sostiene esta plataforma. Su propósito es demostrar que un entorno digital guiado puede convertir el testimonio en un recurso de empatía, pensamiento crítico y justicia restaurativa.</p>
+  </div></div>
+  <div class="marco">
+    <div class="bloque"><p class="etiqueta">Pregunta problema</p>
+      <p class="cita-tesis">¿Qué efectos genera la interacción con un entorno digital diseñado para el procesamiento reflexivo y socioafectivo de la memoria histórica en las reflexiones críticas y la disposición restaurativa de un grupo de estudiantes de educación media del Colegio San Bonifacio de las Lanzas?</p></div>
+    <div class="bloque"><p class="etiqueta">Planteamiento</p>
+      <p class="lectura">El uso digital de la memoria testimonial sobre el conflicto armado trasciende la polarización e impulsa la justicia restaurativa en la comunidad escolar cuando el entorno virtual articula de manera interdependiente la crítica de posturas y la contención socioemocional de los participantes.</p></div>
+    <div class="bloque"><h3>El problema</h3>
+      <p class="lectura">Los estudiantes de educación media acceden a la historia del conflicto por dos canales defectuosos. Los textos escolares la resumen en cifras y datos fríos, sin dimensión humana. Las redes sociales la presentan entre desinformación, violencia verbal y sesgo de confirmación. Las plataformas de memoria suelen ser repositorios estáticos o foros abiertos sin moderación. Falta un prototipo escolar, pedagógicamente guiado, que combine testimonios territoriales, autorregulación socioemocional y diálogo crítico.</p>
+      <div class="analisis" style="margin-top:6px">
+        <div><p class="bloque-titulo">Causas</p><ul><li>Hegemonización del relato oficial, que excluye voces rurales y étnicas.</li><li>Plataformas digitales que premian el sesgo y los discursos maniqueos.</li><li>Enseñanza de la historia basada solo en cifras y fechas.</li></ul></div>
+        <div><p class="bloque-titulo">Consecuencias</p><ul><li>Resentimiento y trauma que pasan de una generación a otra.</li><li>Revictimización y pérdida de agencia de las personas afectadas.</li><li>Insensibilidad de los jóvenes ante la vulneración de derechos.</li><li>Riesgo de repetir los ciclos de violencia sociopolítica.</li></ul></div>
+      </div></div>
+    <div class="bloque"><h3>Objetivos</h3>
+      <p class="lectura"><b>General.</b> Diseñar el prototipo pedagógico y la arquitectura funcional de la plataforma web interactiva e interdisciplinar <i>Hilos de Resiliencia</i>, que articule la memoria testimonial del conflicto armado en Colombia con el análisis crítico de perspectivas, la contención socioemocional y la justicia restaurativa, con el fin de fomentar el pensamiento crítico, la escucha empática y la formulación de compromisos de no repetición en la comunidad educativa.</p>
+      <ol class="lectura pila" style="gap:6px">
+        <li><b>Caracterizar</b> las narrativas territoriales del conflicto en formato de crónicas testimoniales, integrando análisis geohistórico y dignificación discursiva.</li>
+        <li><b>Estructurar la interfaz interactiva</b> de los módulos de diálogo crítico y soporte socioafectivo, con detección de falacias y sesgos y herramientas de autorregulación.</li>
+        <li><b>Maquetar el prototipo digital</b> con un módulo comunitario de pactos de no repetición y siembra simbólica, evaluando su viabilidad didáctica y usabilidad.</li>
+      </ol></div>
+    <div class="bloque"><h3>El contraargumento que nos hizo cambiar</h3>
+      <div class="analisis">
+        <div><p class="bloque-titulo">Postura contraria</p><p>La simple divulgación pública, masiva e irrestricta de los relatos basta para conmover a la ciudadanía y generar conciencia de paz. Al comienzo, esa también era nuestra idea.</p></div>
+        <div><p class="bloque-titulo">Nuestra respuesta</p><p>Exhibir el sufrimiento sin protección ni mediación suele producir anestesia emocional o instrumentalización política. Por eso la memoria aquí está condicionada al cuidado socioemocional y al examen crítico.</p></div>
+      </div></div>
+    <div class="bloque"><h3>Cada asignatura modifica a las demás</h3>
+      <p class="lectura">Los datos históricos alimentan el relato, la filosofía evalúa sus tensiones, la socioafectividad cuida a quien lee o narra y la justicia restaurativa proyecta la acción hacia el futuro.</p>
+      <div class="tabla-caja" tabindex="0"><table>
+        <thead><tr><th>Área</th><th>Competencia</th><th>Concepto o método</th><th>Aporte a la plataforma</th></tr></thead>
+        <tbody>
+          <tr><td>Ciencias Sociales</td><td>Pensamiento social y geohistórico</td><td>Multicausalidad, georreferenciación, caracterización de actores</td><td>Mapa 3D de Territorios y Memoria</td></tr>
+          <tr><td>Lengua Castellana</td><td>Comunicación comprensiva</td><td>Género testimonial, crónica, pragmática del discurso</td><td>Redacción y curaduría de las crónicas</td></tr>
+          <tr><td>Filosofía</td><td>Razonamiento crítico</td><td>Método dialéctico, falacias, ética de la alteridad</td><td>Dilemas y filtro de diálogo de Choque de Perspectivas</td></tr>
+          <tr><td>Socioemocional</td><td>Autorregulación y cuidado psicosocial</td><td>Resiliencia, primeros auxilios psicológicos</td><td>Refugio Socioemocional y botón flotante</td></tr>
+          <tr><td>ERE</td><td>Conciencia ética y restauración comunitaria</td><td>Justicia restaurativa, dignidad humana, perdón consciente</td><td>Tapiz de pactos de Tejiendo Reconciliación</td></tr>
+        </tbody></table></div></div>
+    <div class="bloque"><h3>De la evidencia a la interfaz</h3>
+      <p class="lectura">Cada función de la página responde a un hallazgo o a un riesgo identificado durante la investigación.</p>
+      <div class="tabla-caja" tabindex="0"><table>
+        <thead><tr><th>Lo que encontramos</th><th>Decisión en la plataforma</th></tr></thead>
+        <tbody>
+          <tr><td>Exponer relatos de violencia sin acompañamiento puede retraumatizar (MinSalud, 2017).</td><td>Aviso previo en cada crónica y botón del Refugio visible en todo el sitio.</td></tr>
+          <tr><td>En las pruebas, pasar de la crónica al debate resultó abrupto.</td><td>Pausa obligatoria de respiración antes de entrar a los dilemas.</td></tr>
+          <tr><td>Una persona puede quedar muy afectada después de leer.</td><td>Cada crónica termina preguntando cómo quedó quien la leyó. Si necesita parar, se abre una pausa que debe completar. Esa respuesta no se guarda.</td></tr>
+          <tr><td>Los foros abiertos sobre el conflicto degeneran en agresión y revictimización.</td><td>Descartamos el foro libre. Usamos dilemas guiados y un filtro que bloquea ataques personales y estigmatización.</td></tr>
+          <tr><td>La verdad del conflicto es plural y territorial (CEV, 2022).</td><td>Nueve regiones con todos sus actores y dilemas con varias posturas legítimas.</td></tr>
+          <tr><td>La memoria repara cuando la comunidad participa (CNMH, 2013).</td><td>Tapiz comunitario de pactos de no repetición y siembra simbólica.</td></tr>
+          <tr><td>Quienes vivieron el conflicto deben poder narrar con dignidad y decidir sobre su propio relato.</td><td>Sección Tu historia: relatos anónimos, con consentimiento, revisión antes de publicar y opción de retirarlos. Las señales de riesgo muestran rutas de ayuda y frenan la publicación.</td></tr>
+        </tbody></table></div></div>
+    <div class="bloque"><h3>Equipo</h3>
+      <div class="equipo">
+        <div><b>Gabriela del Valle</b><span class="suave">Documentos y estructura de contenidos</span></div>
+        <div><b>Gabriela Manrique</b><span class="suave">Producción multimedia y gestión socioafectiva</span></div>
+        <div><b>Juan Camilo Caina</b><span class="suave">Diseño web y arquitectura</span></div>
+      </div>
+      <p>Tutora: Mónica Caro. Asignaturas: Ciencias Sociales, Lengua Castellana, Filosofía, Socioemocional y ERE.</p></div>
+    <div class="bloque" style="border-bottom:0"><h3>Fuentes</h3><ol class="lista-fuentes" id="lista-fuentes"></ol>
+      <p class="suave">Mapa: límites de Natural Earth, de dominio público; modelo 3D con three.js. Líneas de atención revisadas el 5 de noviembre de 2026.</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="pie"><div class="marco">
+  <p><b>Hilos de Resiliencia</b> · Prototipo escolar del Ciclo Proyectivo · Grado 10B · Corporación Colegio San Bonifacio de las Lanzas Bilingüe · Ibagué, Tolima · 2026.</p>
+  <p>Proyecto estudiantil, no es una plataforma oficial. No reemplaza la atención profesional en salud mental.</p>
+</div></footer>
+
+<button class="boton-refugio" id="abrir-refugio" type="button" aria-haspopup="dialog"><i></i>Refugio</button>
+
+<dialog id="dlg-refugio" aria-label="Refugio Socioemocional">
+  <div class="dlg-cuerpo">
+    <div class="dlg-cabeza"><h2 style="font-size:1.6rem">Refugio</h2><button class="cerrar" type="button" id="cerrar-refugio">Cerrar</button></div>
+    <div id="refugio-dialogo"></div>
+  </div>
+</dialog>
+
+<dialog id="dlg-pausa" aria-labelledby="pausa-titulo" data-modulo="agua">
+  <div class="dlg-cuerpo" style="text-align:center;justify-items:center">
+    <h2 id="pausa-titulo" style="font-size:1.6rem">Paremos un momento</h2>
+    <p class="suave" id="pausa-motivo"></p>
+    <div id="resp-pausa" style="width:100%"></div>
+    <div class="fila" style="justify-content:center"><button class="boton" id="pausa-seguir" type="button" disabled>Continuar</button></div>
+    <p class="suave" style="font-size:.95rem">Si necesitas hablar con alguien, en el Refugio están las rutas de atención.</p>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+'use strict';
+/* ============ CONTENIDO EDITABLE ============
+   Para agregar una crónica del equipo, copia un objeto de CRONICAS y cambia sus campos.
+   region: una clave de REGIONES ('mm', 'ur', 'ca', 'mg', 'oa', 'ma', 'st', 'nc', 'pu').
+   Si tienes un audio publicado, ponlo en audio:'archivo.mp3'. */
+const FUENTE = {
+  bastaYa:['CNMH (2013). ¡Basta ya! Colombia: Memorias de guerra y dignidad.','https://www.centrodememoriahistorica.gov.co/descargas/informes2013/bastaYa/resumen-ejecutivo-basta-ya.pdf'],
+  caribe:['CEV (2022). Colombia adentro: Caribe.','https://biblioteca.hegoa.ehu.eus/downloads/21426/%2Fsystem%2Fpdf%2F4633%2FM-7071_CEV_colombia-adentro_04-caribe.pdf'],
+  antioquia:['CEV (2022). Colombia adentro: Antioquia, sur de Córdoba y Bajo Atrato chocoano.','https://biblioteca.hegoa.ehu.eus/downloads/21426/%2Fsystem%2Fpdf%2F4632%2FM-7071_CEV_colombia-adentro_03-antioquia.pdf'],
+  catatumbo:['CNMH (2018). Catatumbo: memorias de vida y dignidad. Resumen.','https://www.centrodememoriahistorica.gov.co/micrositios/catatumbo/descargas/catatumbo-resumen.pdf'],
+  salado:['Unidad para las Víctimas (2026). Masacre de El Salado.','https://datospaz.unidadvictimas.gov.co/wp-content/uploads/2026/02/MASACRE_EL_SALADO.pdf'],
+  tapiz:['ICANH / Museo Nacional. Historia clínica del tapiz Mampuján, Día del llanto.','https://www.icanh.gov.co/wp-content/uploads/2025/05/Historia-clinica-tapiz-Mampujan_Dia-del-llanto-final.pdf'],
+  tejedoras:['El Espectador / AFP (2023). Tejedoras de Mampuján en Reino Unido.','https://www.elespectador.com/el-magazin-cultural/tejedoras-de-mampujan-en-reino-unido-antes-de-inaugurar-su-museo-en-colombia-noticias-hoy/'],
+  heraldo:['El Heraldo (2020). Las vidas remendadas de las tejedoras de Mampuján.','https://www.elheraldo.co/sociedad/2020/07/06/las-vidas-remendadas-de-las-tejedoras-de-mampujan-739975/'],
+  amnistia:['Amnistía Internacional (2025). Es la hora de la justicia para San José de Apartadó.','https://www.amnesty.org/es/latest/news/2025/04/es-la-hora-de-la-justicia-para-san-jose-de-apartado/'],
+  colombiano:['El Colombiano (2020). Comisión de la Verdad recibió informe sobre paramilitarismo en Urabá.','https://www.elcolombiano.com/colombia/paz-y-derechos-humanos/comision-de-la-verdad-recibio-informe-sobre-paramilitarismo-en-uraba-MD14171184'],
+  defensoria:['Blu Radio (2026). Un año de crisis en el Catatumbo, con datos de la Defensoría del Pueblo.','https://www.bluradio.com/nacion/un-ano-de-crisis-en-el-catatumbo-mas-de-105-000-victimas-y-una-guerra-que-no-cede-rg10'],
+  carare:['CNMH (2011). El orden desarmado: la resistencia de la Asociación de Trabajadores Campesinos del Carare.','https://www.centrodememoriahistorica.gov.co/descargas/informes2011/PDF_el_orden_desarmado.pdf'],
+  rightlivelihood:['Right Livelihood. Asociación de Trabajadores Campesinos del Carare (1990).','https://rightlivelihood.org/?p=3010'],
+  sancarlos:['Olaya, C. (2012). Nunca más contra nadie: ciclos de violencia en la historia de San Carlos.','https://www.centrodememoriahistorica.gov.co/descargas/nunca_mas_san_carlos-BAJADO.pdf'],
+  minas:['El Colombiano. Desminado de veredas en San Carlos, Antioquia.','https://www.elcolombiano.com/antioquia/minas-antipersonal-san-carlos-antioquia-JA31641967'],
+  bojaya:['Unidad para las Víctimas (2021). 2 de mayo, día conmemorativo de las víctimas de Bojayá.','https://www.unidadvictimas.gov.co/wp-content/uploads/2021/04/paperbojayaimpresion.pdf'],
+  canta:['Ortiz Cassiani, J. Un pueblo que canta. CNMH.','https://centrodememoriahistorica.gov.co/micrositios/comunidades-etnicas/assets/pdf/un_pueblo_que_canta.pdf'],
+  kiwe:['ACIN y CNMH. Kiwe Thegnas: memoria de resistencia, defensa de la vida, cuidado del territorio y construcción de paz.','https://centrodememoriahistorica.gov.co/micrositios/comunidades-etnicas/assets/pdf/kwes_uus.pdf'],
+  nasawesx:['El Espectador (2019). Dos décadas de la paz entre los nasa wes’x y las Farc en el sur del Tolima.','https://www.elespectador.com/colombia-20/paz-y-memoria/dos-decadas-de-la-paz-entre-los-nasa-wesx-y-las-farc-en-el-sur-del-tolima-article/'],
+  surtolima:['Unidad para las Víctimas (2019). Situación actual en la subregión Sur del Tolima.','https://www.unidadvictimas.gov.co/wp-content/uploads/2019/07/notao-17situacion-subregion-sur-del-tolima.pdf'],
+  vetada:['Comisión de la Verdad (2022). Reportajes de una historia vetada.','https://www.comisiondelaverdad.co/sites/default/files/descargables/2022-07/av-centro-1-3-epoca.pdf'],
+  placer:['CNMH (2012). El Placer: mujeres, coca y guerra en el Bajo Putumayo.','https://centrodememoriahistorica.gov.co/wp-content/uploads/2020/10/El-Placer-2020-web.pdf']
+};
+/* punto: posición en el mapa (coordenadas del dibujo de 620 x 850). color: hilo de la región. */
+const REGIONES = {
+  mm:{ nombre:'Montes de María', deptos:['CO-BOL','CO-SUC'], donde:'Bolívar y Sucre · Caribe colombiano', color:'maiz', punto:[192.5,144.4], az:-.2,
+    breve:'Las mujeres de Mampuján cosieron en tapices lo que vivieron y lo convirtieron en memoria.',
+    resumen:'Subregión campesina y afrodescendiente entre Bolívar y Sucre, con salida al mar Caribe. Entre 1995 y 2008, el desplazamiento y el vaciamiento de pueblos marcaron la vida de sus comunidades.',
+    causas:[['La tierra','Desde los años setenta, campesinos organizados en la ANUC recuperaron tierras en una región de propiedad muy concentrada.'],
+            ['Presencia guerrillera','En los años ochenta y noventa actuaron el PRT, el EPL, el ELN y el Frente 37 de las FARC.'],
+            ['Paramilitarismo','Las Convivir y las autodefensas crecieron en los noventa. El Bloque Héroes de los Montes de María de las AUC se impuso con masacres y desplazamientos.'],
+            ['Despojo','Después de los desplazamientos, habitantes denunciaron la compra de grandes extensiones de tierra.']],
+    actores:'Guerrillas, paramilitares de las AUC, Fuerza Pública y sectores políticos y económicos regionales.',
+    hitos:[['Años 70','La ANUC impulsa la recuperación de tierras.'],['Feb. 2000','Masacre de El Salado, cometida por bloques de las AUC.'],['Mar. 2000','Desplazamiento de Mampuján.'],['Sep. 2000','26 de los 42 «pueblos fantasmas» inventariados en el país están en esta subregión.'],['2006','Mujeres de Mampuján empiezan a coser tapices de memoria.'],['2015','Sus tejedoras reciben el Premio Nacional de Paz.']],
+    resistencia:'Las Tejedoras de Mampuján y procesos como el Espacio Regional de Construcción de Paz de los Montes de María.',
+    fuentes:[FUENTE.caribe,FUENTE.salado,FUENTE.tapiz] },
+  ur:{ nombre:'Urabá', deptos:['CO-ANT','CO-CHO'], donde:'Antioquia y Chocó · Golfo de Urabá', color:'tierra', punto:[123.5,236.7], az:.25,
+    breve:'En San José de Apartadó, una comunidad campesina se declaró neutral en medio de la guerra.',
+    resumen:'Región del golfo de Urabá, en el extremo noroccidental del país. El banano de exportación atrajo trabajadores de muchas regiones y la convirtió en una de las zonas más disputadas del conflicto.',
+    causas:[['Banano y trabajo','Los trabajadores crearon sindicatos en los años setenta, como Sintagro en 1972. Sus huelgas pusieron en jaque a las empresas.'],
+            ['Estigma','Los vínculos de sindicatos con partidos de izquierda sirvieron de justificación para acusar y perseguir a los sindicalistas como insurgentes.'],
+            ['Persecución política','La Unión Patriótica ganó alcaldías en la primera elección popular de 1988 y sus militantes fueron perseguidos.'],
+            ['Financiación','Un estudio entregado a la Comisión de la Verdad documenta la financiación de paramilitares por parte de empresas bananeras.']],
+    actores:'Guerrillas de las FARC y el EPL, paramilitares de las ACCU y las AUC, Fuerza Pública y empresarios señalados de financiar grupos armados.',
+    hitos:[['1972–78','Nacen sindicatos del sector bananero.'],['1988','La UP gana alcaldías en la primera elección popular.'],['1993–97','121 masacres en Urabá antioqueño y sur de Córdoba, según el CNMH.'],['1997','Operaciones militares e incursiones paramilitares desplazan comunidades del Bajo Atrato.'],['Mar. 1997','Nace la Comunidad de Paz de San José de Apartadó.'],['Feb. 2005','Masacre contra la Comunidad de Paz.']],
+    resistencia:'Comunidades indígenas, negras y campesinas se declararon neutrales, entre ellas la Comunidad de Paz de San José de Apartadó, con apoyo de la comunidad emberá de Las Playas.',
+    fuentes:[FUENTE.antioquia,FUENTE.amnistia,FUENTE.colombiano] },
+  ca:{ nombre:'Catatumbo', deptos:['CO-NSA'], donde:'Norte de Santander · Frontera con Venezuela', color:'agua', punto:[318.5,198.6], az:-.3,
+    breve:'Antes de la guerra hubo tiendas comunitarias y cooperativas en casi cada vereda.',
+    resumen:'Región del norte de Norte de Santander. El CNMH la describe con Tibú, Sardinata, El Tarra, San Calixto, Hacarí, La Playa, Teorama, Convención, El Carmen y Ocaña. Allí están los resguardos Motilón Barí y Catalaura-La Gabarra.',
+    causas:[['Petróleo','Desde comienzos del siglo XX, las concesiones petroleras transformaron la región y el pueblo Barí perdió gran parte de su territorio.'],
+            ['Poca presencia estatal','Las comunidades resolvieron por su cuenta el abastecimiento y la venta de sus productos con tiendas comunitarias y cooperativas.'],
+            ['Guerrillas','ELN, EPL y FARC se asentaron en la región y recurrieron a prácticas como el secuestro.'],
+            ['Coca','Su cultivo sostuvo a muchas familias y fue disputado por guerrillas y paramilitares. La sustitución sigue siendo una exigencia campesina.']],
+    actores:'Guerrillas del ELN, el EPL y las FARC, paramilitares del Bloque Catatumbo, Fuerza Pública y, hoy, el ELN y disidencias del Frente 33.',
+    hitos:[['Siglo XX','Llegan las concesiones petroleras.'],['1978','Nace Coomultar, en El Tarra.'],['May. 1999','Entran los paramilitares. Hasta 2006 cometen más de 15 masacres.'],['Dic. 2004','Se desmoviliza el Bloque Catatumbo.'],['2013','Paro campesino por una sustitución gradual de la coca.'],['Ene. 2025','Nueva crisis por los enfrentamientos entre ELN y Frente 33. Entre enero y diciembre, el RUV incluye a 105.203 personas por estos hechos.']],
+    resistencia:'Juntas de acción comunal, cooperativas como Coomultar y CooBarí, el pueblo Barí y las movilizaciones campesinas.',
+    fuentes:[FUENTE.catatumbo,FUENTE.defensoria] },
+  mg:{ nombre:'Magdalena Medio', deptos:['CO-SAN'], donde:'Santander · Valle del río Magdalena', color:'anil', punto:[256,312], az:-.15,
+    breve:'En el Carare, campesinos desarmados dialogaron con todos los grupos armados para defender su vida.',
+    resumen:'Región ribereña del río Magdalena entre Antioquia, Bolívar, Cesar y Santander. En el Carare, al sur de Santander, la experiencia campesina abarca veredas de Cimitarra, Landázuri, El Peñón, Bolívar, Sucre y La Belleza.',
+    causas:[['Violencias acumuladas','Los campesinos cargaban con la violencia vivida en la zona desde los años cincuenta.'],
+            ['Orden guerrillero','En los años setenta, las FARC impusieron un orden político-militar. Su Frente XXIII operó en las montañas de El Peñón y Bolívar.'],
+            ['Orden contrainsurgente','Después llegaron las autodefensas, que buscaron controlar la zona con masacres, asesinatos selectivos y desapariciones.'],
+            ['Poca presencia estatal','La ausencia del Estado dejó el territorio a merced de los grupos armados.']],
+    actores:'Guerrillas de las FARC, grupos de autodefensa y paramilitares, y Fuerza Pública.',
+    hitos:[['Años 50','La Violencia golpea la región.'],['Años 70','Las FARC imponen su orden armado.'],['21 may. 1987','Nace la ATCC en La India, Landázuri.'],['26 feb. 1990','Asesinan en Cimitarra a tres dirigentes de la ATCC y a la periodista Silvia Duzán.'],['1990','La ATCC recibe el premio Right Livelihood.'],['2011','El Grupo de Memoria Histórica publica El orden desarmado.']],
+    resistencia:'La Asociación de Trabajadores Campesinos del Carare, que hizo del diálogo directo con los armados su forma de protección.',
+    fuentes:[FUENTE.carare,FUENTE.rightlivelihood] },
+  oa:{ nombre:'Oriente antioqueño', deptos:['CO-ANT'], donde:'Antioquia · Embalses del oriente', color:'maiz', punto:[205.5,321.5], az:.15,
+    breve:'San Carlos perdió a la mayor parte de su gente y después aprendió a volver.',
+    resumen:'Subregión de Antioquia con grandes embalses y centrales hidroeléctricas. En San Carlos están las centrales de Punchiná, Playas, Jaguas y Calderas.',
+    causas:[['Energía y territorio','La construcción de las hidroeléctricas transformó la región y movió población.'],
+            ['Disputa armada','Entre 1998 y 2007, guerrillas, paramilitares y Ejército se enfrentaron en el municipio.'],
+            ['Terror contra civiles','Los paramilitares cometieron masacres contra la población. Las guerrillas atacaron cascos urbanos y mataron a quienes señalaban de informantes.'],
+            ['Minas antipersonal','En San Carlos dejaron 79 víctimas. Hubo que desminar veredas para que la gente pudiera volver.']],
+    actores:'Paramilitares, guerrillas y Fuerza Pública.',
+    hitos:[['1985','San Carlos tiene 29.156 habitantes.'],['1998','Comienza una crisis humanitaria con masacres y asesinatos.'],['1998–2007','36 masacres, más de 500 muertes violentas y más de 150 personas desaparecidas.'],['2005','El censo registra unos 13.000 habitantes.'],['Desde 2007','Retorno de la población y desminado de veredas.']],
+    resistencia:'Los procesos de retorno, el desminado de veredas y las iniciativas de memoria de víctimas y mujeres lideresas.',
+    fuentes:[FUENTE.sancarlos,FUENTE.minas] },
+  ma:{ nombre:'Medio Atrato', deptos:['CO-CHO'], donde:'Chocó · Río Atrato', color:'agua', punto:[111,303.4], az:.3,
+    breve:'En Bojayá, las cantadoras convirtieron el duelo en alabaos y en exigencia de verdad.',
+    resumen:'Cuenca media del río Atrato, en el Chocó, habitada por comunidades negras e indígenas. Cocomacia agrupa a 124 consejos comunitarios. Bojayá y Vigía del Fuerte están en orillas opuestas del río.',
+    causas:[['El río como corredor','El Atrato conecta el interior con Urabá y el Caribe, y los grupos armados lo disputaron.'],
+            ['Expansión paramilitar','Las incursiones de las ACCU y luego de las AUC avanzaron por el río hasta municipios como Riosucio, Carmen del Darién y Bojayá.'],
+            ['Combates entre civiles','En 2002, el Frente 58 de las FARC y el Bloque Élmer Cárdenas de las AUC combatieron dentro de los pueblos.'],
+            ['Abandono','La ayuda solo pudo llegar dos días después de la masacre.']],
+    actores:'Frente 58 de las FARC y Bloque Élmer Cárdenas de las AUC.',
+    hitos:[['Abr. 2002','Paramilitares llegan a Bellavista y Vigía del Fuerte.'],['2 may. 2002','Masacre de Bojayá: 83 personas muertas, según la Unidad para las Víctimas.'],['6 dic. 2015','Las FARC piden perdón en Bojayá.'],['Nov. 2019','Entrega de los restos de 78 personas identificadas.'],['2021','La Ley 2087 declara el 2 de mayo día conmemorativo.']],
+    resistencia:'Las Musas de Pogue y otras cantadoras de alabaos, y organizaciones étnicas como Cocomacia.',
+    fuentes:[FUENTE.bojaya,FUENTE.canta] },
+  st:{ nombre:'Sur del Tolima', deptos:['CO-TOL'], donde:'Tolima · La región más cercana a Ibagué', color:'anil', punto:[166,474.5], az:-.1,
+    breve:'En Gaitania, una comunidad Nasa y las FARC firmaron la paz veinte años antes que el país.',
+    resumen:'Subregión de Roncesvalles, San Antonio, Chaparral, Rioblanco, Planadas, Ataco, Natagaima, Coyaima y Ortega. Es el territorio del conflicto más cercano a quienes leen desde Ibagué.',
+    causas:[['Tierra','A finales de los años veinte, ligas campesinas del sur del Tolima se tomaron tierras de grandes haciendas.'],
+            ['La Violencia','A mediados del siglo XX surgieron allí guerrillas comunistas.'],
+            ['Corredor','La zona da salida al río Magdalena y comunica las cordilleras con el Sumapaz, el Huila, el Meta y el Caquetá.'],
+            ['Amapola','El cañón de Las Hermosas tuvo cultivos de amapola disputados por los armados.']],
+    actores:'Guerrillas de las FARC, paramilitares del Bloque Tolima de las AUC y Fuerza Pública.',
+    hitos:[['Años 20–30','Ligas campesinas se toman tierras de las haciendas.'],['1964','El Ejército toma Marquetalia, en Planadas.'],['26 jul. 1996','Acuerdo de paz entre el resguardo Nasa We’sx de Gaitania y las FARC.'],['1998–2002','Paramilitares y FARC se disputan Rioblanco y Ataco.'],['2019','Excombatientes, cafeteros y el resguardo lanzan el café El Tercer Acuerdo.']],
+    resistencia:'El resguardo Nasa We’sx de Gaitania, las familias cafeteras y los procesos de reincorporación.',
+    fuentes:[FUENTE.nasawesx,FUENTE.surtolima,FUENTE.vetada] },
+  nc:{ nombre:'Norte del Cauca', deptos:['CO-CAU'], donde:'Cauca · Cordillera Central', color:'tierra', punto:[141.5,484], az:.2,
+    breve:'La guardia indígena Nasa cuida su territorio con bastones de mando, no con armas.',
+    resumen:'Región de resguardos del pueblo Nasa en la cordillera Central, como Toribío, Jambaló, Huellas-Caloto y Corinto.',
+    causas:[['Territorio','Los resguardos han defendido tierras que les fueron arrebatadas en distintos momentos de su historia.'],
+            ['Presencia armada','Guerrillas y Fuerza Pública se enfrentaron en medio de las comunidades.'],
+            ['Estigmatización','Se difundió la idea falsa de que la organización indígena estaba vinculada a las FARC, lo que puso en riesgo a sus comunidades.']],
+    actores:'Guerrillas como las FARC, otros grupos armados y Fuerza Pública.',
+    hitos:[['1971','Nace el Consejo Regional Indígena del Cauca (CRIC).'],['1991','La Constitución reconoce la jurisdicción indígena en su artículo 246.'],['2004','La ACIN formula el Plan Minga en Resistencia.'],['2013','Empieza la formación continua de nuevos Kiwe Thegnas.']],
+    resistencia:'La guardia indígena Kiwe Thegnas, el CRIC y la ACIN Cxhab Wala Kiwe.',
+    fuentes:[FUENTE.kiwe] },
+  pu:{ nombre:'Bajo Putumayo', deptos:['CO-PUT'], donde:'Putumayo · Frontera con Ecuador', color:'maiz', punto:[107.5,609.4], az:.1,
+    breve:'Miles de mujeres cruzaron retenes de noche para coser una colcha de protección.',
+    resumen:'Subregión fronteriza y de colonización nariñense. El Placer es una de las siete inspecciones de policía del municipio del Valle del Guamuez.',
+    causas:[['Coca','El negocio llegó en los años setenta y atrajo a narcotraficantes, guerrillas y paramilitares.'],
+            ['Órdenes armados sucesivos','Desde 1991, el Frente 48 de las FARC dominó la zona. En 1999 llegaron los paramilitares a disputarla.'],
+            ['Fumigaciones','El Valle del Guamuez encabezó a finales de los noventa las listas de cultivos de coca y fue fumigado con glifosato bajo el Plan Colombia.'],
+            ['Violencia contra las mujeres','Los armados regularon la vida cotidiana y ejercieron amenazas, estigmatización y violencia sexual.']],
+    actores:'Frente 48 de las FARC, Bloque Sur Putumayo de las AUC, narcotraficantes y Fuerza Pública.',
+    hitos:[['Años 70','Llega la coca a la región.'],['1991','El Frente 48 consolida su dominio.'],['Nov. 1999','El Bloque Sur Putumayo entra a El Placer.'],['25 nov. 2003','Caravana de 3.500 mujeres de la Ruta Pacífica a Puerto Caicedo.'],['2006','Se desmoviliza el bloque paramilitar.'],['2011','Las Tejedoras de Vida reciben el premio Antonio Nariño.']],
+    resistencia:'La Ruta Pacífica de las Mujeres y la Alianza de Organizaciones de Mujeres del Putumayo «Tejedoras de Vida».',
+    fuentes:[FUENTE.placer] }
+};
+const IBAGUE=[193.5,409.3];
+const CRONICAS = [
+  { id:'mampujan', region:'mm', tipo:'Crónica colectiva · Mampuján, Bolívar', titulo:'Lo que se cose no se olvida',
+    aviso:'Menciona un asesinato colectivo y un desplazamiento forzado. No incluye descripciones gráficas.',
+    parrafos:['Mampuján queda en María La Baja, en los Montes de María. En marzo de 2000 llegaron hombres del Bloque Héroes de los Montes de María de las AUC. En la vereda Las Brisas asesinaron a doce campesinos, a quienes señalaron de ayudar a la guerrilla, y a la gente de Mampuján le dieron un plazo para dejar el pueblo.',
+      'Unas 180 familias tuvieron que salir. El 11 de marzo de 2000 quedó en la memoria de la comunidad como el Día del llanto.',
+      'Años después, en un acompañamiento psicosocial, la menonita estadounidense Teresa Geiser les enseñó a hacer tapices de tela. Era 2006. Un grupo de mujeres empezó a coser con retazos lo que había vivido: el pueblo, la salida, el camino. Buscaban sanar el trauma y dejar también un registro de la historia contada por ellas.',
+      'Las primeras piezas hablaban del dolor. Con los años, los tapices pasaron a contar también historias de alegría y esperanza. En 2014, la asociación donó al Museo Nacional de Colombia el tapiz del Día del llanto. En 2015, las tejedoras recibieron el Premio Nacional de Paz. Hoy cuentan con el Museo de Arte y Memoria de Mampuján y han llevado su experiencia a otros países.'],
+    pregunta:'¿Qué puede decir un tapiz que una cifra no alcanza a decir?',
+    fuentes:[FUENTE.tapiz,FUENTE.tejedoras,FUENTE.heraldo], audio:'' },
+  { id:'sanjose', region:'ur', tipo:'Crónica colectiva · San José de Apartadó, Antioquia', titulo:'Un pueblo que se declaró fuera de la guerra',
+    aviso:'Menciona asesinatos, incluidos los de niños y niñas. No incluye descripciones gráficas.',
+    parrafos:['En marzo de 1997, familias campesinas de San José de Apartadó firmaron una declaración: serían neutrales y no participarían en la guerra. Urabá atravesaba uno de sus peores momentos. En esos mismos meses, comunidades enteras del Bajo Atrato salían desplazadas.',
+      'No fue una iniciativa aislada. Pueblos indígenas, afrodescendientes y campesinos de la región buscaron la misma salida, y la comunidad emberá de Las Playas apoyó la constitución de la Comunidad de Paz.',
+      'La neutralidad no les dio protección. Según Amnistía Internacional, la Comunidad ha sufrido violencia de las FARC, de paramilitares, de grupos armados posteriores y de agentes del Estado. En febrero de 2005, una masacre acabó con la vida de ocho personas, entre ellas el líder Luis Eduardo Guerra y tres niños menores de diez años. Por esos hechos han sido condenados paramilitares y militares.',
+      'La Comisión Interamericana de Derechos Humanos le otorgó medidas cautelares en 1997, y la Corte Interamericana, medidas provisionales en 2000. Casi tres décadas después de su fundación, la Comunidad sigue reclamando justicia y protección, y sigue ahí.'],
+    pregunta:'¿Qué le debe un Estado a una comunidad que decide no tomar partido en una guerra?',
+    fuentes:[FUENTE.amnistia,FUENTE.antioquia], audio:'' },
+  { id:'tiendas', region:'ca', tipo:'Crónica colectiva · Tibú y El Tarra, Norte de Santander', titulo:'Una tienda en cada vereda',
+    aviso:'Menciona masacres y desplazamiento forzado. No incluye descripciones gráficas.',
+    parrafos:['Quienes viven en el Catatumbo cuentan su historia desde mucho antes de la guerra. Hablan de los Barí, primeros habitantes de la región, y de cómo la llegada del petróleo les arrebató gran parte de su territorio. Hablan también de los campesinos que abrieron veredas lejos de todo.',
+      'Allí, las juntas de acción comunal impulsaron tiendas comunitarias. Con los aportes de los vecinos se abastecían de alimentos y hacían frente a la especulación en los precios. A principios de los años ochenta había una en casi cada vereda.',
+      'Sobre esas tiendas crecieron las cooperativas, que compraban, acopiaban y vendían las cosechas. Coomultar nació en El Tarra en 1978. Desde 1984, CooBarí unió el trabajo de los Barí con el de los campesinos y colonos que vivían cerca de sus resguardos.',
+      'En mayo de 1999 llegaron los paramilitares. Hasta 2006 cometieron más de 15 masacres, y miles de personas tuvieron que dejar sus cosas y su tierra. Entre 2016 y 2018, campesinos, indígenas Barí y otros habitantes reconstruyeron esa historia con el Centro Nacional de Memoria Histórica, por iniciativa de la Diócesis de Tibú. El relato que resultó está escrito en primera persona del plural: es la propia gente quien lo cuenta.'],
+    pregunta:'¿Qué cambia cuando una región se presenta por lo que construyó y no solo por lo que le hicieron?',
+    fuentes:[FUENTE.catatumbo], audio:'' },
+  { id:'carare', region:'mg', tipo:'Crónica colectiva · La India, Landázuri, Santander', titulo:'La quinta opción',
+    aviso:'Menciona asesinatos de líderes campesinos y de una periodista. No incluye descripciones gráficas.',
+    parrafos:['En el Carare, al sur de Santander, los campesinos llevaban décadas en medio de la guerra. Habían vivido bajo el orden de la guerrilla y después bajo el de las autodefensas. Según la fundación Right Livelihood, para 1987 más de 500 campesinos habían sido asesinados en la zona.',
+      'En una reunión con mandos militares y paramilitares, les plantearon cuatro opciones: unirse a los militares, unirse a la guerrilla, irse de la región o morir. Escogieron una quinta. El 21 de mayo de 1987, en el corregimiento de La India, crearon la Asociación de Trabajadores Campesinos del Carare. Su lema defendía el derecho a la vida, a la paz y al trabajo.',
+      'Su método fue hablar. Sin armas, los campesinos dialogaron directamente con todos los grupos armados y lograron acuerdos para que respetaran a la población. También hicieron un plan de desarrollo para su región y lo presentaron al Gobierno en 1988.',
+      'El 26 de febrero de 1990 fueron asesinados en Cimitarra el presidente de la Asociación, Josué Vargas, y los dirigentes Miguel Ángel Barajas y Saúl Castañeda, junto con la periodista Silvia Duzán. Ese mismo año, la Asociación recibió el premio Right Livelihood, conocido como el Nobel Alternativo. Siguió existiendo, y en 2011 el Grupo de Memoria Histórica reconstruyó su historia en el informe El orden desarmado.'],
+    pregunta:'¿Qué hace falta para que hablar con quien tiene las armas sea una forma de protegerse?',
+    fuentes:[FUENTE.carare,FUENTE.rightlivelihood], audio:'' },
+  { id:'sancarlos', region:'oa', tipo:'Crónica colectiva · San Carlos, Antioquia', titulo:'Volver a San Carlos',
+    aviso:'Menciona masacres, desapariciones y minas antipersonal. No incluye descripciones gráficas.',
+    parrafos:['San Carlos está en el oriente de Antioquia, entre embalses y centrales hidroeléctricas. En 1985 tenía 29.156 habitantes, según el censo.',
+      'Entre 1998 y 2007 vivió una crisis humanitaria sin precedentes. Los paramilitares cometieron masacres contra la población, y las guerrillas atacaron cascos urbanos y asesinaron a quienes acusaban de colaborar con sus enemigos. Hubo 36 masacres, más de quinientas muertes violentas, más de 150 personas desaparecidas y 79 víctimas de minas antipersonal.',
+      'Cerca del 80 % de la población tuvo que irse hacia otros municipios y ciudades. En el censo de 2005, San Carlos tenía unos 13.000 habitantes.',
+      'Desde 2007, cuando bajó la presión armada, la gente empezó a volver. Encontraron casas caídas, puentes derribados y fincas cubiertas de monte. Volver también significó desminar veredas, reabrir caminos y reconstruir la vida en comunidad. En ese regreso nació un trabajo de memoria. Uno de sus libros se llama Nunca más contra nadie.'],
+    pregunta:'¿Qué necesita una persona para sentir que puede volver al lugar del que tuvo que huir?',
+    fuentes:[FUENTE.sancarlos,FUENTE.minas], audio:'' },
+  { id:'bojaya', region:'ma', tipo:'Crónica colectiva · Bojayá, Chocó', titulo:'Un pueblo que canta',
+    aviso:'Menciona la muerte de civiles, entre ellos niños y niñas, en un ataque. No incluye descripciones gráficas.',
+    parrafos:['Bellavista era la cabecera de Bojayá, a orillas del río Atrato. En abril de 2002 llegaron paramilitares del Bloque Élmer Cárdenas, que se enfrentaron con el Frente 58 de las FARC. La gente buscó refugio en la iglesia de San Pablo Apóstol y en la casa de las misioneras.',
+      'El 2 de mayo, un cilindro bomba lanzado por las FARC cayó sobre la iglesia. Murieron 83 personas, según la Unidad para las Víctimas, y más de cien quedaron heridas. Los combates siguieron, y la ayuda solo pudo llegar dos días después.',
+      'El 6 de diciembre de 2015, en un acto en Bojayá, el comandante de las FARC Pastor Alape reconoció la responsabilidad de esa guerrilla y pidió perdón. Ese día cantaron las Musas de Pogue, cantadoras de alabaos, los cantos con que las comunidades negras del Pacífico despiden a sus muertos. Meses después cantaron en la firma del Acuerdo de Paz en Cartagena.',
+      'En noviembre de 2019, el Estado entregó a la comunidad los restos de 78 personas identificadas para que pudieran despedirlas según sus costumbres. En 2021, la Ley 2087 declaró el 2 de mayo día conmemorativo de las víctimas de Bojayá. El pueblo fue reubicado, y la ley ordena recuperar el viejo Bellavista como lugar de memoria.'],
+    pregunta:'¿Qué hace un canto que no puede hacer un informe?',
+    fuentes:[FUENTE.bojaya,FUENTE.canta], audio:'' },
+  { id:'gaitania', region:'st', tipo:'Crónica colectiva · Gaitania, Planadas, Tolima', titulo:'El primer acuerdo',
+    aviso:'Menciona décadas de violencia entre una comunidad indígena y la guerrilla. No incluye descripciones gráficas.',
+    parrafos:['Gaitania es un corregimiento de Planadas, en el sur del Tolima. Muy cerca está Marquetalia. En 1964, el Ejército tomó esa zona, y ese hecho se convirtió en el relato fundacional de las FARC.',
+      'Durante unos treinta años, la guardia indígena del pueblo Nasa We’sx, que entonces estaba armada, y la guerrilla se enfrentaron en esas montañas.',
+      'El 26 de julio de 1996, el resguardo y el frente Joselo Lozada de las FARC firmaron un acuerdo de paz. Lo firmaron el gobernador indígena Virgilio López y, por la guerrilla, Jerónimo Galeano. Según la comunidad, el acuerdo se basó en el perdón mutuo: las dos partes se dieron la mano por los muertos que cada una había dejado. La comunidad lo llama el primer acuerdo, porque llegó veinte años antes que el firmado entre el Gobierno y las FARC, y lo conmemora cada año.',
+      'Después de 2016, excombatientes se quedaron en el espacio de reincorporación de la vereda El Oso. En 2019, junto con familias cafeteras y el resguardo, lanzaron un café que lleva el nombre de El Tercer Acuerdo.'],
+    pregunta:'¿Qué hizo posible que dos enemigos se perdonaran sin que nadie se lo impusiera?',
+    fuentes:[FUENTE.nasawesx], audio:'' },
+  { id:'kiwe', region:'nc', tipo:'Crónica colectiva · Resguardos Nasa del norte del Cauca', titulo:'Un bastón en lugar de un fusil',
+    aviso:'Menciona el impacto del conflicto armado en comunidades indígenas. No incluye descripciones gráficas.',
+    parrafos:['En el norte del Cauca, el pueblo Nasa llama a su guardia indígena Kiwe Thegnas: quienes cuidan el territorio. Los guardias no portan armas. Llevan un bastón, símbolo de autoridad que también portan los gobernadores y los médicos tradicionales.',
+      'El Consejo Regional Indígena del Cauca nació en 1971, y desde entonces el pueblo Nasa ha sostenido un proceso político y pedagógico propio. La guardia hace control territorial, control social y defensa de los derechos humanos, amparada en el artículo 246 de la Constitución, que reconoce la jurisdicción de los pueblos indígenas.',
+      'El conflicto golpeó a resguardos como Toribío, Jambaló, Huellas-Caloto y Corinto. Además, se difundió la idea falsa de que su organización estaba vinculada a las FARC. Los Kiwe Thegnas la rechazan: su política es no usar la violencia ni hacer política con las armas.',
+      'En la memoria que publicaron con el Centro Nacional de Memoria Histórica, explican que su propuesta de paz no depende solo de lo que se firme en una mesa de negociación. Depende de seguir cuidando la vida y el territorio. Desde 2013 forman de manera continua a nuevas generaciones de guardias.'],
+    pregunta:'¿Qué autoridad tiene quien se enfrenta a la guerra sin armas?',
+    fuentes:[FUENTE.kiwe], audio:'' },
+  { id:'colcha', region:'pu', tipo:'Crónica colectiva · El Placer y Puerto Caicedo, Putumayo', titulo:'La colcha de la protección',
+    aviso:'Menciona violencias contra las mujeres, incluida la violencia sexual, sin describirlas. No incluye detalles gráficos.',
+    parrafos:['El Placer es una inspección del Valle del Guamuez, en el Bajo Putumayo, cerca de la frontera con Ecuador. La coca llegó a la región en los años setenta, y con ella narcotraficantes, guerrillas y paramilitares que se turnaron el control del pueblo.',
+      'Desde 1991, el Frente 48 de las FARC dominó la zona. En noviembre de 1999 entró a El Placer el Bloque Sur Putumayo de las AUC, que levantó una base en pleno casco urbano y se quedó hasta su desmovilización en 2006. Las mujeres vivieron amenazas, confinamiento, estigmatización y violencia sexual.',
+      'En uno de los momentos más duros, el 25 de noviembre de 2003, unas 3.500 mujeres de la Ruta Pacífica llegaron en caravana a Puerto Caicedo. Pasaron retenes y viajaron de noche, algo que en ese tiempo nadie se atrevía a hacer. Allí tejieron la colcha de la protección, con 17 mensajes de resistencia.',
+      'De ese encuentro surgió la Alianza de Organizaciones de Mujeres del Putumayo «Tejedoras de Vida». En 2011 recibió el premio de paz y derechos humanos Antonio Nariño, que entregan las embajadas de Francia y Alemania.'],
+    pregunta:'¿Por qué tantas formas de memoria en Colombia se hacen con hilos y telas?',
+    fuentes:[FUENTE.placer], audio:'' }
+];
+const DILEMAS = [
+  { id:'d1', corto:'El testimonio', pregunta:'¿Debe publicarse un testimonio completo, aunque tenga pasajes muy duros?',
+    contexto:'Una persona sobreviviente autoriza publicar su relato. Tiene pasajes muy dolorosos. Tu equipo debe decidir cómo llevarlo a la plataforma.',
+    opciones:[
+      {id:'a',postura:'Publicarlo completo',arg:'La verdad de quien narra no se recorta.',supone:'Editar un relato es una forma de silenciarlo.',objecion:'Quien lee sin acompañamiento puede saturarse, y el detalle gráfico puede volverse espectáculo.'},
+      {id:'b',postura:'Acordar cortes con quien narra',arg:'Se protege a quien lee y se respeta lo esencial.',supone:'Narrador y editores pueden acordar sin presiones.',objecion:'Quien edita tiene poder sobre la voz de la víctima. ¿Quién decide qué es lo esencial?'},
+      {id:'c',postura:'No publicarlo',arg:'Si hay riesgo de revictimizar, es mejor proteger.',supone:'Proteger vale más que visibilizar.',objecion:'Decidir por la víctima también le quita agencia.'}]},
+  { id:'d2', corto:'El perdón', pregunta:'¿Puede pedirse perdón antes de que se conozca toda la verdad?',
+    contexto:'En un encuentro local, una persona excombatiente quiere pedir perdón. Algunas familias quieren escucharla. Otras exigen saber primero dónde están sus desaparecidos.',
+    opciones:[
+      {id:'a',postura:'Escuchar primero',arg:'El reconocimiento del daño abre la puerta a la verdad.',supone:'Quien pide perdón lo hace con sinceridad.',objecion:'Un perdón sin verdad puede vivirse como otra ofensa para las familias.'},
+      {id:'b',postura:'Verdad primero',arg:'Sin saber qué pasó no hay nada que perdonar.',supone:'La verdad completa se puede alcanzar.',objecion:'Esperar la verdad total puede cerrar para siempre el diálogo.'},
+      {id:'c',postura:'Que cada familia decida',arg:'Nadie puede responder por el dolor de otra persona.',supone:'La reconciliación puede ser un proceso desigual.',objecion:'La comunidad puede dividirse entre quienes escuchan y quienes no.'}]},
+  { id:'d3', corto:'Las víctimas', pregunta:'En un acto de memoria, ¿todas las víctimas deben estar en el mismo lugar?',
+    contexto:'Tu colegio organiza un día de memoria. Se propone incluir a víctimas de guerrillas, de paramilitares y de agentes del Estado. Alguien objeta que ponerlas juntas borra las diferencias de responsabilidad.',
+    opciones:[
+      {id:'a',postura:'Incluirlas a todas por igual',arg:'La dignidad de una víctima no depende de quién la dañó.',supone:'Honrar a las víctimas es distinto de juzgar a los responsables.',objecion:'Sin contexto, el acto puede sugerir que todas las responsabilidades son iguales.'},
+      {id:'b',postura:'Incluirlas y explicar responsabilidades',arg:'Las víctimas merecen lo mismo, los responsables no son iguales.',supone:'Un acto escolar puede sostener esa complejidad.',objecion:'Explicar responsabilidades puede convertir el homenaje en disputa política.'},
+      {id:'c',postura:'Empezar por el territorio propio',arg:'La memoria repara cuando nace de quienes vivieron los hechos.',supone:'Lo cercano conmueve y enseña más.',objecion:'Puede dejar por fuera a víctimas de otras regiones y a sus verdades.'}]},
+  { id:'d4', corto:'Las redes', pregunta:'Un video de una víctima se vuelve viral para atacar a un político. ¿Qué haces?',
+    contexto:'El video es real, pero circula recortado y los comentarios usan su dolor para atacar a un adversario. Un grupo de tu curso lo comparte.',
+    opciones:[
+      {id:'a',postura:'Compartirlo con contexto',arg:'Corregir el recorte evita que la manipulación gane.',supone:'El contexto llega tan lejos como el recorte.',objecion:'Cada vez que se comparte, la víctima vuelve a quedar expuesta.'},
+      {id:'b',postura:'No compartirlo y hablar en el grupo',arg:'Se corta la circulación y se protege a la persona.',supone:'La conversación cercana cambia conductas.',objecion:'El silencio deja el relato manipulado sin respuesta pública.'},
+      {id:'c',postura:'Denunciarlo en la plataforma',arg:'Es la vía prevista para contenidos que dañan.',supone:'Las plataformas responden con criterio.',objecion:'Retirar contenidos sin diálogo puede borrar también la voz de la víctima.'}]}
+];
+const EJERCICIOS = [
+  {f:'No le creo nada sobre la guerra: mire de qué familia viene.',r:'adh',mejor:'Discute lo que la persona dijo y pide evidencia, sin hablar de su origen.'},
+  {f:'Conocí a dos desmovilizados que mintieron, así que todos mienten.',r:'gen',mejor:'Dos casos no permiten concluir algo sobre miles de personas.'},
+  {f:'O apoyas a un bando o estás con el otro. No hay más opciones.',r:'dil',mejor:'Las comunidades neutrales de Urabá y los campesinos del Carare muestran que había otras posiciones.'},
+  {f:'Vi tres videos que confirman lo que pensaba, no necesito leer el informe.',r:'con',mejor:'Busca una fuente que contradiga tu idea antes de concluir.'},
+  {f:'Si los sacaron de su tierra, por algo sería.',r:'cul',mejor:'Nada justifica el desplazamiento. La frase traslada la culpa a quien sufrió el daño.'}
+];
+const FALACIAS = {adh:'Ad hominem',gen:'Generalización apresurada',dil:'Falso dilema',con:'Sesgo de confirmación',cul:'Culpar a la víctima'};
+const SEMILLAS = {
+  maiz:['Maíz','para alimentar lo común','M15 27V5M15 11c-3-2-5-2-6-1 0 3 3 5 6 5M15 11c3-2 5-2 6-1 0 3-3 5-6 5M15 18c-3-2-5-2-6-1 0 3 3 5 6 5M15 18c3-2 5-2 6-1 0 3-3 5-6 5'],
+  ceiba:['Ceiba','para dar sombra y refugio','M15 28V15M15 18l-7-5M15 18l7-5M5 12c0-6 5-9 10-9s10 3 10 9c-3 2-7 2-10 0-3 2-7 2-10 0z'],
+  guayacan:['Guayacán','para resistir y florecer','M15 28V14M15 20l-6-4M15 18l6-4M15 7a3 3 0 1 0 .01 0M8 12a2.5 2.5 0 1 0 .01 0M22 12a2.5 2.5 0 1 0 .01 0'],
+  cacao:['Cacao','para volver al trabajo digno','M15 3c6 3 8 9 8 13s-3 11-8 11-8-7-8-11 2-10 8-13zM15 3v24M10 9c3 2 7 2 10 0M8 17c4 2 10 2 14 0']
+};
+const IDEAS = ['Me comprometo a no compartir un relato de dolor sin confirmar su fuente.','Me comprometo a no usar la palabra víctima para burlarme de nadie.','Nos comprometemos a escuchar a quien piensa distinto antes de responder.','Me comprometo a preguntar por la historia de mi región a alguien que la vivió.'];
+const LINEAS = [
+  {n:'106',t:'Línea Nacional de Salud Mental',d:'Ministerio de Salud. Gratuita y confidencial. 24 horas, todos los días.'},
+  {n:'123',t:'Emergencias',d:'Si hay peligro inmediato para ti o para otra persona.'},
+  {n:'318 607 2341',t:'Línea Naranja Yo Te Escucho · Tolima',d:'Llamada y WhatsApp. 24 horas, todos los días.'},
+  {n:'317 318 8854',t:'Línea Naranja Háblalo · Tolima',d:'Llamada y WhatsApp. 24 horas, todos los días.'},
+  {n:'141',t:'ICBF · Niños, niñas y adolescentes',d:'Protección y orientación. Gratuita, nacional, 24 horas.'},
+  {n:'155',t:'Orientación a mujeres víctimas de violencia',d:'Nacional, gratuita y confidencial. 24 horas.'},
+  {n:'01 8000 911 119',t:'Unidad para las Víctimas',d:'Línea nacional sin costo. Puedes preguntar aquí por el programa de atención psicosocial PAPSIVI.'}
+];
+const FUENTES = [
+  FUENTE.bastaYa,
+  ['Comisión para el Esclarecimiento de la Verdad, la Convivencia y la No Repetición [CEV]. (2022). Hay futuro si hay verdad: Informe final.','https://www.comisiondelaverdad.co/hay-futuro-si-hay-verdad'],
+  ['Ministerio de Salud y Protección Social. (2017). Programa de Atención Psicosocial y Salud Integral a Víctimas (PAPSIVI): Lineamientos técnicos.','https://www.minsalud.gov.co/Proteccion-Social/Paginas/victimas_papsivi.aspx'],
+  ['Ministerio de Educación Nacional. (2015). Decreto 1038 de 2015: Por el cual se reglamenta la Cátedra de la Paz.','https://www.mineducacion.gov.co/portal/normativa/Decretos/382203:Decreto-1038-de-mayo-25-de-2015'],
+  ['Congreso de la República de Colombia. (2011). Ley 1448 de 2011: Ley de Víctimas y Restitución de Tierras.','https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=43043'],
+  ['Papa Francisco. (2020). Carta Encíclica Fratelli Tutti: Sobre la fraternidad y la amistad social. Tipografía Vaticana.','https://www.vatican.va/content/francesco/es/encyclicals/documents/papa-francesco_20201003_enciclica-fratelli-tutti.html'],
+  ['UNESCO. (2023). Educación sobre memoria y derechos humanos: Recomendaciones para abordar el pasado reciente en Chile.','https://unesdoc.unesco.org/ark:/48223/pf0000385614'],
+  ['Ricoeur, P. (2004). La memoria, la historia, el olvido. Fondo de Cultura Económica.','https://fce.com.ar/wp-content/uploads/2020/11/Ricoeur3.pdf'],
+  ['Unidad para las Víctimas. (2026). Datos generales del RUV. Boletín de agosto de 2026.','https://datospaz.unidadvictimas.gov.co/wp-content/uploads/2026/09/Boletin-Agosto.pdf'],
+  ['Cortina, A. (2017). Aporofobia, el rechazo al pobre: Un desafío para la democracia. Paidós.',''],
+  ['Levinas, E. (2002). Totalidad e infinito: Ensayo sobre la exterioridad (6.ª ed.). Ediciones Sígueme.','https://www.sigueme.es/libros/totalidad-e-infinito.html'],
+  ['Ministerio de Salud y Protección Social. Directorio nacional de líneas territoriales de atención en salud mental.','https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/VS/PP/ET/directorio-salud-mental-prevencion-suicidio-minsalud.pdf'],
+  ...['caribe','antioquia','catatumbo','carare','sancarlos','canta','bojaya','kiwe','placer','vetada','surtolima','tapiz','salado','tejedoras','heraldo','amnistia','colombiano','defensoria','rightlivelihood','nasawesx','minas'].map(k=>FUENTE[k])
+];
+/* Departamentos de Colombia: [código, nombre, anillos [x,y,x,y…]] en un dibujo de 620 x 850. Fuente: Natural Earth. */
+const GEO=[["CO-NAR","Nariño",[[22.9,568.8,13.6,560.0,12.0,553.8,10.0,554.4,3.9,549.8,12.7,540.6,17.0,540.1,26.4,542.6,27.7,535.9,25.4,536.8,24.6,530.2,21.7,532.5,19.8,522.1,26.3,509.9,27.1,512.5,28.7,506.8,37.7,499.1,42.3,504.5,41.5,499.8,42.7,498.4,44.6,504.7,48.4,506.9,50.7,505.8,50.2,499.0,55.8,502.2,58.3,507.7,57.6,512.5,63.0,522.7,69.9,524.5,82.7,520.5,89.3,523.0,88.7,528.5,95.0,533.6,90.8,538.9,88.7,547.2,100.0,548.3,108.0,545.3,112.5,550.9,112.3,553.8,108.6,557.5,109.4,566.1,106.5,567.0,105.4,570.5,100.6,572.5,100.7,578.1,103.4,579.7,103.1,582.0,99.1,590.1,93.1,597.0,99.4,602.1,100.8,612.0,99.8,614.2,94.7,615.2,85.1,612.5,83.3,610.2,81.6,599.3,77.8,599.0,72.7,596.0,69.8,589.7,62.6,591.4,59.8,590.2,59.1,588.1,51.1,586.8,37.5,579.0,30.7,572.1,26.5,572.0,23.7,568.7],[48.4,500.2,50.2,504.6,49.6,505.9,47.1,505.7,44.2,501.7,45.3,499.9,44.3,497.4,46.7,497.3,48.6,499.9]]],["CO-PUT","Putumayo",[[146.1,611.9,139.4,609.0,134.2,611.8,134.6,619.2,126.7,621.1,118.8,618.0,118.3,620.3,110.9,619.9,99.8,614.2,100.8,612.0,99.4,602.1,93.1,597.0,99.1,590.1,103.6,580.6,100.7,578.1,100.6,572.5,106.2,569.9,106.5,567.0,117.7,565.3,122.3,559.8,125.6,561.4,129.0,566.7,127.7,575.9,130.4,580.6,137.4,582.9,144.5,583.2,151.9,579.6,157.5,580.0,163.6,587.8,175.0,589.4,182.0,594.4,191.3,595.0,195.7,607.1,200.2,606.5,201.4,608.2,205.2,608.4,206.9,618.4,217.9,621.9,220.9,624.4,221.8,634.7,227.1,637.8,231.5,638.3,233.5,636.1,235.0,638.6,238.6,638.1,242.4,643.1,245.4,643.0,246.6,644.9,249.2,644.3,255.5,649.5,261.8,651.7,234.3,660.2,222.9,649.0,220.7,649.7,215.5,647.6,217.2,645.9,213.8,640.5,211.4,643.1,208.3,642.5,197.9,634.1,193.9,633.6,190.8,637.3,181.8,633.9,173.7,628.0,165.5,627.7,157.4,621.7,152.3,613.7,149.0,614.3,147.2,611.8]]],["CO-CHO","Chocó",[[81.5,203.7,83.3,199.2,86.7,196.7,91.3,205.8,97.8,209.6,102.4,216.9,105.7,217.9,107.0,227.4,103.9,235.8,99.0,238.6,98.7,241.7,111.2,252.5,120.4,263.1,127.9,267.5,129.6,271.5,129.7,277.1,127.7,281.3,120.8,279.6,114.2,280.4,114.4,287.8,106.4,290.4,107.6,294.3,106.5,295.7,108.4,297.3,109.7,296.2,109.9,298.4,111.7,298.9,110.3,301.8,115.6,306.8,115.1,315.9,121.3,322.9,141.1,321.6,145.6,331.1,149.4,332.2,148.2,339.2,150.6,344.7,150.1,348.9,152.9,352.2,150.3,358.3,146.7,360.7,145.9,363.5,150.1,372.4,151.2,379.4,146.5,386.7,140.1,393.0,139.2,397.3,133.6,402.2,132.2,410.2,127.6,411.7,130.2,415.3,130.2,419.4,132.7,422.2,129.0,424.5,126.3,428.5,122.3,428.2,116.9,431.5,110.4,429.2,107.2,425.2,101.7,426.1,97.2,422.2,93.9,422.9,92.3,419.2,93.2,418.0,88.2,417.9,85.6,413.9,89.4,407.7,88.3,407.7,89.1,397.0,90.1,398.4,90.4,397.1,88.7,393.6,92.1,396.0,87.6,388.5,86.4,373.7,87.7,368.9,86.0,362.4,84.6,361.8,86.0,361.0,81.9,356.0,77.0,355.9,80.5,351.3,84.8,349.7,88.3,350.3,92.7,344.4,87.3,329.7,86.7,331.1,80.8,321.6,80.8,316.3,84.2,319.0,86.0,315.9,85.0,311.6,87.0,311.5,86.0,308.7,87.7,302.6,84.2,299.1,84.4,296.2,81.9,294.9,78.1,297.7,78.4,295.3,75.3,289.5,71.4,286.9,70.2,288.4,71.7,280.1,70.2,277.1,70.2,278.5,60.2,269.1,64.0,257.0,67.2,256.5,68.4,254.3,66.8,245.5,68.0,244.8,71.0,247.2,74.3,253.9,76.0,254.4,88.0,245.4,86.0,242.0,90.0,235.6,96.8,233.8,89.2,218.1,86.3,216.2,83.9,207.8,80.6,207.0,81.0,204.3],[87.3,418.0,91.4,418.4,89.9,420.4,88.3,419.1,81.7,419.4,77.7,421.5,80.0,418.2,83.2,418.4,81.9,417.0,83.6,417.0,82.4,416.7,84.2,415.3,83.6,414.2,86.6,417.1]]],["CO-GUA","Guainía",[[601.7,573.1,600.1,569.1,601.3,554.6,599.1,546.2,585.9,525.5,583.0,524.6,575.4,528.9,564.0,542.5,558.6,544.6,553.4,542.8,549.4,534.5,546.1,533.0,545.4,530.9,541.0,540.2,546.8,545.6,487.4,545.7,477.9,543.0,462.9,546.3,452.5,542.6,446.8,537.4,449.8,525.5,455.3,520.9,453.1,517.7,440.8,518.7,439.8,520.3,434.6,518.4,430.4,519.4,429.9,517.8,423.9,515.2,417.6,505.1,409.5,501.5,435.8,489.2,440.9,484.4,440.4,480.0,441.8,478.3,439.6,477.3,444.9,471.6,446.8,472.1,447.0,470.1,448.5,471.2,447.9,467.6,449.2,466.9,447.4,464.0,449.0,460.6,451.6,460.2,452.3,457.2,450.9,455.1,456.9,456.2,460.3,453.1,461.7,454.9,462.5,453.4,468.9,453.0,472.1,454.8,474.8,446.8,481.3,445.6,483.5,447.1,489.9,446.4,491.0,444.9,495.8,448.8,498.0,447.7,499.7,448.6,500.5,450.9,503.0,448.6,506.9,449.3,508.1,446.0,514.8,446.9,514.5,445.0,517.8,444.6,518.0,442.7,520.6,441.5,527.7,441.6,533.1,437.7,532.8,435.7,536.4,435.2,537.2,430.3,541.6,431.2,542.4,434.2,545.6,432.7,545.8,435.2,550.4,431.1,552.6,433.5,554.3,431.4,555.0,434.5,557.5,433.5,561.2,435.2,563.1,435.1,569.5,429.5,573.4,443.3,580.0,445.5,584.8,456.2,589.8,460.1,589.5,462.2,585.2,468.1,563.1,487.2,562.2,492.0,567.4,489.4,570.5,491.2,573.7,490.8,576.2,497.0,580.0,497.8,588.7,507.8,595.5,511.9,596.3,514.8,594.1,518.3,596.1,523.9,599.3,526.5,598.4,532.1,601.7,536.9,608.3,556.6,608.4,560.5,610.8,564.2,610.0,567.3,611.2,570.6,606.1,571.9]]],["CO-VAU","Vaupés",[[462.9,546.3,462.4,578.8,466.9,577.2,469.2,578.9,481.1,578.8,484.1,580.4,487.3,578.4,490.6,579.9,494.8,584.6,494.5,586.4,497.4,588.4,495.4,595.4,498.1,599.3,490.1,600.9,489.9,599.0,486.9,599.8,481.1,595.2,475.3,597.4,474.0,599.3,470.3,598.4,464.7,601.5,452.3,602.5,451.6,640.0,458.3,647.7,474.0,658.3,475.8,664.3,473.6,668.7,478.4,678.8,482.9,682.5,482.6,686.7,485.0,691.3,483.9,694.1,481.7,691.1,476.8,689.0,472.9,690.5,472.5,684.9,469.2,681.9,466.3,684.3,461.8,683.4,458.4,684.9,457.6,683.6,459.9,677.9,450.0,679.2,448.8,680.8,451.4,684.3,448.1,685.7,445.2,683.3,445.7,679.9,442.9,681.5,441.0,678.8,444.4,674.7,441.3,669.7,443.3,668.1,442.8,660.2,439.7,658.7,444.2,653.2,441.0,652.2,438.5,653.7,438.3,655.6,432.6,655.3,430.0,650.0,426.6,650.0,418.0,646.0,415.6,648.1,412.6,648.1,405.8,631.9,398.0,630.1,396.3,626.1,391.6,627.0,383.9,622.3,378.1,623.0,370.6,619.0,365.6,613.2,362.6,614.1,362.8,611.0,358.2,607.5,358.4,604.1,355.2,603.0,353.2,598.6,367.2,583.2,371.3,582.7,374.5,579.7,377.4,573.7,379.7,576.0,377.4,568.7,384.7,551.8,385.5,545.1,391.8,548.0,409.8,535.7,422.2,536.4,432.8,532.2,444.9,530.1,449.8,526.6,447.2,538.2,455.0,543.9,462.9,546.3]]],["CO-AMA","Amazonas",[[483.9,694.1,456.8,844.4,453.5,839.2,445.6,834.0,444.2,828.8,439.4,824.0,436.1,823.5,430.5,826.5,418.3,821.6,452.5,768.1,449.7,763.6,447.5,765.8,445.8,763.3,443.2,763.6,441.3,759.7,436.8,760.2,437.1,756.7,432.7,757.3,426.1,752.6,425.1,754.7,422.6,754.9,419.7,748.7,415.6,747.7,409.8,742.8,405.4,742.2,403.4,742.8,404.0,745.2,399.0,744.9,394.5,749.3,389.2,749.0,384.0,751.1,384.4,748.6,382.2,745.1,380.1,748.1,378.1,743.4,371.1,740.8,368.4,741.8,367.7,738.9,363.2,741.3,357.6,748.5,351.9,748.3,346.9,752.6,341.2,752.4,340.8,754.0,336.1,754.9,322.8,749.0,319.4,753.4,318.3,750.7,316.9,752.4,314.8,751.2,308.2,753.6,305.6,749.2,302.2,747.3,300.8,749.6,297.1,747.0,295.1,742.0,299.4,735.9,296.6,730.2,295.3,721.7,292.1,719.3,291.6,720.8,287.5,721.8,279.5,717.1,278.6,714.0,280.8,710.8,280.1,706.1,276.3,703.0,276.9,700.8,273.2,694.9,267.3,691.3,264.9,693.3,262.1,692.7,259.0,687.8,255.9,687.5,255.9,685.4,253.1,686.1,251.2,681.6,249.0,683.2,243.0,681.4,237.8,675.0,240.5,673.9,239.9,671.3,235.7,668.2,236.8,665.9,234.3,660.2,261.8,651.7,270.2,651.7,277.3,658.1,289.3,657.7,294.7,662.3,300.9,661.7,305.1,658.4,310.8,662.1,317.5,660.0,327.5,666.2,333.9,659.9,338.8,663.5,341.0,663.1,342.9,661.4,343.4,655.4,348.6,648.3,353.2,645.0,366.3,643.2,370.5,636.2,385.5,628.6,388.9,625.3,392.4,627.1,396.3,626.1,398.0,630.1,406.4,632.6,412.6,648.1,415.6,648.1,418.0,646.0,426.6,650.0,430.0,650.0,432.6,655.3,438.3,655.6,438.5,653.7,441.0,652.2,444.2,653.2,439.7,658.7,442.8,660.2,443.3,668.1,441.3,669.7,444.4,674.7,441.0,678.8,442.9,681.5,445.7,679.9,445.2,683.3,448.1,685.7,451.4,684.3,448.8,680.8,450.0,679.2,459.9,677.9,457.6,683.6,458.4,684.9,461.8,683.4,466.3,684.3,469.2,681.9,472.5,684.9,472.5,690.2,476.8,689.0,481.7,691.1,483.9,694.1]]],["CO-LAG","La Guajira",[[388.6,37.6,355.5,47.7,342.2,71.8,330.0,74.2,326.2,82.4,320.9,87.5,311.9,104.9,309.2,108.9,306.1,110.0,298.5,110.3,295.9,107.5,301.2,98.8,292.5,93.6,291.4,88.1,282.4,87.0,274.7,88.0,272.4,80.3,273.2,73.0,275.9,70.6,276.7,66.4,290.4,65.5,317.9,44.7,333.3,40.3,341.8,35.8,348.1,24.8,346.5,18.3,356.5,17.3,354.2,20.4,356.6,22.4,358.1,21.7,361.6,19.6,361.4,17.3,357.0,15.9,363.5,11.2,364.5,11.4,362.8,13.1,364.9,13.9,368.4,9.5,370.3,11.8,373.5,8.7,371.0,9.2,372.1,8.0,370.3,8.7,370.7,7.3,368.3,9.3,370.1,6.8,379.4,7.9,393.6,14.8,399.6,26.3,398.1,29.3,390.1,34.1,388.6,37.6]]],["CO-CES","Cesar",[[309.2,108.9,308.2,121.6,305.6,130.4,305.7,139.8,299.6,151.6,296.1,154.3,288.8,167.7,285.5,170.8,286.8,172.3,283.2,174.7,283.7,191.5,277.0,199.5,280.4,207.5,278.6,211.6,282.2,214.5,284.7,212.0,284.0,207.9,287.2,208.7,284.6,224.3,286.2,229.2,290.7,232.1,287.5,235.9,285.2,243.4,280.2,246.9,275.1,243.9,267.4,243.7,267.8,239.2,271.5,234.3,266.4,226.8,265.2,220.0,267.2,214.2,266.9,207.7,263.5,198.4,264.6,189.8,261.5,186.2,265.0,177.8,261.1,171.3,257.1,170.4,257.2,165.8,255.0,160.5,248.1,155.6,253.6,150.9,261.2,152.0,265.8,150.6,262.9,140.9,251.7,127.7,252.5,121.9,259.7,112.0,266.5,110.8,276.5,104.7,274.3,97.8,276.8,93.1,272.7,91.7,274.7,88.0,290.8,87.6,292.5,93.6,301.2,98.8,295.9,107.5,298.0,110.1,309.2,108.9]]],["CO-NSA","Norte de Santander",[[304.5,165.7,307.2,175.3,313.7,173.5,315.4,174.8,321.2,198.0,335.7,213.7,335.2,217.8,338.3,227.4,334.6,228.5,330.4,233.8,332.4,239.1,331.1,256.6,334.3,260.1,344.7,261.7,346.8,264.4,346.8,269.8,350.1,276.5,355.3,280.2,345.9,278.9,342.9,281.9,340.6,280.6,338.1,285.2,334.9,287.1,329.8,285.1,327.7,286.6,326.7,280.8,321.5,282.2,320.6,280.6,317.8,281.4,311.0,277.9,313.5,272.7,310.9,268.0,312.9,262.9,309.8,257.0,305.8,253.4,305.4,250.1,294.2,249.3,292.0,253.5,287.0,253.3,280.2,250.7,273.0,243.5,279.7,246.8,282.4,246.0,286.7,241.1,287.5,235.9,290.7,232.7,289.0,230.1,286.2,229.2,284.6,224.3,287.2,208.7,284.0,207.9,284.7,212.0,281.9,214.2,278.5,211.4,280.4,207.5,276.9,201.2,277.6,198.4,283.7,191.5,283.2,174.7,284.6,172.8,294.4,171.9,303.4,165.8]]],["CO-ARA","Arauca",[[356.8,280.6,362.6,281.7,366.3,279.4,374.0,278.3,381.6,280.2,390.4,279.6,391.2,281.6,395.8,282.7,398.2,281.3,404.4,281.3,410.2,277.4,419.8,275.9,426.1,276.6,429.5,280.4,439.0,284.0,448.5,282.2,483.4,324.9,478.4,327.9,465.8,327.9,462.2,329.7,446.7,317.6,437.6,317.0,429.8,319.8,418.6,320.5,394.6,317.3,381.9,321.0,368.9,321.0,347.2,327.3,342.0,324.1,337.5,316.1,341.4,309.3,343.2,309.6,348.2,305.7,349.9,294.5,356.7,280.8]]],["CO-BOY","Boyacá",[[355.3,280.2,356.7,280.8,349.9,294.5,348.2,305.7,340.9,309.8,334.2,320.8,337.9,327.1,335.4,336.0,332.6,338.3,339.4,342.4,343.1,346.9,339.0,355.8,334.0,353.2,320.5,367.2,314.6,361.9,312.1,363.8,308.1,369.1,307.3,373.8,309.7,377.0,308.6,379.6,306.3,382.2,303.5,381.9,301.6,390.7,302.4,394.5,300.0,397.7,297.3,398.2,294.1,397.3,293.1,394.7,290.2,394.7,284.4,387.3,278.8,386.8,277.7,385.2,281.2,377.9,278.9,369.3,275.8,365.9,275.5,361.8,272.3,358.0,265.4,355.7,264.4,353.0,255.0,362.4,250.6,360.1,250.1,358.3,242.5,356.6,239.3,350.4,240.6,347.0,238.0,339.8,233.0,342.7,228.3,341.5,222.1,342.8,223.0,338.0,225.5,335.1,224.7,332.1,226.3,330.9,224.7,324.2,226.0,320.2,229.0,316.9,234.0,327.3,237.2,329.1,241.0,327.8,243.0,331.9,242.1,338.6,246.3,336.0,249.5,337.5,254.6,343.5,260.3,343.7,261.1,345.5,268.1,343.0,273.1,344.9,274.3,334.9,280.0,325.6,285.9,331.0,285.0,334.9,281.4,338.7,284.8,343.2,287.4,337.9,290.7,338.2,294.0,331.9,304.2,334.0,310.3,324.8,314.1,323.3,317.3,319.5,318.3,308.1,315.4,302.6,319.6,304.5,321.9,309.2,327.5,306.4,331.2,292.9,329.8,285.1,335.8,287.0,340.6,280.6,342.9,281.9,345.9,278.9,353.3,280.2]]],["CO-VID","Vichada",[[582.2,321.3,580.4,325.3,583.6,329.1,583.9,332.1,573.7,341.8,572.5,348.3,574.1,354.0,572.4,357.2,564.5,362.2,562.8,366.3,564.3,370.6,563.7,375.1,565.3,378.0,561.2,404.6,565.3,409.8,565.0,419.5,569.3,428.5,565.1,433.6,563.1,435.1,557.5,433.5,555.0,434.5,554.3,431.4,552.6,433.5,550.4,431.1,546.5,435.4,545.6,432.7,542.4,434.2,541.6,431.2,537.2,430.3,536.4,435.2,532.8,435.7,533.1,437.7,527.7,441.6,520.6,441.5,518.0,442.7,517.8,444.6,514.5,445.0,514.8,446.9,508.1,446.0,506.9,449.3,503.0,448.6,500.5,450.9,499.7,448.6,498.0,447.7,495.8,448.8,491.0,444.9,489.9,446.4,483.5,447.1,481.3,445.6,474.4,447.1,474.4,450.4,472.6,451.7,472.1,454.8,468.9,453.0,462.5,453.4,461.7,454.9,460.3,453.1,456.9,456.2,450.9,455.1,452.3,457.2,451.6,460.2,449.0,460.6,447.4,464.0,449.2,466.9,447.9,467.6,448.5,471.2,447.0,470.1,446.8,472.1,444.9,471.6,439.6,477.3,441.8,478.3,440.4,480.0,441.2,483.5,437.0,488.5,430.0,492.3,420.8,488.0,420.7,490.3,418.3,492.4,417.6,490.8,414.4,491.9,406.9,488.2,406.0,490.9,405.7,488.8,401.8,488.1,402.0,385.2,407.0,375.3,420.2,365.4,421.9,360.9,432.6,354.4,445.7,351.7,450.4,348.8,455.7,342.1,460.1,332.5,464.1,328.3,478.4,327.9,488.4,323.2,492.7,327.0,501.9,320.1,523.2,324.2,532.5,321.2,539.8,322.1,547.7,319.8,554.0,320.4,558.8,319.3,563.6,315.3,576.3,317.7,582.5,321.1]]],["CO-CAU","Cauca",[[59.9,496.7,65.7,501.9,63.0,502.7,60.6,501.9,61.6,499.5,59.3,498.6,59.2,496.7],[64.7,498.4,67.3,500.6,66.2,501.5,61.3,497.3,60.9,495.3,62.6,495.3,64.5,498.1],[51.3,499.2,57.5,497.8,60.6,499.8,59.8,502.6,67.0,502.0,64.4,493.3,68.3,492.2,65.7,491.8,66.8,490.7,70.6,491.9,68.2,490.4,69.6,489.1,71.6,488.1,72.9,489.2,72.1,487.7,69.5,488.5,69.2,486.6,70.2,485.0,73.0,486.5,73.6,481.9,68.9,482.4,78.0,471.6,81.0,470.1,77.9,469.1,81.8,466.4,86.4,473.0,89.0,472.7,91.9,475.3,99.5,471.9,111.5,476.8,116.1,472.3,121.4,476.1,127.3,476.0,132.6,471.3,131.9,467.2,133.2,465.5,151.2,470.8,149.4,476.7,152.8,479.7,153.8,485.9,165.9,498.1,163.8,505.0,165.2,507.8,161.1,510.2,156.7,507.0,152.5,510.5,143.3,514.0,136.1,510.6,135.4,513.2,137.1,518.0,134.2,525.0,127.5,525.5,125.0,533.7,126.2,537.7,135.9,548.7,147.7,552.9,140.9,564.7,140.1,572.0,142.2,574.9,147.0,575.1,152.0,579.6,150.7,581.2,144.5,583.2,137.4,582.9,129.4,579.9,127.7,575.9,129.0,566.7,125.6,561.4,123.1,560.1,121.5,560.0,116.4,566.0,109.4,566.1,108.8,556.6,112.8,551.8,108.8,545.7,100.0,548.3,88.7,547.2,90.8,538.9,95.0,533.6,88.7,528.5,89.3,523.0,82.7,520.5,69.9,524.5,63.0,522.7,57.6,512.5,58.3,507.7,55.8,502.2]]],["CO-VAC","Valle del Cauca",[[81.8,466.4,81.6,464.2,86.0,462.0,89.1,465.4,86.6,461.3,87.3,459.9,88.3,460.8,88.3,455.8,91.8,457.9,90.1,455.8,91.3,454.8,88.9,454.0,91.1,454.1,90.8,452.4,94.5,452.4,95.5,448.3,99.1,447.5,96.5,447.5,98.7,445.5,95.7,446.2,95.0,444.2,98.7,444.7,96.3,443.5,98.7,442.4,97.5,440.7,99.0,441.4,99.3,438.7,103.4,435.6,98.7,434.9,98.8,437.0,95.9,438.7,90.4,438.3,91.4,437.1,89.4,435.9,90.0,432.9,94.5,432.5,92.8,432.5,95.5,428.0,91.8,425.9,91.8,428.0,89.1,428.7,86.9,434.9,83.5,430.7,84.6,429.0,83.2,423.7,87.5,421.6,90.1,422.4,92.3,419.2,93.9,422.9,97.2,422.2,101.7,426.1,107.2,425.2,110.4,429.2,116.9,431.5,122.3,428.2,126.3,428.5,133.0,421.3,130.2,419.4,130.2,415.3,127.7,411.5,132.2,410.2,133.6,402.2,139.2,397.3,140.1,393.0,146.5,386.7,151.2,379.4,155.9,387.6,158.9,387.6,159.0,392.7,162.4,392.4,162.3,394.6,169.3,395.6,169.2,398.3,163.8,398.0,161.9,400.6,160.5,410.1,164.5,411.4,165.6,413.7,163.1,425.2,167.7,429.2,165.2,430.9,155.6,449.0,151.2,470.8,133.2,465.5,131.9,467.2,132.6,471.3,127.3,476.0,121.4,476.1,116.1,472.3,111.5,476.8,99.5,471.9,91.9,475.3,89.0,472.7,86.4,473.0,83.8,468.3]]],["CO-ANT","Antioquia",[[105.7,217.9,106.9,217.3,106.8,220.5,109.1,221.2,107.9,224.2,113.4,223.9,112.7,225.9,113.7,225.5,112.0,226.6,113.0,228.0,111.7,227.6,113.4,229.3,109.6,228.5,108.3,232.5,112.3,235.1,117.1,234.5,118.5,228.1,117.0,225.0,116.3,209.8,113.1,205.6,107.6,203.4,110.3,199.6,122.0,196.2,122.6,193.2,127.0,191.8,132.8,187.1,137.7,196.9,143.5,201.7,144.3,208.0,134.0,225.8,134.0,231.8,129.7,243.7,130.1,250.8,134.6,261.8,162.2,262.4,166.5,255.8,175.5,252.3,177.7,246.3,182.1,240.4,193.6,228.4,207.9,227.1,213.3,221.2,227.4,234.3,228.9,242.2,231.0,244.5,226.3,250.5,226.9,259.6,229.6,262.7,231.6,262.7,236.8,256.3,237.6,259.2,235.2,263.6,234.7,270.8,237.8,280.3,242.4,281.1,258.5,265.8,258.7,274.5,260.6,279.9,254.2,284.5,249.6,291.4,240.4,298.2,235.7,299.6,234.7,307.2,236.0,309.8,226.0,320.2,224.7,324.2,226.3,330.9,224.7,332.1,225.5,335.1,221.9,342.5,219.2,342.4,217.8,346.1,216.1,346.6,211.7,343.9,200.4,348.1,200.4,351.3,198.3,354.3,194.2,355.9,191.2,359.4,190.4,357.4,189.1,357.9,185.8,347.4,183.7,346.4,180.7,347.6,174.9,344.3,175.7,355.2,168.8,353.1,162.1,356.6,158.7,356.4,150.1,348.9,150.6,344.7,148.2,339.2,149.4,332.2,144.2,329.3,142.1,322.3,119.3,322.1,115.1,315.9,115.6,306.8,110.3,301.8,111.7,298.9,109.9,298.4,109.7,296.2,108.4,297.3,106.5,295.7,107.6,294.3,106.4,290.4,114.9,287.2,113.4,280.9,120.8,279.6,127.7,281.3,129.7,277.1,127.9,267.5,120.4,263.1,111.2,252.5,98.7,241.7,99.0,238.6,103.9,235.8,107.0,227.4,105.8,218.0]]],["CO-COR","Córdoba",[[132.8,187.1,133.7,185.0,138.8,183.5,141.8,180.7,146.6,168.2,149.2,167.2,150.2,163.8,156.2,161.4,157.8,158.5,164.4,158.3,165.1,159.6,162.4,159.9,164.4,160.9,170.1,159.6,170.0,162.8,181.7,168.6,183.5,172.9,194.4,178.5,194.5,184.4,187.2,188.5,189.7,206.1,195.8,210.6,207.8,206.3,214.5,213.1,215.0,217.8,207.9,227.1,193.6,228.4,182.1,240.4,177.7,246.3,175.5,252.3,166.5,255.8,162.2,262.4,134.6,261.8,130.1,250.8,129.7,243.7,134.0,231.8,134.0,225.8,144.3,208.0,143.5,201.7,137.7,196.9,132.8,187.1]]],["CO-SUC","Sucre",[[170.1,159.6,174.0,157.8,176.2,149.4,174.1,146.0,169.7,145.4,173.0,141.3,175.9,125.8,180.7,123.2,178.2,128.0,181.2,128.4,181.1,134.6,188.6,136.3,186.3,148.4,190.1,146.6,195.9,148.3,201.6,153.5,204.6,153.9,204.0,157.1,207.9,157.0,209.8,158.6,208.0,163.2,210.0,171.7,213.7,176.7,222.0,182.3,227.9,190.3,224.9,194.2,227.3,208.1,222.1,214.8,214.8,216.7,214.5,213.1,207.8,206.3,195.8,210.6,189.4,205.4,187.0,190.4,189.5,186.3,194.5,184.4,194.4,178.5,183.5,172.9,181.7,168.6,170.0,162.8,170.1,159.8]]],["CO-ATL","Atlántico",[[192.2,94.8,193.9,93.6,194.2,88.9,202.5,85.2,203.8,81.5,208.8,78.0,211.9,77.8,212.6,75.9,216.3,79.7,218.8,85.2,218.6,101.1,214.7,104.8,209.1,117.0,201.2,109.6,198.4,110.2,196.4,106.5,192.5,105.7,191.7,103.8,193.6,98.9,192.1,94.9]]],["CO-MAG","Magdalena",[[212.6,75.9,212.8,74.7,228.9,80.5,240.1,80.7,230.4,81.3,229.1,83.9,230.9,87.7,228.7,86.1,225.2,86.9,225.1,91.2,226.8,88.7,227.8,92.2,230.0,92.0,229.5,88.0,231.1,88.9,232.2,92.9,234.9,92.9,236.9,91.5,244.1,76.3,243.3,68.2,247.3,63.0,248.0,64.0,249.4,62.3,250.8,63.7,254.8,62.4,263.7,66.4,276.7,66.4,275.9,70.6,273.1,73.3,272.4,80.3,274.7,88.0,272.7,91.7,276.8,93.1,274.3,97.8,276.5,104.7,266.5,110.8,259.0,112.5,252.5,121.9,251.5,126.4,254.6,132.5,262.9,140.9,265.8,150.6,261.2,152.0,253.6,150.9,248.1,155.6,255.0,160.5,257.2,165.8,257.1,170.4,261.1,171.3,265.0,177.8,261.5,186.2,261.4,181.9,255.8,181.1,252.8,177.8,250.5,179.1,247.3,178.1,243.1,172.8,240.3,172.2,239.4,169.8,234.3,169.2,233.5,167.1,228.4,168.4,223.2,161.4,215.0,158.1,215.9,148.9,213.6,146.2,214.2,142.0,211.3,138.0,211.1,134.6,214.8,129.1,207.6,122.1,214.7,104.8,218.7,100.1,218.6,84.3,213.1,76.6]]],["CO-CAQ","Caquetá",[[197.2,505.4,204.8,499.6,202.4,493.1,208.9,484.4,219.4,486.7,225.2,495.5,222.0,512.4,222.7,515.7,227.8,522.5,224.2,529.5,224.7,533.5,227.5,538.1,259.1,550.0,271.2,550.5,282.8,566.6,283.7,571.3,298.2,584.7,301.9,585.6,304.4,584.4,310.3,579.5,311.5,573.9,313.7,572.0,317.0,574.1,318.1,571.9,321.5,572.2,333.6,579.7,334.9,584.4,336.9,585.2,337.6,588.0,339.4,587.6,339.4,591.1,343.1,595.0,347.4,595.5,354.0,599.1,355.2,603.0,358.4,604.1,358.2,607.5,362.8,611.0,362.6,614.1,365.6,613.2,370.6,619.0,378.1,623.0,383.9,622.3,388.9,625.3,385.5,628.6,370.5,636.2,366.3,643.2,354.4,644.4,348.6,648.3,343.4,655.4,342.9,661.4,341.0,663.1,338.8,663.5,333.9,659.9,326.8,666.3,317.5,660.0,310.8,662.1,305.1,658.4,300.9,661.7,296.7,662.5,288.4,657.4,285.6,658.6,277.3,658.1,270.2,651.7,265.6,652.4,257.9,650.5,249.2,644.3,243.0,643.4,238.6,638.1,235.0,638.6,233.5,636.1,231.5,638.3,225.4,637.1,224.5,635.1,221.8,634.7,220.9,624.4,217.9,621.9,206.9,618.4,205.2,608.4,201.4,608.2,200.2,606.5,195.7,607.1,191.9,595.4,182.0,594.4,175.0,589.4,163.6,587.8,158.4,580.3,152.0,579.6,147.0,575.1,140.8,573.7,140.9,564.7,146.8,553.6,156.0,553.5,163.0,547.7,177.4,530.0,183.9,519.2,189.7,514.3,193.4,505.0,196.6,505.2]]],["CO-HUI","Huila",[[210.1,484.0,206.2,486.9,202.4,493.1,204.8,499.6,198.9,504.9,193.4,505.0,189.7,514.3,183.9,519.2,177.4,530.0,157.0,553.1,147.7,552.9,135.9,548.7,126.2,537.7,125.0,533.1,127.5,525.5,134.2,525.0,137.1,518.0,135.4,513.2,136.1,510.6,143.3,514.0,152.5,510.5,156.7,507.0,161.1,510.2,165.2,507.8,163.8,505.0,165.9,498.1,164.7,495.5,153.4,485.0,156.3,484.1,164.4,486.9,173.6,477.0,181.1,463.4,187.2,461.0,192.1,462.7,194.3,460.9,196.1,462.0,197.9,459.8,203.2,459.7,201.6,466.4,209.6,466.9,216.1,459.3,218.6,451.0,226.8,442.8,230.3,446.2,230.1,447.6,224.2,457.2,222.4,468.4,213.8,476.1,210.2,483.6]]],["CO-GUV","Guaviare",[[300.9,585.6,296.2,583.4,283.7,571.3,282.8,566.6,271.7,552.5,272.0,518.9,273.7,513.3,278.5,512.4,282.2,514.2,282.8,512.3,283.4,515.0,287.4,513.9,287.8,515.2,292.5,514.4,294.2,512.2,297.8,513.5,298.8,511.9,304.0,511.0,308.5,508.2,308.1,505.9,314.0,501.7,318.1,503.6,321.5,500.8,322.9,503.4,324.5,500.5,326.2,502.6,326.3,500.1,328.2,499.5,327.3,497.8,329.6,498.3,336.7,494.6,339.5,495.7,340.8,493.9,342.4,496.7,342.6,493.8,345.3,492.9,346.0,488.8,348.9,488.2,356.0,491.6,365.4,488.4,367.0,490.7,367.8,487.4,370.8,489.5,372.5,488.3,373.9,490.7,382.8,487.7,385.9,489.2,387.2,487.7,388.5,488.6,389.8,486.2,393.7,488.8,396.5,487.3,402.9,487.8,405.7,488.8,406.0,490.9,406.5,488.2,408.8,490.1,409.8,488.6,410.5,490.7,412.6,490.1,414.4,491.9,417.6,490.8,418.3,492.4,420.7,490.3,420.3,488.0,422.5,489.9,425.4,489.4,430.0,492.3,409.5,501.5,417.6,505.1,423.9,515.2,429.9,517.8,430.4,519.4,434.6,518.4,439.8,520.3,440.8,518.7,452.4,517.3,455.0,521.7,444.9,530.1,432.8,532.2,421.4,536.6,409.8,535.7,391.8,548.0,385.5,545.1,384.7,551.8,377.4,568.7,379.7,576.0,377.4,573.7,374.5,579.7,371.3,582.7,367.2,583.2,353.2,598.6,347.4,595.5,343.1,595.0,339.4,591.1,339.4,587.6,337.6,588.0,336.9,585.2,334.9,584.4,333.6,579.7,319.8,571.6,317.0,574.1,314.1,571.9,312.1,573.1,310.3,579.5,301.9,585.6]]],["CO-CAL","Caldas",[[221.9,342.5,223.4,345.9,222.0,352.4,223.0,352.9,221.1,353.6,222.0,358.2,217.6,366.6,213.3,365.4,204.4,366.4,201.9,367.7,198.7,373.0,190.3,374.6,187.6,378.2,189.1,379.8,187.3,384.2,188.5,387.2,186.1,391.2,180.4,385.2,174.5,384.5,173.1,382.5,169.7,383.7,167.6,378.9,164.1,385.2,160.2,382.5,158.7,379.0,160.6,374.9,163.1,375.6,164.8,370.7,164.1,367.5,170.4,368.3,172.8,365.9,169.1,361.3,162.2,362.4,162.1,356.6,168.8,353.1,175.7,355.2,174.9,344.3,180.7,347.6,183.7,346.4,185.8,347.4,189.1,357.9,190.4,357.4,191.4,359.4,194.2,355.9,198.3,354.3,200.4,351.3,200.4,348.1,211.7,343.9,216.1,346.6,217.8,346.1,219.2,342.4,221.4,342.7]]],["CO-CAS","Casanare",[[338.9,313.4,337.5,316.6,338.8,319.7,342.7,324.7,348.4,327.6,357.7,323.5,368.9,321.0,381.9,321.0,394.6,317.3,407.0,319.9,421.4,320.5,437.6,317.0,449.1,318.5,462.2,329.7,455.7,342.1,448.9,350.0,432.6,354.4,421.9,360.9,420.2,365.4,407.0,375.3,403.6,383.2,400.6,386.5,370.7,400.9,364.5,402.3,354.4,411.3,351.5,411.6,347.5,408.7,338.8,410.8,336.7,414.1,333.3,413.5,329.8,415.2,327.0,413.5,325.2,416.0,318.7,416.3,303.0,396.5,301.6,390.7,303.5,381.9,306.3,382.2,309.7,377.0,307.3,373.1,308.1,369.1,312.1,363.8,314.6,361.9,320.5,367.2,334.0,353.2,339.0,355.8,343.1,346.9,339.4,342.4,332.6,338.3,335.4,336.0,337.8,328.0,334.2,321.3,337.3,314.2]]],["CO-MET","Meta",[[210.1,484.0,213.8,476.1,222.4,468.4,224.2,457.2,230.3,446.2,233.6,447.4,243.8,430.8,248.8,431.1,259.0,423.6,267.4,421.2,264.5,410.2,269.5,405.4,273.9,407.1,278.6,416.3,286.7,415.2,294.0,417.1,297.8,420.0,302.4,394.5,308.7,405.0,318.7,416.3,325.2,416.0,327.0,413.5,329.8,415.2,333.3,413.5,336.7,414.1,338.8,410.8,347.5,408.7,352.5,411.9,356.3,410.2,364.5,402.3,394.2,390.4,402.0,385.2,401.8,488.1,396.5,487.3,393.7,488.8,389.8,486.2,388.5,488.6,387.2,487.7,385.9,489.2,382.8,487.7,373.9,490.7,372.5,488.3,370.8,489.5,367.8,487.4,367.0,490.7,365.4,488.4,356.0,491.6,348.9,488.2,345.4,489.1,345.3,492.9,342.6,493.8,342.4,496.7,340.8,493.9,339.5,495.7,336.7,494.6,329.6,498.3,327.3,497.8,328.2,499.5,326.3,500.1,326.2,502.6,324.5,500.5,322.9,503.4,321.5,500.8,318.1,503.6,314.0,501.7,308.1,505.9,308.5,508.2,304.0,511.0,298.8,511.9,297.8,513.5,294.2,512.2,292.5,514.4,283.7,515.0,282.8,512.3,282.2,514.2,274.7,512.4,272.0,518.9,271.2,550.5,259.1,550.0,227.5,538.1,224.7,533.5,224.2,529.5,227.8,522.5,222.7,515.7,222.0,512.4,225.2,495.5,219.4,486.7,215.1,485.6]]],["CO-SAN","Santander",[[273.7,244.0,280.2,250.7,287.0,253.3,292.0,253.5,294.2,249.3,305.4,250.1,305.8,253.4,309.8,257.0,312.9,262.9,310.9,268.0,313.5,272.7,311.0,277.9,317.8,281.4,320.6,280.6,321.5,282.2,327.0,280.9,327.7,286.6,329.8,285.1,331.1,288.7,330.9,294.8,327.9,305.8,324.2,309.0,321.9,309.2,319.6,304.5,315.4,302.6,318.3,308.1,317.6,318.9,314.1,323.3,310.3,324.8,304.2,334.0,294.0,331.9,290.7,338.2,287.4,337.9,284.2,343.3,281.4,338.7,285.0,334.9,285.9,331.0,280.0,325.6,274.3,334.9,273.1,344.9,268.1,343.0,261.1,345.5,260.3,343.7,254.6,343.5,249.5,337.5,246.3,336.0,242.1,338.6,243.0,331.9,241.5,328.5,240.5,327.5,237.2,329.1,234.0,327.3,229.0,316.9,236.0,309.8,234.7,307.2,235.7,299.6,240.4,298.2,249.6,291.4,254.2,284.5,260.6,279.9,258.1,268.1,260.0,259.7,259.3,256.0,263.2,251.0,263.8,247.2,264.2,240.7,261.3,229.4,262.2,225.4,265.7,222.6,268.6,231.4,271.5,234.3,267.8,239.2,267.4,243.7]]],["CO-TOL","Tolima",[[226.8,442.8,218.6,451.0,216.1,459.3,209.6,466.9,201.6,466.4,203.2,459.7,197.9,459.8,196.1,462.0,194.3,460.9,192.1,462.7,187.2,461.0,181.1,463.4,173.6,477.0,164.4,486.9,156.3,484.1,153.4,485.0,152.8,479.7,149.4,475.6,156.9,445.8,165.2,430.9,167.7,429.2,166.9,427.4,174.9,416.5,175.9,409.9,179.4,403.3,183.6,399.9,185.5,395.8,188.5,387.2,187.3,384.2,189.1,379.8,188.1,376.9,191.0,374.2,198.7,373.0,203.5,366.8,213.3,365.4,217.6,366.6,218.6,381.9,216.9,383.0,216.6,391.9,213.6,395.1,215.5,398.6,214.1,400.8,214.7,406.0,210.4,417.3,215.8,417.1,222.3,420.8,225.9,417.7,228.8,419.2,231.0,424.6,228.8,428.7,229.4,434.5,227.4,439.1]]],["CO-QUI","Quindío",[[185.5,395.4,183.6,399.9,179.8,402.7,177.0,407.5,174.9,416.5,166.9,427.4,163.1,425.2,165.6,413.7,164.5,411.4,160.5,410.1,161.9,400.6,163.8,398.0,169.2,398.3,169.8,395.2,180.4,397.6,184.4,396.1]]],["CO-CUN","Cundinamarca",[[230.3,446.2,226.8,442.8,229.4,434.5,228.8,428.7,231.0,424.6,228.8,419.2,225.9,417.7,222.3,420.8,215.8,417.1,210.4,417.3,214.7,406.0,214.1,400.8,215.5,398.6,213.6,395.1,216.6,391.9,216.9,383.0,218.6,381.9,217.5,366.0,222.0,358.2,221.0,354.1,223.0,352.9,222.7,343.4,228.3,341.5,233.0,342.7,238.0,339.8,240.6,347.0,239.3,350.4,242.5,356.6,250.1,358.3,250.6,360.1,255.0,362.4,265.1,352.9,265.4,355.7,272.3,358.0,275.5,361.8,275.8,365.9,278.9,369.3,281.2,377.9,277.7,384.6,278.8,386.8,284.4,387.3,290.2,394.7,293.6,395.0,294.1,397.3,299.3,398.0,302.4,394.5,298.1,419.8,286.7,415.2,278.6,416.3,273.9,407.1,270.1,405.2,264.5,410.2,267.4,421.2,259.0,423.6,247.3,431.0,250.3,424.2,247.4,418.9,249.6,414.2,249.2,409.7,255.2,399.6,253.4,398.7,254.5,390.4,250.7,389.5,246.3,396.3,246.7,397.8,243.8,399.8,246.1,404.2,244.2,411.3,245.4,411.6,244.3,418.5,241.7,426.3,237.9,425.7,236.8,434.9,233.9,441.1]]],["CO-RIS","Risaralda",[[162.1,356.6,162.2,362.4,169.1,361.3,172.8,365.9,170.4,368.3,164.1,367.5,164.8,370.7,163.1,375.6,160.6,374.9,158.7,379.0,160.2,382.5,164.1,385.2,167.6,378.9,169.7,383.7,173.1,382.5,174.5,384.5,180.4,385.2,186.1,391.2,185.5,395.4,180.8,397.7,162.3,394.6,162.2,392.3,159.6,393.1,158.0,390.1,158.9,387.6,155.9,387.6,151.2,379.4,150.1,372.4,146.0,365.7,146.7,360.7,150.3,358.3,152.9,352.2,157.0,355.7,161.0,356.7]]],["CO-DC","Bogotá D. C.",[[247.3,431.0,243.8,430.8,233.6,447.4,230.3,446.2,236.5,435.9,237.9,425.7,241.7,426.3,244.3,418.5,245.4,411.6,244.2,411.3,246.1,404.2,243.8,399.8,246.7,397.8,246.3,396.3,250.7,389.5,254.5,390.4,253.4,398.7,255.2,399.6,249.4,409.1,249.6,414.2,247.4,418.1,250.3,424.2,248.2,428.5]]]];
+
+/* ============ UTILIDADES ============ */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const leer=(k,d,a=localStorage)=>{try{const v=a.getItem(k);return v?JSON.parse(v):d}catch{return d}};
+const guardar=(k,v,a=localStorage)=>{try{a.setItem(k,JSON.stringify(v))}catch{}};
+const enlaces=l=>l.map(([t,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join('');
+const REDUCIR=matchMedia('(prefers-reduced-motion: reduce)');
+const ORDEN=Object.keys(REGIONES);
+
+/* ============ NAVEGACIÓN ============ */
+const VISTAS=['inicio','territorios','perspectivas','refugio','historia','reconciliacion','proyecto'];
+let refugioPagina=null,refugioDialogo=null;
+function ir(v,cambiarHash=true){
+  if(!VISTAS.includes(v)) v='inicio';
+  $$('[data-vista]').forEach(s=>{s.hidden=s.dataset.vista!==v});
+  $$('.nav a').forEach(a=>a.dataset.ir===v?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  if(v!=='refugio') refugioPagina?.detener();
+  const activo=$('.nav a[aria-current]'),nav=$('.nav');if(activo&&nav)nav.scrollLeft=activo.offsetLeft-nav.offsetLeft-16;
+  window.scrollTo(0,0);
+  if(cambiarHash){try{history.replaceState(null,'','#'+v)}catch{}}
+  programarScroll();
+}
+
+/* ============ FILTRO DE DIÁLOGO ============ */
+const normalizar=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+  .replace(/[0134$@]/g,c=>({0:'o',1:'i',3:'e',4:'a',$:'s','@':'a'}[c])).replace(/([a-z])\1{2,}/g,'$1');
+const ETIQ='(terrorista|guerriller[oa]|paramilitar|sapo|comunista|rata|lacra|escoria|basura|plaga|vag[oa]|auxiliador)(es|as|s)?\\b';
+const REGLAS=[
+  {re:/\b(idiota|imbecil|estupid[oa]|hijueputa|gonorrea|malparid[oa]|pirob[oa]|mierda|huevon|tarad[oa]|cretino|pendej[oa])s?\b|\b(eres|sos)\s+(un|una)?\s*(ignorante|brut[oa]|tont[oa]|ridicul[oa]|payas[oa]|mentiros[oa]|fanatic[oa]|vendid[oa])s?\b|\b(es|son|ustedes son|usted es)\s+(un|una|unos|unas)\s+(ignorante|brut[oa]|tont[oa]|ridicul[oa]|payas[oa]|mentiros[oa]|fanatic[oa]|vendid[oa])s?\b|\b(tu|usted|vos)\s+(que|no)\s+(vas a saber|va a saber|sabes|sabe)\b|\bseguro\s+(eres|sos|es usted)\b|\bcallate\b/,
+   b:1,t:'Ataque a la persona (ad hominem)',e:'Este texto ataca a alguien en lugar de discutir su argumento.',s:'Responde a la idea: explica qué parte no compartes y por qué.'},
+  {re:new RegExp('\\b(mamerto|paraco|uribestia|vendepatria)s?\\b|\\b(facho|fachos)\\b|\\b(eres|sos|malditos?|puros?|manada de|bola de|nido de)\\s+(un|una|unos|unas)?\\s*'+ETIQ+'|\\b(es|son|esos|esas|estos|estas)\\s+(un|una|unos|unas)\\s+'+ETIQ+'|\\b(esos|esas|estos|estas|son)\\s+(ratas|lacras|escorias|basuras|plagas)\\b|\\bvictimas?\\s+(son|eran)\\s+(todas\\s+)?(un[oa]s?\\s+)?(mentiros|vividor|aprovechad|ladron|guerriller|paramilitar|auxiliador)|\\b(desplazad[oa]s?|desmovilizad[oa]s?|reinsertad[oa]s?|campesin[oa]s?|indigenas?|afros?|costen[oa]s?)\\s+(son|eran)\\s+(tod[oa]s\\s+)?(un[oa]s?\\s+)?(mentiros|vividor|aprovechad|ladron|vag|guerriller|paramilitar|auxiliador|peligros)'),
+   b:1,t:'Lenguaje estigmatizante',e:'Esta expresión etiqueta a una persona o a un grupo. Durante el conflicto, señalar así a la gente puso vidas en riesgo.',s:'Describe hechos y conductas concretas, sin etiquetas.'},
+  {re:/\bpor algo (sera|seria|fue)\b|\balgo (habra|habran|habria|habrian|debia|debian|deberian)( hecho)?\b|\bse (lo|la) (busco|buscaron|merecia|merecian|merece|merecen)\b|\b(lo|la|los|las) tenian? merecido\b|\bquien (lo|la|los|las) (manda|mando)\b/,
+   b:1,t:'Culpar a la víctima',e:'Esta frase traslada la responsabilidad del daño a quien lo sufrió. Eso revictimiza.',s:'Pregunta qué ocurrió y quién es responsable, sin justificar la violencia.'},
+  {re:/\b(hay que|deberian|debieron|toca|ojala)\s+(matar|matarlos|matarlas|exterminar|eliminar|desaparecer|acabar con|morir|morirse)\b|\bmerecian morir\b|\bque se mueran\b|\bmuerte a\b|\bplomo\b|\bdarles? bala\b/,
+   b:1,t:'Incitación a la violencia',e:'Este espacio no admite expresiones que justifiquen o pidan violencia.',s:'Propón qué debería cambiar sin desear daño a nadie.'},
+  {re:/\b(tod[oa]s\s+l[oa]s\s+[a-z]+\s+(son|eran|mienten|quieren|piensan|roban)|ningun[oa]\s+[a-z]+\s+(es|sirve|dice)|siempre\s+(mienten|roban|matan))\b/,
+   b:0,t:'Posible generalización',e:'Parece que afirmas algo sobre un grupo completo.',s:'Revisa si puedes hablar de casos concretos o citar evidencia.'},
+  {re:/\b(o estas con|o estas contra|estas con (nosotros|ellos) o|buenos contra malos|los buenos y los malos|solo hay dos)\b/,
+   b:0,t:'Posible falso dilema',e:'Presentas solo dos salidas o dos bandos.',s:'Pregúntate qué otras posiciones existen.'},
+  {re:/\b(todo el mundo sabe|es obvio que|esta claro que|ya se sabe|no necesito leer)\b/,
+   b:0,t:'Posible sesgo de confirmación',e:'Das por cierta una idea sin mostrar evidencia.',s:'Agrega la fuente o el hecho que respalda tu afirmación.'}
+];
+const DATOS=/[\w.+-]+@[\w-]+\.\w+|(?<![\w@])@[\w.]{3,}|\b3\d{2}[\s.-]?\d{3}[\s.-]?\d{4}\b|\b\d{7,10}\b/;
+function revisar(texto){
+  const r=[];
+  if(DATOS.test(texto)) r.push({b:1,t:'Datos personales',e:'El texto parece incluir un teléfono, correo, usuario o documento.',s:'Quítalos para proteger a todas las personas.'});
+  const n=normalizar(texto);
+  for(const g of REGLAS) if(g.re.test(n)) r.push(g);
+  return r;
+}
+function pintarRevision(caja,textos,{minimo=0}={}){
+  const hallazgos=textos.flatMap(revisar), hay=textos.join('').trim().length;
+  const bloquea=hallazgos.some(h=>h.b);
+  if(!hay){caja.innerHTML='';return false}
+  if(hallazgos.length){
+    caja.innerHTML=`<div class="revision ${bloquea?'bloquea':''}" role="status">${hallazgos.map(h=>`<div><b>${esc(h.t)}.</b> ${esc(h.e)} ${esc(h.s)}</div>`).join('')}${bloquea?'<div>Ajusta el texto para poder publicarlo.</div>':''}</div>`;
+  }else caja.innerHTML='<div class="revision bien" role="status">El filtro de diálogo no encontró alertas.</div>';
+  return !bloquea && textos.every(t=>t.trim().length>=minimo);
+}
+
+/* ============ COMUNIDAD: tapiz, votos y aportes ============
+   Una fila por persona en comunidad/<id>. Sin acceso de escritura, todo queda en este navegador. */
+const C={db:null,uid:null,dueno:false,escribe:false,compartido:false,lento:false,filas:new Map(),mio:leer('hilos.mio',{pactos:[],votos:{},aportes:[]})};
+const seguro=(v,n)=>String(v??'').slice(0,n);
+function limpiarPacto(p){return {id:seguro(p.id,24),tipo:p.tipo==='Colectivo'?'Colectivo':'Individual',ambito:seguro(p.ambito,40),texto:seguro(p.texto,240),semilla:SEMILLAS[p.semilla]?p.semilla:'maiz',dedicatoria:seguro(p.dedicatoria,60),firma:seguro(p.firma,30),fecha:Number(p.fecha)||0}}
+const limpiarAporte=a=>({id:seguro(a.id,24),dilema:seguro(a.dilema,4),opcion:seguro(a.opcion,1),razon:seguro(a.razon,300),reconozco:seguro(a.reconozco,300),fecha:Number(a.fecha)||0});
+const visible=(...t)=>!t.flatMap(revisar).some(h=>h.b);
+function todas(){const f=[...C.filas.entries()].filter(([u])=>u!==C.uid);f.push([C.uid||'yo',C.mio]);return f}
+const pactos=()=>todas().flatMap(([u,d])=>(Array.isArray(d.pactos)?d.pactos:[]).map(limpiarPacto).map(p=>({...p,_u:u}))).filter(p=>visible(p.texto,p.firma)).sort((a,b)=>b.fecha-a.fecha);
+const aportesDe=id=>todas().flatMap(([u,d])=>(Array.isArray(d.aportes)?d.aportes:[]).map(limpiarAporte).map(a=>({...a,_u:u}))).filter(a=>a.dilema===id&&visible(a.razon,a.reconozco)).sort((a,b)=>b.fecha-a.fecha);
+const conteo=d=>todas().reduce((m,[,f])=>{const v=f.votos?.[d.id];if(d.opciones.some(o=>o.id===v))m[v]=(m[v]||0)+1;return m},{});
+async function guardarMio(){
+  guardar('hilos.mio',C.mio);
+  if(!C.db||!C.escribe) return false;
+  try{await C.db.doc('comunidad/'+C.uid).set({pactos:C.mio.pactos,votos:C.mio.votos,aportes:C.mio.aportes,actualizado:Date.now()});return true}
+  catch(e){if(e?.code==='invalid_argument'||e?.code==='not_granted'){C.escribe=false;pintarEstadoTapiz()}return false}
+}
+async function conectar(){
+  pintarEstadoTapiz();
+  if(!window.claude?.use){H.sinDb=true;pintarVoces();return}
+  const [db,user]=await Promise.all([claude.use('db').catch(()=>null),claude.use('user').catch(()=>null)]);
+  if(!db){H.sinDb=true;pintarEstadoTapiz();pintarVoces();return}
+  C.db=db;
+  if(user){C.uid=await user.id();C.dueno=await user.isOwner();C.escribe=!!C.uid&&(await user.can('data.write'))!==false}
+  const reloj=setTimeout(()=>{C.lento=true;pintarEstadoTapiz()},10000);
+  db.collection('comunidad').limit(1000).onSnapshot(s=>{
+    if(!s.metadata.fromCache){clearTimeout(reloj);C.lento=false}
+    C.compartido=true;
+    C.filas=new Map(s.docs.map(d=>[d.id,d.data()]));
+    const propia=C.uid&&C.filas.get(C.uid);
+    if(propia&&C.escribe) C.mio={pactos:propia.pactos||[],votos:propia.votos||{},aportes:propia.aportes||[]};
+    pintarTapiz();if(!document.activeElement?.matches?.('#ap-razon,#ap-otro'))pintarDilema();pintarEstadoTapiz();
+  },()=>{clearTimeout(reloj);C.compartido=false;pintarEstadoTapiz()});
+  suscribirHistorias(db);
+}
+function pintarEstadoTapiz(){
+  const e=$('#tapiz-estado');
+  if(C.lento) e.textContent='No hemos podido cargar el tapiz compartido. Puedes seguir escribiendo: tu pacto se guarda en este dispositivo.';
+  else if(C.compartido&&C.escribe) e.textContent='Tapiz compartido: lo ve quien abre este enlace. Puedes quitar tu parche cuando quieras.';
+  else if(C.compartido) e.textContent='Puedes leer el tapiz compartido. Con tu tipo de acceso, tu pacto se guarda solo en este dispositivo.';
+  else e.textContent='Tu pacto se guarda solo en este dispositivo.';
+}
+
+/* ============ RESPIRACIÓN ============ */
+const FASES=[['Inhala',4,1],['Sostén',1,1],['Exhala',5,.62]];
+function crearRespiracion(caja,{ciclos=0,alTerminar}={}){
+  caja.innerHTML='<div class="resp"><div class="resp-aro"><span></span></div><p class="resp-fase" aria-live="polite"></p><p class="resp-cuenta"></p></div>';
+  const aro=$('.resp-aro',caja),fase=$('.resp-fase',caja),cuenta=$('.resp-cuenta',caja);
+  const total=FASES.reduce((s,f)=>s+f[1],0)*ciclos;
+  let timers=[],activo=false;
+  const limpiar=()=>{timers.forEach(clearTimeout);timers.forEach(clearInterval);timers=[]};
+  function detener(){if(!activo)return;activo=false;limpiar();aro.style.transform='';fase.textContent='';cuenta.textContent=''}
+  function iniciar(){
+    detener();activo=true;let c=0,i=0;const fin=Date.now()+total*1000;
+    const paso=()=>{
+      if(!activo) return;
+      if(ciclos&&c>=ciclos){activo=false;limpiar();aro.style.transform='';fase.textContent='Bien hecho';cuenta.textContent='';alTerminar?.();return}
+      const [nombre,seg,escala]=FASES[i];
+      fase.textContent=nombre;aro.style.transitionDuration=seg+'s';aro.style.transform=`scale(${escala})`;
+      timers.push(setTimeout(()=>{i=(i+1)%FASES.length;if(i===0)c++;paso()},seg*1000));
+    };
+    if(ciclos){const r=()=>{cuenta.textContent=Math.max(0,Math.ceil((fin-Date.now())/1000))+' s'};r();timers.push(setInterval(r,500))}
+    paso();
+  }
+  return {iniciar,detener};
+}
+
+/* ============ REFUGIO ============ */
+const ANCLAJE=['Mira a tu alrededor y nombra cinco cosas que puedas ver.','Reconoce cuatro cosas que puedas tocar: la silla, la ropa, el suelo.','Escucha con atención tres sonidos.','Identifica dos olores, o recuerda dos que te gusten.','Nombra algo que puedas saborear, o toma un sorbo de agua.','Estás aquí, en este momento. Puedes seguir cuando quieras.'];
+function montarRefugio(raiz){
+  raiz.innerHTML=`<div class="refugio">
+    <p class="banda-crisis"><b>Si estás en peligro o piensas en hacerte daño,</b> llama ahora al 123 o a la Línea 106. No tienes que pasar por esto a solas.</p>
+    <p>¿Quieres contar lo que te pasó? <a href="#historia" data-ir="historia">Escribe tu historia</a>, solo para ti o para compartirla sin tu nombre.</p>
+    <div class="pestanas" role="tablist">
+      <button class="pestana" role="tab" data-p="respirar" aria-selected="true" type="button">Respirar</button>
+      <button class="pestana" role="tab" data-p="anclar" aria-selected="false" type="button">Volver al presente</button>
+      <button class="pestana" role="tab" data-p="duelo" aria-selected="false" type="button">Duelo</button>
+      <button class="pestana" role="tab" data-p="rutas" aria-selected="false" type="button">Rutas de atención</button>
+    </div>
+    <div class="panel-refugio" data-panel="respirar" style="justify-items:center;text-align:center">
+      <p class="suave">Inhala 4 segundos, sostén 1 y exhala 5. Exhalar despacio ayuda a bajar el ritmo.</p>
+      <div class="r-resp" style="width:100%"></div>
+      <div class="fila"><button class="boton r-iniciar" type="button">Iniciar</button><button class="boton secundario r-parar" type="button">Parar</button></div>
+    </div>
+    <div class="panel-refugio" data-panel="anclar" hidden>
+      <p class="suave">Si un relato te dejó en otro lugar, este ejercicio te ayuda a volver a donde estás.</p>
+      <p class="anclaje-paso" aria-live="polite"></p>
+      <div class="fila"><button class="boton r-siguiente" type="button">Siguiente</button></div>
+    </div>
+    <div class="panel-refugio" data-panel="duelo" hidden>
+      <p><b>Lo que sientes tiene sentido.</b> Tristeza, rabia, cansancio o no sentir nada son respuestas posibles ante historias de violencia.</p>
+      <p><b>No tienes que seguir leyendo.</b> Si tú o tu familia vivieron el conflicto, puedes parar, saltarte una crónica o volver otro día.</p>
+      <p><b>Ponle nombre.</b> Escribe o di en voz alta: hoy siento…, me pesa…, necesito…</p>
+      <p><b>Busca compañía.</b> Habla con alguien de confianza: tu familia, un amigo, tu director de grupo o el área de orientación del colegio.</p>
+      <p><b>Cuida tu cuerpo.</b> Come algo, toma agua, camina un rato y descansa.</p>
+      <p><b>Pide ayuda profesional</b> si el malestar dura varias semanas o te impide dormir, estudiar o estar con otras personas.</p>
+      <p class="suave">Orientación general. No reemplaza la atención de un profesional.</p>
+    </div>
+    <div class="panel-refugio" data-panel="rutas" hidden>
+      <ul class="rutas">${LINEAS.map(l=>`<li><span><b>${esc(l.t)}</b><br><span class="num">${esc(l.n)}</span></span><span class="det">${esc(l.d)}</span><button class="copiar" type="button" data-num="${esc(l.n.replace(/\s/g,''))}">Copiar</button></li>`).join('')}</ul>
+      <p class="suave">En el colegio: busca a tu director de grupo o al área de orientación. Fuente: <a href="https://www.minsalud.gov.co/sites/rid/Lists/BibliotecaDigital/RIDE/VS/PP/ET/directorio-salud-mental-prevencion-suicidio-minsalud.pdf" target="_blank" rel="noopener">directorio del Ministerio de Salud</a>. Revisado el 5 de noviembre de 2026.</p>
+    </div>
+  </div>`;
+  const resp=crearRespiracion($('.r-resp',raiz));
+  let paso=0;
+  const anc=$('.anclaje-paso',raiz);anc.textContent=ANCLAJE[0];
+  raiz.addEventListener('click',async e=>{
+    const t=e.target.closest('button');if(!t)return;
+    if(t.dataset.p){
+      $$('.pestana',raiz).forEach(b=>b.setAttribute('aria-selected',b===t));
+      $$('.panel-refugio',raiz).forEach(p=>{p.hidden=p.dataset.panel!==t.dataset.p});
+      if(t.dataset.p!=='respirar') resp.detener();
+    }
+    if(t.classList.contains('r-iniciar')) resp.iniciar();
+    if(t.classList.contains('r-parar')) resp.detener();
+    if(t.classList.contains('r-siguiente')){paso=(paso+1)%ANCLAJE.length;anc.textContent=ANCLAJE[paso];t.textContent=paso===ANCLAJE.length-1?'Empezar de nuevo':'Siguiente'}
+    if(t.dataset.num){
+      try{await navigator.clipboard.writeText(t.dataset.num);t.textContent='Copiado'}catch{t.textContent='Selecciona el número'}
+      setTimeout(()=>{t.textContent='Copiar'},1800);
+    }
+  });
+  return {detener:resp.detener};
+}
+function abrirPausaObligatoria(motivo,alSeguir){
+  const d=$('#dlg-pausa'),b=$('#pausa-seguir');
+  $('#pausa-motivo').textContent=motivo;
+  b.disabled=true;
+  const r=crearRespiracion($('#resp-pausa'),{ciclos:3,alTerminar:()=>{b.disabled=false;b.focus()}});
+  b.onclick=()=>{d.close();alSeguir?.()};
+  d.showModal();r.iniciar();
+}
+function abrirRefugio(pestana){const d=$('#dlg-refugio');if(!d.open)d.showModal();if(pestana)$(`#refugio-dialogo .pestana[data-p="${pestana}"]`)?.click()}
+
+/* ============ MAPA DE COLOMBIA ============
+   Versión 3D con three.js: cada departamento es un parche con relieve y puntadas.
+   Si el navegador no tiene WebGL, se dibuja una versión plana en SVG. */
+const EXT=(()=>{let a=1e9,b=-1e9,c=1e9,d=-1e9;GEO.forEach(g=>g[2].forEach(r=>{for(let i=0;i<r.length;i+=2){a=Math.min(a,r[i]);b=Math.max(b,r[i]);c=Math.min(c,r[i+1]);d=Math.max(d,r[i+1])}}));return {cx:(a+b)/2,cy:(c+d)/2,w:b-a,h:d-c}})();
+const PALETA_BANDA={base:['#343C85','#2E357A','#3A428D','#2A3171'],puntada:'#8D97E2',origen:'#F1F3FB',hilos:{tierra:'#F19474',maiz:'#EFC45A',agua:'#5AD3BF',anil:'#B4BCFF'}};
+function paletaPagina(){const cs=getComputedStyle(document.documentElement),v=(n,f)=>cs.getPropertyValue(n).trim()||f;
+  return {base:[v('--mapa-1','#D3DAD9'),v('--mapa-2','#C8D0D3'),v('--mapa-3','#D8D4CB'),v('--mapa-4','#C6D2CB')],puntada:v('--mapa-puntada','#8F98AE'),origen:v('--tinta','#1B2040'),hilos:{tierra:v('--hilo-tierra','#AE3F28'),maiz:v('--hilo-maiz','#8C6200'),agua:v('--hilo-agua','#0C7566'),anil:v('--hilo-anil','#3A47A8')}}}
+function hayWebGL(){try{const c=document.createElement('canvas');return !!(window.WebGLRenderingContext&&(c.getContext('webgl')||c.getContext('experimental-webgl')))}catch{return false}}
+function crearMapa(caja,op){return (window.THREE&&hayWebGL()&&crearMapa3D(caja,op))||crearMapa2D(caja,op)}
+
+/* Une las puntadas de un hilo en una sola malla: menos trabajo para computadores lentos. */
+function unirGeometrias(T,lista){
+  let nv=0,ni=0;lista.forEach(g=>{nv+=g.attributes.position.count;ni+=g.index.count});
+  const pos=new Float32Array(nv*3),nor=new Float32Array(nv*3),idx=new (nv>65535?Uint32Array:Uint16Array)(ni),cortes=[];
+  let ov=0,oi=0;
+  for(const g of lista){pos.set(g.attributes.position.array,ov*3);nor.set(g.attributes.normal.array,ov*3);const a=g.index.array;for(let i=0;i<a.length;i++)idx[oi+i]=a[i]+ov;ov+=g.attributes.position.count;oi+=a.length;cortes.push(oi);g.dispose()}
+  const geo=new T.BufferGeometry();geo.setAttribute('position',new T.BufferAttribute(pos,3));geo.setAttribute('normal',new T.BufferAttribute(nor,3));geo.setIndex(new T.BufferAttribute(idx,1));
+  return {geo,cortes};
+}
+function crearMapa3D(caja,{tema='pagina',interactivo=false,alElegir}={}){
+  const T=window.THREE;let rend;
+  try{rend=new T.WebGLRenderer({antialias:true,alpha:true})}catch{return null}
+  rend.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));rend.setClearColor(0x000000,0);
+  rend.domElement.setAttribute('aria-hidden','true');caja.appendChild(rend.domElement);
+  const capa=document.createElement('div');capa.className='capa-3d';caja.appendChild(capa);
+  const escena=new T.Scene(),cam=new T.PerspectiveCamera(30,1,.1,200);
+  escena.add(new T.HemisphereLight(0xffffff,0x262b58,.62));
+  const sol=new T.DirectionalLight(0xffffff,.55);sol.position.set(-5,9,6);escena.add(sol);
+  let pal=tema==='banda'?PALETA_BANDA:paletaPagina();
+  const S=.012,PROF=.16,ALTO=2.6;
+  const W=(x,y)=>[(x-EXT.cx)*S,(y-EXT.cy)*S];
+  const piezas=[];
+  GEO.forEach(([iso,,anillos],i)=>{
+    const formas=[],lineas=[];
+    for(const a of anillos){
+      const pts=[];for(let j=0;j<a.length;j+=2)pts.push(W(a[j],a[j+1]));
+      let ax=0,az=0,ar=0;pts.forEach(p=>{ax+=p[0];az+=p[1]});ax/=pts.length;az/=pts.length;
+      for(let j=0;j<pts.length;j++){const p=pts[j],q=pts[(j+1)%pts.length];ar+=p[0]*q[1]-q[0]*p[1]}
+      const R=Math.sqrt(Math.abs(ar)/2/Math.PI)||.01;
+      const encoger=f=>pts.map(([x,z])=>[ax+(x-ax)*f,az+(z-az)*f]);
+      formas.push(new T.Shape(encoger(Math.max(.9,1-.022/R)).map(([x,z])=>new T.Vector2(x,-z))));
+      lineas.push(encoger(Math.max(.75,1-.08/R)));
+    }
+    const prof=iso==='CO-DC'?PROF*1.12:PROF;
+    const g=new T.ExtrudeGeometry(formas,{depth:prof,bevelEnabled:false});g.rotateX(-Math.PI/2);
+    const mat=new T.MeshLambertMaterial({color:pal.base[i%4]});
+    const m=new T.Mesh(g,mat);m.userData.iso=iso;
+    const lm=new T.LineDashedMaterial({color:pal.puntada,dashSize:.05,gapSize:.035,transparent:true,opacity:.85});
+    for(const l of lineas){const ln=new T.LineLoop(new T.BufferGeometry().setFromPoints(l.map(([x,z])=>new T.Vector3(x,prof+.004,z))),lm);ln.computeLineDistances();m.add(ln)}
+    escena.add(m);
+    piezas.push({iso,m,mat,lm,i,alt:1,altMeta:1,color:new T.Color(pal.base[i%4]),colorMeta:new T.Color(pal.base[i%4])});
+  });
+  const esfera=new T.SphereGeometry(.075,20,14);
+  const ib=W(...IBAGUE);
+  const origen=new T.Mesh(esfera,new T.MeshLambertMaterial({color:pal.origen}));origen.position.set(ib[0],PROF+.075,ib[1]);escena.add(origen);
+  let origenY=PROF+.075,origenYMeta=origenY;
+  const nudos={},hilos={};
+  for(const [k,r] of Object.entries(REGIONES)){
+    const p=W(...r.punto),col=pal.hilos[r.color];
+    const n=new T.Mesh(esfera,new T.MeshLambertMaterial({color:col}));n.position.set(p[0],PROF+.075,p[1]);escena.add(n);
+    const a=new T.Vector3(ib[0],PROF+.07,ib[1]),b=new T.Vector3(p[0],PROF+.07,p[1]);
+    const medio=a.clone().lerp(b,.5);medio.y+=.35+a.distanceTo(b)*.32;
+    const curva=new T.QuadraticBezierCurve3(a,medio,b),N=Math.max(12,Math.round(curva.getLength()/.1));
+    const matH=new T.MeshBasicMaterial({color:col,transparent:true,opacity:0,depthWrite:false});
+    const tubos=[];
+    for(let j=0;j<N;j+=2)tubos.push(new T.TubeGeometry(new T.LineCurve3(curva.getPoint(j/N),curva.getPoint(Math.min(1,(j+1.15)/N))),1,.017,6,false));
+    const {geo,cortes}=unirGeometrias(T,tubos),malla=new T.Mesh(geo,matH);malla.visible=false;geo.setDrawRange(0,0);escena.add(malla);
+    nudos[k]={n,y:PROF+.075,yMeta:PROF+.075};
+    hilos[k]={matH,malla,geo,cortes,prog:0,progMeta:0,op:0,opMeta:0};
+  }
+  /* Etiquetas y nudos accesibles */
+  const etqs={};
+  const etqOrigen=document.createElement('div');etqOrigen.className='etq origen';etqOrigen.textContent='Ibagué';capa.appendChild(etqOrigen);
+  for(const [k,r] of Object.entries(REGIONES)){
+    let e;
+    if(interactivo){e=document.createElement('button');e.type='button';e.className='nudo-btn';e.dataset.region=k;e.setAttribute('aria-label',r.nombre);e.setAttribute('aria-pressed','false');e.innerHTML=`<span>${esc(r.nombre)}</span>`;e.addEventListener('click',()=>alElegir?.(k))}
+    else{e=document.createElement('div');e.className='etq';e.textContent=r.nombre;e.style.opacity='0'}
+    capa.appendChild(e);etqs[k]=e;
+  }
+  /* Cámara */
+  let w=1,h=1,giroV=0,foco='intro';
+  const cur={tx:0,tz:.15,dist:16,pol:.4,az:0},meta={...cur};
+  const fv=Math.tan(15*Math.PI/180);
+  const ajuste=pol=>Math.max(EXT.h*S*.5*(.42+.58*Math.cos(pol))/fv,EXT.w*S*.5/(fv*(w/h)))*.98;
+  function calcularMeta(){
+    const r=REGIONES[foco];
+    if(r){const p=W(...r.punto);Object.assign(meta,{tx:p[0],tz:p[1]+.2,dist:Math.min(6.4,ajuste(.92)*.6),pol:.92,az:r.az||0})}
+    else{const pol={intro:.42,hilos:.74,fin:.62}[foco]??.66;Object.assign(meta,{tx:0,tz:.15,dist:ajuste(pol),pol,az:foco==='hilos'?-.18:0})}
+  }
+  function enfocar(k){
+    foco=k;calcularMeta();sucio=true;
+    const r=REGIONES[k];
+    piezas.forEach(pz=>{const on=!!r&&r.deptos.includes(pz.iso);pz.altMeta=on?ALTO:1;pz.colorMeta.set(on?pal.hilos[r.color]:pal.base[pz.i%4])});
+    for(const [kk,hh] of Object.entries(hilos)){
+      if(k==='intro'){hh.progMeta=0;hh.opMeta=0}
+      else if(!r){hh.progMeta=1;hh.opMeta=.9}
+      else if(kk===k){hh.progMeta=1;hh.opMeta=1;hh.prog=0}
+      else{hh.progMeta=1;hh.opMeta=.14}
+      nudos[kk].yMeta=(r&&kk===k?PROF*ALTO:PROF)+.075;
+      const e=etqs[kk];
+      if(interactivo) e.setAttribute('aria-pressed',kk===k);
+      else e.style.opacity=kk===k?'1':'0';
+    }
+    origenYMeta=(r&&r.deptos.includes('CO-TOL')?PROF*ALTO:PROF)+.075;
+    if(REDUCIR.matches) saltar();
+  }
+  function saltar(){Object.assign(cur,meta);piezas.forEach(pz=>{pz.alt=pz.altMeta;pz.color.copy(pz.colorMeta)});for(const hh of Object.values(hilos)){hh.prog=hh.progMeta;hh.op=hh.opMeta}}
+  const v3=new T.Vector3();
+  function proyectar(obj,el,dy=0){
+    v3.copy(obj.position);v3.y+=dy;v3.project(cam);
+    const x=(v3.x+1)/2*w,y=(1-v3.y)/2*h,dentro=v3.z<1&&x>-40&&x<w+40&&y>-20&&y<h+20;
+    el.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;el.style.visibility=dentro?'visible':'hidden';
+    el.classList.toggle('izq',x>w-150);
+  }
+  /* Acerca un valor a su meta; devuelve 1 si todavía se mueve. */
+  function acercar(o,c,m,k){const d=m-o[c];if(Math.abs(d)<1e-4){o[c]=m;return 0}o[c]+=d*k;return 1}
+  function actualizar(dt){
+    const red=REDUCIR.matches,k=red?1:1-Math.exp(-dt*2.6);let mov=0;
+    for(const c in cur) mov|=acercar(cur,c,meta[c],k);
+    piezas.forEach(pz=>{mov|=acercar(pz,'alt',pz.altMeta,k);pz.m.scale.y=pz.alt;
+      const c=pz.color,m=pz.colorMeta;if(Math.abs(c.r-m.r)+Math.abs(c.g-m.g)+Math.abs(c.b-m.b)>.003){c.lerp(m,k);mov=1}else c.copy(m);pz.mat.color.copy(c)});
+    for(const [kk,hh] of Object.entries(hilos)){
+      const p0=hh.prog;hh.prog=red||hh.progMeta<hh.prog?hh.progMeta:Math.min(hh.progMeta,hh.prog+dt*.85);if(hh.prog!==p0)mov=1;
+      mov|=acercar(hh,'op',hh.opMeta,red?1:Math.min(1,dt*4));hh.matH.opacity=hh.op;
+      const n=Math.round(hh.prog*hh.cortes.length);hh.geo.setDrawRange(0,n?hh.cortes[n-1]:0);hh.malla.visible=hh.op>.02&&n>0;
+      const nd=nudos[kk];mov|=acercar(nd,'y',nd.yMeta,k);nd.n.position.y=nd.y;
+    }
+    const o={y:origenY};mov|=acercar(o,'y',origenYMeta,k);origenY=o.y;origen.position.y=origenY;
+    const az=cur.az+(red?0:(giroV-.5)*.75),pol=cur.pol+(red?0:giroV*.06);
+    const sp=Math.sin(pol);
+    cam.position.set(cur.tx+cur.dist*sp*Math.sin(az),cur.dist*Math.cos(pol),cur.tz+cur.dist*sp*Math.cos(az));
+    cam.lookAt(cur.tx,0,cur.tz);
+    return mov;
+  }
+  /* Ciclo de dibujo: solo mientras el mapa está en pantalla, y solo cuando algo cambia */
+  let vivo=false,raf=0,ult=0,sucio=true;
+  function cuadro(t){
+    raf=0;if(!vivo)return;
+    const dt=Math.min(.1,(t-ult)/1000||0);ult=t;
+    if(actualizar(dt)||sucio){
+      sucio=false;rend.render(escena,cam);
+      proyectar(origen,etqOrigen,.12);
+      for(const [k,e] of Object.entries(etqs)) proyectar(nudos[k].n,e,interactivo?0:.12);
+    }
+    raf=requestAnimationFrame(cuadro);
+  }
+  new IntersectionObserver(([e])=>{vivo=e.isIntersecting;sucio=true;if(vivo&&!raf){ult=performance.now();raf=requestAnimationFrame(cuadro)}}).observe(caja);
+  new ResizeObserver(()=>{w=caja.clientWidth||1;h=caja.clientHeight||1;rend.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();calcularMeta();sucio=true}).observe(caja);
+  /* Clic sobre un departamento: elige la región más cercana que lo incluya */
+  if(interactivo){
+    const ray=new T.Raycaster(),pv=new T.Vector2();let abajo=null;
+    const golpe=e=>{const b=rend.domElement.getBoundingClientRect();pv.set((e.clientX-b.left)/b.width*2-1,-(e.clientY-b.top)/b.height*2+1);ray.setFromCamera(pv,cam);return ray.intersectObjects(piezas.map(p=>p.m),false)[0]};
+    const regionDe=hit=>{if(!hit)return null;const c=Object.keys(REGIONES).filter(k=>REGIONES[k].deptos.includes(hit.object.userData.iso));let mejor=null,md=1e9;for(const k of c){const n=nudos[k].n.position,d=(n.x-hit.point.x)**2+(n.z-hit.point.z)**2;if(d<md){md=d;mejor=k}}return mejor};
+    rend.domElement.addEventListener('pointerdown',e=>{abajo=[e.clientX,e.clientY]});
+    rend.domElement.addEventListener('pointerup',e=>{if(!abajo||Math.hypot(e.clientX-abajo[0],e.clientY-abajo[1])>6)return;const k=regionDe(golpe(e));if(k)alElegir?.(k)});
+    rend.domElement.addEventListener('pointermove',e=>{if(e.pointerType==='mouse')rend.domElement.style.cursor=regionDe(golpe(e))?'pointer':''});
+  }
+  /* Cambio de tema claro u oscuro */
+  if(tema==='pagina'){
+    const recolorear=()=>{pal=paletaPagina();piezas.forEach(pz=>pz.lm.color.set(pal.puntada));origen.material.color.set(pal.origen);
+      for(const [k,r] of Object.entries(REGIONES)){hilos[k].matH.color.set(pal.hilos[r.color]);nudos[k].n.material.color.set(pal.hilos[r.color])}
+      enfocar(foco);piezas.forEach(pz=>pz.color.copy(pz.colorMeta))};
+    matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',recolorear);
+    new MutationObserver(recolorear).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  }
+  enfocar(interactivo?'mm':'intro');saltar();
+  return {enfocar,giro:v=>{if(Math.abs(v-giroV)>1e-4){giroV=v;sucio=true}}};
+}
+
+function crearMapa2D(caja,{tema='pagina',interactivo=false,alElegir}={}){
+  const pal=tema==='banda'?PALETA_BANDA:paletaPagina();
+  const camino=a=>{let s='M';for(let j=0;j<a.length;j+=2)s+=(j?'L':'')+a[j]+' '+a[j+1];return s+'Z'};
+  const [ix,iy]=IBAGUE;
+  const hebra=([x,y])=>{const mx=(ix+x)/2,my=(iy+y)/2,dx=x-ix,dy=y-iy;return `M${ix} ${iy}Q${(mx-dy*.25).toFixed(1)} ${(my+dx*.25).toFixed(1)} ${x} ${y}`};
+  caja.innerHTML=`<svg class="mapa-2d ${tema}" viewBox="0 0 620 850" role="img" aria-label="Mapa de Colombia con los territorios del recorrido">
+    ${GEO.map(([iso,n,an])=>`<path class="depto" data-d="${iso}" d="${an.map(camino).join('')}"><title>${esc(n)}</title></path>`).join('')}
+    ${Object.entries(REGIONES).map(([k,r])=>`<path class="hebra" data-h="${k}" d="${hebra(r.punto)}" stroke="${pal.hilos[r.color]}"/>`).join('')}
+    ${Object.entries(REGIONES).map(([k,r])=>`<g class="nudo" data-region="${k}"><circle cx="${r.punto[0]}" cy="${r.punto[1]}" r="9" fill="${pal.hilos[r.color]}"/></g>`).join('')}
+    <circle cx="${ix}" cy="${iy}" r="8" fill="${pal.origen}"/><text x="${ix+12}" y="${iy+6}" fill="${pal.origen}" style="font:700 20px var(--f-ui)">Ibagué</text>
+    <text id="etq-2d" fill="${pal.origen}" style="font:700 22px var(--f-ui)"></text></svg>`;
+  if(interactivo) caja.addEventListener('click',e=>{const t=e.target.closest('[data-region]');if(t)alElegir?.(t.dataset.region)});
+  function enfocar(k){
+    const r=REGIONES[k];
+    $$('path.depto',caja).forEach(p=>{const on=!!r&&r.deptos.includes(p.dataset.d);p.classList.toggle('on',on);p.style.setProperty('--c',r?pal.hilos[r.color]:'')});
+    $$('.hebra',caja).forEach(h=>h.classList.toggle('on',!r?k!=='intro':h.dataset.h===k));
+    const t=$('#etq-2d',caja);t.textContent=r?r.nombre:'';if(r){t.setAttribute('x',r.punto[0]+14);t.setAttribute('y',r.punto[1]-12)}
+  }
+  enfocar(interactivo?'mm':'intro');
+  return {enfocar,giro:()=>{}};
+}
+
+/* ============ RECORRIDO DE LA PORTADA ============ */
+let mapaGira=null,mapaTerr=null,pasoActual=null,pendiente=false;
+function montarGira(){
+  $('#pasos-regiones').innerHTML=ORDEN.map((k,i)=>{const r=REGIONES[k];return `<div class="paso" data-paso="${k}" style="--hilo:var(--b-${r.color});--c:var(--b-${r.color})"><div class="paso-caja">
+    <p class="etiqueta">${String(i+1).padStart(2,'0')} de ${ORDEN.length} · ${esc(r.donde)}</p>
+    <h3>${esc(r.nombre)}</h3>
+    <p>${esc(r.breve)}</p>
+    <ul class="temas">${r.causas.map(c=>`<li>${esc(c[0])}</li>`).join('')}</ul>
+    <div class="fila"><a class="boton region" href="#territorios" data-region-ir="${k}">Conocer este territorio</a></div>
+  </div></div>`}).join('');
+  mapaGira=crearMapa($('#mapa-gira'),{tema:'banda'});
+}
+function alDesplazar(){
+  pendiente=false;
+  const vh=innerHeight,doc=document.documentElement;
+  $('#progreso').style.setProperty('--p',Math.min(1,Math.max(0,scrollY/Math.max(1,doc.scrollHeight-vh))).toFixed(4));
+  if(!$('[data-vista="inicio"]').hidden&&mapaGira){
+    const movil=matchMedia('(max-width: 860px)').matches,linea=vh*(movil?.74:.52);
+    const pasos=$$('#gira-pasos .paso');let act=pasos[0];
+    for(const p of pasos) if(p.getBoundingClientRect().top<=linea) act=p;
+    if(act!==pasoActual){pasoActual?.classList.remove('activo');act.classList.add('activo');pasoActual=act;mapaGira.enfocar(act.dataset.paso)}
+    const g=$('#gira').getBoundingClientRect();
+    mapaGira.giro(Math.min(1,Math.max(0,-g.top/Math.max(1,g.height-vh))));
+  }
+  if(!$('[data-vista="territorios"]').hidden&&mapaTerr){
+    const t=$('.territorio').getBoundingClientRect();
+    mapaTerr.giro(Math.min(1,Math.max(0,(vh-t.top)/(t.height+vh))));
+  }
+}
+function programarScroll(){if(!pendiente){pendiente=true;requestAnimationFrame(alDesplazar)}}
+
+/* ============ TERRITORIOS ============ */
+let regionActual='mm';
+const estadoCronica={};
+function montarTerritorios(){
+  $('#filtros-region').innerHTML=ORDEN.map(k=>`<button class="filtro" type="button" data-filtro="${k}" aria-pressed="false" style="--c:var(--hilo-${REGIONES[k].color})">${esc(REGIONES[k].nombre)}</button>`).join('');
+  $('#filtros-region').addEventListener('click',e=>{const t=e.target.closest('[data-filtro]');if(t)elegirRegion(t.dataset.filtro)});
+  mapaTerr=crearMapa($('#mapa-terr'),{tema:'pagina',interactivo:true,alElegir:k=>elegirRegion(k)});
+}
+function elegirRegion(k){
+  regionActual=k;const r=REGIONES[k];
+  $$('[data-filtro]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.filtro===k));
+  mapaTerr?.enfocar(k);
+  const zona=$('[data-vista="territorios"]');zona.style.setProperty('--hilo',`var(--hilo-${r.color})`);zona.style.setProperty('--parche',`var(--parche-${r.color})`);
+  $('#panel-region').innerHTML=`
+    <div><p class="etiqueta">${esc(r.donde)}</p><h3 style="font-size:1.9rem;font-weight:800;margin-top:2px">${esc(r.nombre)}</h3><p style="margin-top:8px">${esc(r.resumen)}</p></div>
+    <div><p class="bloque-titulo">Por qué aquí</p><div class="causas">${r.causas.map(([t,d])=>`<div><b>${esc(t)}.</b> ${esc(d)}</div>`).join('')}</div></div>
+    <div><p class="bloque-titulo">Quiénes actuaron</p><p>${esc(r.actores)}</p></div>
+    <div><p class="bloque-titulo">Momentos clave</p><dl class="linea-tiempo">${r.hitos.map(([f,t])=>`<dt>${esc(f)}</dt><dd>${esc(t)}</dd>`).join('')}</dl></div>
+    <div><p class="bloque-titulo">Cómo se organizó la gente</p><p>${esc(r.resistencia)}</p></div>
+    <div><p class="bloque-titulo">Fuentes</p><ul class="fuentes-mini">${enlaces(r.fuentes)}</ul></div>
+    <div><a class="boton secundario" href="#territorios" data-ir-cronica="1">Leer la crónica de ${esc(r.nombre)}</a></div>`;
+  $('#titulo-cronicas').textContent='Crónicas de '+r.nombre;
+  pintarCronicas();
+}
+function pintarCronicas(){
+  const lista=CRONICAS.filter(c=>c.region===regionActual);
+  $('#cronicas').innerHTML=lista.map(c=>{
+    const e=estadoCronica[c.id]||'cerrada';
+    let cuerpo='';
+    if(e==='cerrada') cuerpo=`<div class="fila" style="margin-top:12px"><button class="boton" type="button" data-cro="aviso" data-id="${c.id}">Leer esta crónica</button></div>`;
+    if(e==='aviso') cuerpo=`<div class="aviso" role="status"><p><b>Antes de leer.</b> ${esc(c.aviso)}</p><div class="fila"><button class="boton" type="button" data-cro="leer" data-id="${c.id}">Quiero leerla</button><button class="boton secundario" type="button" data-cro="refugio">Ir al Refugio primero</button><button class="boton secundario" type="button" data-cro="cerrar" data-id="${c.id}">Ahora no</button></div></div>`;
+    if(e==='leer'||e==='fin') cuerpo=`<div class="texto-cronica">${c.parrafos.map(p=>`<p>${esc(p)}</p>`).join('')}</div>${c.audio?`<audio controls src="${esc(c.audio)}" style="width:100%;margin-top:12px"></audio>`:''}
+      <div class="pregunta-final"><p class="bloque-titulo">Para pensar</p><p>${esc(c.pregunta)}</p></div>
+      <div class="pregunta-final"><p class="bloque-titulo">¿Cómo quedaste después de leer?</p><p class="suave">Tu respuesta no se guarda.</p>
+      ${e==='fin'?`<p style="margin-top:6px" role="status">Gracias por contarnos. Sigue a tu ritmo.</p>`:`<div class="estado-animo"><button class="filtro" type="button" data-animo="calma" data-id="${c.id}">En calma</button><button class="filtro" type="button" data-animo="pensando" data-id="${c.id}">Pensando</button><button class="filtro" type="button" data-animo="conmovido" data-id="${c.id}">Me conmovió</button><button class="filtro" type="button" data-animo="parar" data-id="${c.id}">Necesito parar</button></div>`}</div>
+      <div class="pregunta-final"><p class="bloque-titulo">Fuentes de esta crónica</p><ul class="fuentes-mini">${enlaces(c.fuentes)}</ul></div>`;
+    return `<article class="cronica"><p class="tipo">${esc(c.tipo)}</p><h3>${esc(c.titulo)}</h3>${cuerpo}</article>`;
+  }).join('');
+}
+function clicCronicas(e){
+  const t=e.target.closest('button');if(!t)return;
+  const {cro,id,animo}=t.dataset;
+  if(cro==='refugio'){abrirRefugio();return}
+  if(cro==='aviso'){estadoCronica[id]='aviso';pintarCronicas()}
+  if(cro==='leer'){estadoCronica[id]='leer';pintarCronicas()}
+  if(cro==='cerrar'){estadoCronica[id]='cerrada';pintarCronicas()}
+  if(animo){
+    estadoCronica[id]='fin';pintarCronicas();
+    if(animo==='parar') abrirPausaObligatoria('Dijiste que necesitas parar. Respira con nosotros durante 30 segundos antes de continuar.',abrirRefugio);
+    if(animo==='conmovido') abrirRefugio();
+  }
+}
+
+/* ============ PERSPECTIVAS ============ */
+let dilemaActual=0,indiceEjercicio=0,pausaHecha=leer('hilos.pausa',false,sessionStorage);
+function borrador(){return {r:$('#ap-razon')?.value||'',o:$('#ap-otro')?.value||''}}
+function pintarDilema(){
+  const caja=$('#dilema');if(!caja) return;
+  const d=DILEMAS[dilemaActual],voto=C.mio.votos?.[d.id];
+  const {r,o}=borrador();
+  $('#pasos-dilema').innerHTML=DILEMAS.map((x,i)=>`<button class="filtro" type="button" data-d="${i}" aria-pressed="${i===dilemaActual}">${i+1}. ${esc(x.corto)}</button>`).join('');
+  const ops=d.opciones.map(o=>`<button class="opcion" type="button" data-op="${o.id}" aria-pressed="${o.id===voto}"><b>${esc(o.postura)}</b>${esc(o.arg)}</button>`).join('');
+  let extra='';
+  if(voto){
+    const o=d.opciones.find(x=>x.id===voto),c=conteo(d),tot=Object.values(c).reduce((a,b)=>a+b,0)||1;
+    extra=`<div class="analisis"><div><p class="bloque-titulo">Lo que asume</p><p>${esc(o.supone)}</p></div><div><p class="bloque-titulo">Su objeción más fuerte</p><p>${esc(o.objecion)}</p></div></div>
+    <div><p class="bloque-titulo">Cómo se reparten las posturas</p><div class="barras">${d.opciones.map(x=>{const v=c[x.id]||0,p=Math.round(v/tot*100);return `<div class="barra-fila"><span>${esc(x.postura)}<div class="barra-pista"><div class="barra-valor" style="width:${p}%"></div></div></span><span>${v}</span></div>`}).join('')}</div></div>
+    <form id="form-aporte" class="pila" novalidate>
+      <p class="bloque-titulo" style="margin:0">Argumenta tu postura</p>
+      <div class="campo"><label for="ap-razon">Mi razón es…</label><textarea id="ap-razon" maxlength="300"></textarea></div>
+      <div class="campo"><label for="ap-otro">Lo que reconozco de quien piensa distinto es…</label><textarea id="ap-otro" maxlength="300"></textarea></div>
+      <div id="ap-revision"></div>
+      <div class="fila"><button class="boton" id="ap-enviar" type="submit" disabled>Publicar mi argumento</button><span id="ap-estado" role="status"></span></div>
+    </form>
+    <div><p class="bloque-titulo">Argumentos de la comunidad</p>${(()=>{const l=aportesDe(d.id);return l.length?`<ul class="aportes">${l.map(a=>`<li><b>${esc(d.opciones.find(x=>x.id===a.opcion)?.postura||'Postura')}.</b> ${esc(a.razon)}<br><span class="suave">Reconoce que: ${esc(a.reconozco)}</span></li>`).join('')}</ul>`:'<p class="suave">Todavía no hay argumentos en este dilema. El primero puede ser el tuyo.</p>'})()}</div>`;
+  }
+  caja.innerHTML=`<article class="dilema"><div><p class="etiqueta">Dilema ${dilemaActual+1} de ${DILEMAS.length}</p><h3 style="font-size:clamp(1.5rem,3.4vw,1.95rem);font-weight:800;margin-top:4px">${esc(d.pregunta)}</h3><p style="margin-top:8px" class="lectura">${esc(d.contexto)}</p></div>
+    <div class="opciones">${ops}</div>${voto?'':'<p class="suave">Elige la postura que más te convence. Podrás cambiarla.</p>'}${extra}</article>`;
+  if($('#ap-razon')){$('#ap-razon').value=r;$('#ap-otro').value=o;revisarAporte()}
+}
+function revisarAporte(){$('#ap-enviar').disabled=!pintarRevision($('#ap-revision'),[$('#ap-razon').value,$('#ap-otro').value],{minimo:15})}
+async function publicarAporte(e){
+  e.preventDefault();
+  const d=DILEMAS[dilemaActual],razon=$('#ap-razon').value.trim(),rec=$('#ap-otro').value.trim();
+  if(!visible(razon,rec)) return;
+  C.mio.aportes=[{id:Date.now().toString(36),dilema:d.id,opcion:C.mio.votos[d.id],razon,reconozco:rec,fecha:Date.now()},...C.mio.aportes].slice(0,12);
+  $('#ap-razon').value='';$('#ap-otro').value='';
+  await guardarMio();pintarDilema();
+}
+function pintarEntreno(res){
+  const x=EJERCICIOS[indiceEjercicio];
+  $('#entreno').innerHTML=`<div><p class="etiqueta">Entrena tu lectura · ${indiceEjercicio+1} de ${EJERCICIOS.length}</p><p class="suave">Frases escritas para practicar. ¿Qué problema tiene esta?</p></div>
+  <p class="frase">«${esc(x.f)}»</p>
+  <div class="chips">${Object.entries(FALACIAS).map(([k,v])=>`<button class="chip" type="button" data-f="${k}">${esc(v)}</button>`).join('')}</div>
+  ${res?`<div class="resultado" role="status"><b>${res===x.r?'Correcto':'Todavía no'}: es ${esc(FALACIAS[x.r])}.</b> ${esc(x.mejor)}</div><div><button class="boton secundario" type="button" data-sig="1">Siguiente frase</button></div>`:''}`;
+}
+
+/* ============ TAPIZ ============ */
+const glifo=s=>`<svg viewBox="0 0 30 30" aria-hidden="true"><path d="${SEMILLAS[s][2]}"/></svg>`;
+function pintarTapiz(){
+  const l=pactos(),caja=$('#tapiz');
+  if(!l.length){caja.innerHTML='<div class="tapiz-vacio"><b style="font:700 1.25rem var(--f-texto)">Este tapiz todavía está en blanco</b><span class="suave">Cada pacto se convierte en un parche. El primero puede ser el tuyo.</span></div>';return}
+  const mia=p=>p._u===(C.uid||'yo');
+  caja.innerHTML=`<div class="tapiz">${l.map(p=>`<article class="parche" data-s="${p.semilla}">${glifo(p.semilla)}
+    <blockquote>${esc(p.texto)}</blockquote>
+    <footer>${esc(SEMILLAS[p.semilla][0])}, ${esc(SEMILLAS[p.semilla][1])}. Por: ${esc(p.dedicatoria)}.<br>${esc(p.tipo)} · ${esc(p.ambito)}${p.firma?' · '+esc(p.firma):''}</footer>
+    ${mia(p)||C.dueno?`<button class="quitar" type="button" data-quitar="${esc(p.id)}" data-dueno="${esc(p._u)}">${mia(p)?'Quitar mi parche':'Retirar por moderación'}</button>`:''}
+  </article>`).join('')}</div>`;
+}
+function revisarPacto(){
+  const t=$('#pacto-texto').value,f=$('#pacto-firma').value;
+  $('#pacto-cuenta').textContent=t.length;
+  $('#pacto-enviar').disabled=!pintarRevision($('#pacto-revision'),[t,f]) || t.trim().length<15;
+}
+async function publicarPacto(e){
+  e.preventDefault();
+  const texto=$('#pacto-texto').value.trim(),firma=$('#pacto-firma').value.trim();
+  if(texto.length<15||!visible(texto,firma)) return;
+  C.mio.pactos=[{id:Date.now().toString(36),tipo:$('#pacto-tipo').value,ambito:$('#pacto-ambito').value,texto,semilla:$('#pacto-semilla').value,dedicatoria:$('#pacto-dedicatoria').value,firma,fecha:Date.now()},...C.mio.pactos].slice(0,5);
+  const compartido=await guardarMio();
+  $('#pacto-texto').value='';$('#pacto-firma').value='';revisarPacto();
+  $('#pacto-estado').textContent=compartido?'Tu pacto ya está en el tapiz.':'Tu pacto quedó en este dispositivo.';
+  pintarTapiz();
+}
+async function quitarParche(id,u){
+  if(u===(C.uid||'yo')){C.mio.pactos=C.mio.pactos.filter(p=>p.id!==id);await guardarMio();pintarTapiz();return}
+  if(!C.dueno||!C.db) return;
+  const f=C.filas.get(u);if(!f)return;
+  try{await C.db.doc('comunidad/'+u).update({pactos:(f.pactos||[]).filter(p=>p.id!==id)})}catch{}
+}
+
+/* ============ TU HISTORIA ============
+   Cada persona guarda lo que envía en buzon/<id>: solo esa persona y quien publica la plataforma lo leen.
+   Solo quien publica la plataforma copia a relatos/ las historias revisadas, y eso es lo que ve la comunidad. */
+const RIESGO=/\b(me quiero morir|quiero morirme|no quiero (seguir )?vivir|matarme|quitarme la vida|suicid|hacerme dano|me estan amenazando|me amenazan|me van a matar|nos van a matar|me quieren reclutar|me estan reclutando|me obligan|abusa de mi|abusan de mi|me pega|me golpea)/;
+const NOMBRES=/[^.!?¿¡\n]\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{2,}\s(?:de\s|del\s)?[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{2,}/;
+const hayRiesgo=t=>RIESGO.test(normalizar(t));
+function revisarRelato(t){const r=revisar(t);if(NOMBRES.test(t))r.push({b:0,t:'Nombres propios',e:'Parece que mencionas nombres de personas o de lugares.',s:'Usa iniciales o descripciones generales para protegerte a ti y a otras personas.'});return r}
+const ESTADOS={privado:'Solo para ti, en este dispositivo','sin-enviar':'Sin enviar, en este dispositivo',revision:'En revisión',publicado:'Publicada','no-publicado':'No publicada',retiro:'Pediste retirarla',retirado:'Retirada'};
+const MOTIVOS={datos:'Incluye datos que pueden identificar a personas.',grafico:'Incluye descripciones que pueden revictimizar.',acusa:'Señala a personas identificables.',otro:'No cumple los criterios de cuidado de la plataforma.'};
+const ACUDIR=[
+  ['Estoy en peligro ahora','Llama al 123.'],
+  ['Necesito hablar con alguien','Línea 106 de salud mental, gratuita y 24 horas. En el Tolima, Línea Naranja Yo Te Escucho: 318 607 2341.'],
+  ['Soy menor de edad y alguien me hace daño o quiere reclutarme','Línea 141 del ICBF, gratuita y 24 horas, o el 123.'],
+  ['Soy mujer y vivo violencia','Línea 155, nacional, gratuita y confidencial.'],
+  ['Viví hechos del conflicto y quiero que me reconozcan como víctima','Puedes declarar ante la Personería de tu municipio, la Defensoría del Pueblo o la Procuraduría. Orientación gratuita en la Unidad para las Víctimas: 01 8000 911 119.'],
+  ['Quiero apoyo psicosocial como víctima','Pregunta por el programa PAPSIVI en la Unidad para las Víctimas o en la Secretaría de Salud.'],
+  ['Quiero hablar con alguien del colegio','Busca a tu director de grupo o al área de orientación escolar.']
+];
+const IDEAS_RELATO=['Antes, en mi territorio…','Lo que cambió fue…','Lo que me ayudó a seguir fue…','Lo que quiero que otras personas sepan es…'];
+const H={mios:leer('hilos.relatos',[]),buzon:null,publicados:new Map(),todos:new Map(),sinDb:false,abiertas:new Set()};
+const fechaCorta=n=>{try{return n?new Date(n).toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'}):''}catch{return ''}};
+const acudirHTML=()=>`<ul class="acudir">${ACUDIR.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join('')}</ul>`;
+async function copiarTexto(boton,texto){
+  const antes=boton.textContent;
+  try{await navigator.clipboard.writeText(texto);boton.textContent='Copiado'}catch{boton.textContent='No se pudo copiar'}
+  setTimeout(()=>{boton.textContent=antes},1800);
+}
+function suscribirHistorias(db){
+  if(C.uid) db.doc('buzon/'+C.uid).onSnapshot(s=>{H.buzon=s.exists?s.data():null;pintarMisRelatos()},()=>{});
+  db.collection('relatos').limit(500).onSnapshot(s=>{H.publicados=new Map(s.docs.map(d=>[d.id,d.data()]));pintarVoces()},()=>{H.sinDb=true;pintarVoces()});
+  if(C.dueno) db.collection('buzon').limit(500).onSnapshot(s=>{H.todos=new Map(s.docs.map(d=>[d.id,d.data()]));pintarModeracion()},()=>{});
+}
+function revisarRelatoForm(){
+  const t=$('#rel-texto').value,f=$('#rel-firma').value,comp=$('#rel-modo-compartir').checked,menor=$('#rel-edad-menor').checked,btn=$('#rel-enviar');
+  $('#rel-cuenta').textContent=t.length;
+  $('#rel-compartir').hidden=!comp;$('#rel-c4-caja').hidden=!menor;
+  $('#rel-ayuda-caja').hidden=!$('#rel-ayuda').checked;
+  const riesgo=hayRiesgo(t),hall=comp?[...revisarRelato(t),...revisar(f)]:[];
+  let html='';
+  if(riesgo) html+=`<div class="crisis" role="alert"><b>Lo que escribes muestra que podrías estar en peligro o pasando por un momento muy difícil.</b><span>Busca ayuda ahora: llama al 123 si es una emergencia, a la Línea 106 para hablar con alguien o a la Línea 141 si eres menor de edad. También puedes ir a orientación escolar.</span>${comp?'<span>Por tu seguridad, esta historia no se puede enviar a la comunidad por ahora. Puedes guardarla solo para ti.</span>':''}</div>`;
+  if(hall.length) html+=`<div class="revision ${hall.some(h=>h.b)?'bloquea':''}" role="status">${hall.map(h=>`<div><b>${esc(h.t)}.</b> ${esc(h.e)} ${esc(h.s)}</div>`).join('')}</div>`;
+  $('#rel-revision').innerHTML=html;
+  const consentido=!comp||(['#rel-c1','#rel-c2','#rel-c3'].every(s=>$(s).checked)&&(!menor||$('#rel-c4').checked));
+  btn.disabled=hall.some(h=>h.b)||(comp&&riesgo)||t.trim().length<40||!consentido;
+  btn.textContent=comp?'Enviar para revisión':'Guardar solo para mí';
+}
+async function enviarRelato(item){
+  if(!(C.db&&C.escribe&&C.uid)) return false;
+  const ref=C.db.doc('buzon/'+C.uid);
+  try{
+    const s=await ref.get(),d=s.exists?s.data():{};
+    const relatos=[item,...(Array.isArray(d.relatos)?d.relatos:[]).map(x=>({...x}))].slice(0,3);
+    if(s.exists) await ref.update({relatos}); else await ref.set({relatos,estados:{}});
+    return true;
+  }catch(e){if(e?.code==='invalid_argument'||e?.code==='not_granted')C.escribe=false;return false}
+}
+async function guardarRelato(e){
+  e.preventDefault();
+  if($('#rel-enviar').disabled) return;
+  const comp=$('#rel-modo-compartir').checked,texto=$('#rel-texto').value.trim(),firma=$('#rel-firma').value.trim();
+  const item={id:Date.now().toString(36),texto,region:$('#rel-region').value,firma,difusion:comp?($('#rel-dif-fuera').checked?'fuera':'plataforma'):'',fecha:Date.now()};
+  let msg;
+  if(!comp){H.mios=[{...item,estado:'privado'},...H.mios].slice(0,20);guardar('hilos.relatos',H.mios);msg='Tu historia quedó guardada solo en este dispositivo.'}
+  else if(await enviarRelato(item)) msg='Gracias por confiar tu historia. El equipo la revisará antes de publicarla.';
+  else{H.mios=[{...item,estado:'sin-enviar'},...H.mios].slice(0,20);guardar('hilos.relatos',H.mios);msg='Con tu tipo de acceso no se puede enviar desde aquí. Quedó guardada en este dispositivo: puedes copiarla y entregarla al equipo del proyecto.'}
+  $('#rel-texto').value='';$('#rel-firma').value='';['#rel-c1','#rel-c2','#rel-c3','#rel-c4'].forEach(s=>{$(s).checked=false});
+  revisarRelatoForm();pintarMisRelatos();
+  $('#rel-estado').textContent=msg;$('#rel-despues').hidden=false;
+}
+function pintarMisRelatos(){
+  const caja=$('#mis-relatos');if(!caja) return;
+  const est=H.buzon?.estados||{};
+  const remotos=(Array.isArray(H.buzon?.relatos)?H.buzon.relatos:[]).map(r=>{const e=est[r.id]||{};return {...r,estado:e.estado==='retirado'?'retirado':r.retirar?'retiro':(e.estado||'revision'),motivo:e.motivo,remoto:true}});
+  const l=[...remotos,...H.mios].sort((a,b)=>(b.fecha||0)-(a.fecha||0));
+  if(!l.length){caja.innerHTML='';return}
+  caja.innerHTML=`<h3>Tus historias</h3><ul class="pila" style="list-style:none;padding:0">${l.map(r=>{
+    const texto=String(r.texto||'');let acc='';
+    if(!r.remoto) acc=`<button class="chip" type="button" data-copiar-mio="${esc(r.id)}">Copiar</button><button class="chip" type="button" data-borrar-mio="${esc(r.id)}">Borrar</button>`;
+    else if(r.estado==='publicado') acc=`<button class="chip" type="button" data-pedir-retiro="${esc(r.id)}">Pedir que la retiren</button>`;
+    else if(r.estado!=='retiro') acc=`<button class="chip" type="button" data-quitar-remoto="${esc(r.id)}">${r.estado==='revision'?'Retirarla antes de la revisión':'Quitar de mi lista'}</button>`;
+    return `<li class="mod-item"><div class="fila"><span class="estado-chip">${esc(ESTADOS[r.estado]||'')}</span><span class="suave" style="font-size:.9rem">${esc(fechaCorta(r.fecha))}</span></div><p>${esc(texto.slice(0,220))}${texto.length>220?'…':''}</p>${r.estado==='no-publicado'&&MOTIVOS[r.motivo]?`<p class="suave">${esc(MOTIVOS[r.motivo])}</p>`:''}<div class="fila">${acc}</div></li>`;
+  }).join('')}</ul>`;
+}
+async function accionMisRelatos(e){
+  const t=e.target.closest('button');if(!t) return;const d=t.dataset;
+  if(d.copiarMio){const r=H.mios.find(x=>x.id===d.copiarMio);if(r)copiarTexto(t,r.texto)}
+  if(d.borrarMio){H.mios=H.mios.filter(x=>x.id!==d.borrarMio);guardar('hilos.relatos',H.mios);pintarMisRelatos()}
+  if((d.quitarRemoto||d.pedirRetiro)&&C.db&&C.uid&&H.buzon){
+    const lista=(H.buzon.relatos||[]).map(x=>({...x}));
+    const nueva=d.quitarRemoto?lista.filter(x=>x.id!==d.quitarRemoto):lista.map(x=>x.id===d.pedirRetiro?{...x,retirar:true}:x);
+    try{await C.db.doc('buzon/'+C.uid).update({relatos:nueva})}catch{t.textContent='No se pudo. Intenta de nuevo.'}
+  }
+}
+function pintarVoces(){
+  const est=$('#voces-estado'),caja=$('#voces');if(!caja) return;
+  if(!C.db){
+    est.textContent=H.sinDb?'Las historias compartidas aparecen cuando abres la plataforma con tu cuenta.':'Cargando historias…';caja.innerHTML='';return;
+  }
+  const l=[...H.publicados.entries()].map(([id,d])=>({id,texto:seguro(d.texto,1500),region:seguro(d.region,40),firma:seguro(d.firma,30),difusion:d.difusion==='fuera'?'fuera':'plataforma',fecha:Number(d.fecha)||0})).filter(v=>visible(v.texto,v.firma)).sort((a,b)=>b.fecha-a.fecha);
+  est.textContent='Historias de personas de la comunidad, publicadas sin su nombre después de una revisión.';
+  if(!l.length){caja.innerHTML='<div class="tapiz-vacio"><b style="font:700 1.25rem var(--f-texto)">Todavía no hay historias publicadas</b><span class="suave">Cuando alguien comparta la suya y pase la revisión, aparecerá aquí sin su nombre.</span></div>';return}
+  caja.innerHTML=`<div class="voces">${l.map(v=>`<article class="voz"><p class="suave" style="font-size:.92rem">Historia de la comunidad${v.region?' · '+esc(v.region):''}${v.firma?' · '+esc(v.firma):''}</p>${H.abiertas.has(v.id)
+    ?`<p class="texto">${esc(v.texto)}</p><div class="fila">${v.difusion==='fuera'?`<button class="boton secundario" type="button" data-copiar-voz="${esc(v.id)}">Copiar para compartir</button>`:'<span class="suave" style="font-size:.92rem">Quien la escribió pidió que se lea solo aquí.</span>'}<button class="chip" type="button" data-refugio="respirar">Ir al Refugio</button></div>`
+    :`<p class="suave">Puede mencionar hechos dolorosos.</p><div><button class="boton" type="button" data-leer-voz="${esc(v.id)}">Leer</button></div>`}</article>`).join('')}</div>`;
+}
+function accionVoces(e){
+  const t=e.target.closest('button');if(!t) return;
+  if(t.dataset.leerVoz){H.abiertas.add(t.dataset.leerVoz);pintarVoces()}
+  if(t.dataset.copiarVoz){const v=H.publicados.get(t.dataset.copiarVoz);if(v&&v.difusion==='fuera')copiarTexto(t,`${seguro(v.texto,1500)}\n\nHistoria anónima compartida en Hilos de Resiliencia.`)}
+}
+function pintarModeracion(){
+  const sec=$('#moderacion');if(!sec) return;
+  if(!C.dueno){sec.hidden=true;return}
+  sec.hidden=false;
+  const items=[];
+  for(const [uid,d] of H.todos) for(const r of (Array.isArray(d.relatos)?d.relatos:[])){const e=d.estados?.[r.id]||{};items.push({uid,r,estado:e.estado||'revision'})}
+  items.sort((a,b)=>(b.r.fecha||0)-(a.r.fecha||0));
+  const pendientes=items.filter(i=>i.estado==='revision'||(i.estado==='publicado'&&i.r.retirar)).length;
+  $('#mod-pendientes').textContent=pendientes?`${pendientes} por atender`:'Nada pendiente';
+  $('#mod-lista').innerHTML=!items.length?'<p class="suave">Todavía no han enviado historias.</p>':items.map(({uid,r,estado})=>{
+    const texto=seguro(r.texto,1500),alertas=revisarRelato(texto),riesgo=hayRiesgo(texto),puede=!riesgo&&!alertas.some(h=>h.b),id=esc(r.id),u=esc(uid);
+    let acc='';
+    if(puede&&(estado==='revision'||estado==='no-publicado')) acc+=`<button class="boton" type="button" data-mod="publicar" data-uid="${u}" data-id="${id}">Publicar</button>`;
+    if(estado==='revision') acc+=`<select id="motivo-${id}" aria-label="Motivo para no publicar">${Object.entries(MOTIVOS).map(([k,v])=>`<option value="${k}">${esc(v)}</option>`).join('')}</select><button class="boton secundario" type="button" data-mod="rechazar" data-uid="${u}" data-id="${id}">No publicar</button>`;
+    if(estado==='publicado') acc+=`<button class="boton secundario" type="button" data-mod="retirar" data-uid="${u}" data-id="${id}">Retirar</button>`;
+    return `<article class="mod-item">
+      <div class="fila"><span class="estado-chip">${esc(ESTADOS[estado]||estado)}</span>${r.retirar&&estado==='publicado'?'<span class="estado-chip" style="border-color:var(--alerta);color:var(--alerta)">Pidió retirarla</span>':''}<span class="suave" style="font-size:.9rem">${esc(fechaCorta(r.fecha))} · ${esc(seguro(r.region,40)||'Sin región')} · ${r.difusion==='fuera'?'Se puede compartir fuera':'Solo en la plataforma'}${r.firma?' · '+esc(seguro(r.firma,30)):''}</span></div>
+      ${riesgo?'<div class="crisis"><b>Señal de riesgo.</b> No la publiques y avisa a orientación escolar.</div>':''}
+      ${alertas.length?`<div class="revision ${alertas.some(h=>h.b)?'bloquea':''}">${alertas.map(h=>`<div><b>${esc(h.t)}.</b> ${esc(h.e)}</div>`).join('')}</div>`:''}
+      <p class="texto-largo">${esc(texto)}</p>
+      <div class="fila">${acc}</div></article>`;
+  }).join('');
+}
+async function accionModeracion(e){
+  const t=e.target.closest('[data-mod]');if(!t||!C.dueno||!C.db) return;
+  const {mod,uid,id}=t.dataset,d=H.todos.get(uid),r=(d?.relatos||[]).find(x=>x.id===id);if(!r) return;
+  const ref=C.db.doc('buzon/'+uid),pub=C.db.doc('relatos/'+uid+'--'+id),aviso=$('#mod-estado');
+  t.disabled=true;
+  try{
+    if(mod==='publicar'){
+      await pub.set({texto:seguro(r.texto,1500),region:seguro(r.region,40),firma:seguro(r.firma,30),difusion:r.difusion==='fuera'?'fuera':'plataforma',fecha:Number(r.fecha)||Date.now()});
+      await ref.update({estados:{[id]:{estado:'publicado'}}});aviso.textContent='Historia publicada.';
+    }
+    if(mod==='rechazar'){await ref.update({estados:{[id]:{estado:'no-publicado',motivo:$('#motivo-'+id)?.value||'otro'}}});aviso.textContent='La historia quedó sin publicar.'}
+    if(mod==='retirar'){await pub.delete();await ref.update({estados:{[id]:{estado:'retirado'}}});aviso.textContent='Historia retirada.'}
+  }catch{aviso.textContent='No se pudo guardar el cambio. Revisa tu conexión e intenta de nuevo.';t.disabled=false}
+}
+function montarHistoria(){
+  $('#rel-region').innerHTML=['<option value="">Prefiero no decirlo</option>',...ORDEN.map(k=>`<option>${esc(REGIONES[k].nombre)}</option>`),'<option>Otra región de Colombia</option>'].join('');
+  $('#rel-ideas').innerHTML=IDEAS_RELATO.map(t=>`<button class="chip" type="button">${esc(t)}</button>`).join('');
+  $('#rel-ideas').addEventListener('click',e=>{const t=e.target.closest('.chip');if(!t) return;const a=$('#rel-texto');a.value=(a.value.trim()?a.value.trimEnd()+'\n\n':'')+t.textContent.replace('…',' ');a.focus();revisarRelatoForm()});
+  $('#rel-ayuda-caja').innerHTML=`<div class="crisis"><b>Esta página no envía tu pedido de ayuda a nadie.</b><span>Estas entidades sí pueden ayudarte:</span></div>${acudirHTML()}`;
+  $('#rel-acudir').innerHTML=acudirHTML();
+  $('#form-relato').addEventListener('input',revisarRelatoForm);
+  $('#form-relato').addEventListener('change',revisarRelatoForm);
+  $('#form-relato').addEventListener('submit',guardarRelato);
+  $('#mis-relatos').addEventListener('click',accionMisRelatos);
+  $('#voces').addEventListener('click',accionVoces);
+  $('#mod-lista').addEventListener('click',accionModeracion);
+  revisarRelatoForm();pintarMisRelatos();pintarVoces();
+}
+
+/* ============ INICIO ============ */
+function iniciar(){
+  const enc=$('#encabezado');
+  new ResizeObserver(()=>document.documentElement.style.setProperty('--alto-enc',enc.offsetHeight+'px')).observe(enc);
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('[data-ir],[data-region-ir],[data-ir-cronica]');if(!a)return;
+    e.preventDefault();a.closest('dialog')?.close();
+    if(a.dataset.regionIr){ir('territorios');elegirRegion(a.dataset.regionIr)}
+    else if(a.dataset.irCronica){$('#zona-cronicas').scrollIntoView({behavior:REDUCIR.matches?'auto':'smooth'})}
+    else ir(a.dataset.ir);
+  });
+  window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(VISTAS.includes(v))ir(v,false)});
+  window.addEventListener('scroll',programarScroll,{passive:true});
+  window.addEventListener('resize',programarScroll);
+  refugioPagina=montarRefugio($('#refugio-pagina'));
+  refugioDialogo=montarRefugio($('#refugio-dialogo'));
+  $('#abrir-refugio').addEventListener('click',()=>abrirRefugio());
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-refugio]');if(b)abrirRefugio(b.dataset.refugio)});
+  $('#cerrar-refugio').addEventListener('click',()=>$('#dlg-refugio').close());
+  $('#dlg-refugio').addEventListener('close',()=>refugioDialogo.detener());
+  $('#dlg-refugio').addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.close()});
+  $('#dlg-pausa').addEventListener('cancel',e=>e.preventDefault());
+
+  montarGira();
+  montarTerritorios();elegirRegion('mm');
+  $('#cronicas').addEventListener('click',clicCronicas);
+
+  const respC=crearRespiracion($('#resp-compuerta'),{ciclos:3,alTerminar:()=>{$('#compuerta-entrar').disabled=false;$('#compuerta-iniciar').hidden=true;$('#compuerta-entrar').focus();pausaHecha=true;guardar('hilos.pausa',true,sessionStorage)}});
+  const abrirDilemas=()=>{$('#compuerta').hidden=true;$('#perspectivas-contenido').hidden=false};
+  if(pausaHecha) abrirDilemas();
+  $('#compuerta-iniciar').addEventListener('click',()=>{$('#compuerta-iniciar').disabled=true;respC.iniciar()});
+  $('#compuerta-entrar').addEventListener('click',abrirDilemas);
+  $('#pasos-dilema').addEventListener('click',e=>{const t=e.target.closest('[data-d]');if(t){dilemaActual=+t.dataset.d;if($('#ap-razon')){$('#ap-razon').value='';$('#ap-otro').value=''}pintarDilema()}});
+  $('#dilema').addEventListener('click',async e=>{const t=e.target.closest('[data-op]');if(!t)return;C.mio.votos[DILEMAS[dilemaActual].id]=t.dataset.op;pintarDilema();await guardarMio()});
+  $('#dilema').addEventListener('input',e=>{if(e.target.matches('#ap-razon,#ap-otro'))revisarAporte()});
+  $('#dilema').addEventListener('submit',e=>{if(e.target.matches('#form-aporte'))publicarAporte(e)});
+  $('#entreno').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;if(t.dataset.f)pintarEntreno(t.dataset.f);if(t.dataset.sig){indiceEjercicio=(indiceEjercicio+1)%EJERCICIOS.length;pintarEntreno()}});
+  pintarDilema();pintarEntreno();
+
+  $('#pacto-semilla').innerHTML=Object.entries(SEMILLAS).map(([k,v])=>`<option value="${k}">${esc(v[0])}, ${esc(v[1])}</option>`).join('');
+  $('#pacto-ideas').innerHTML=IDEAS.map(t=>`<button class="chip" type="button">${esc(t)}</button>`).join('');
+  $('#pacto-ideas').addEventListener('click',e=>{const t=e.target.closest('.chip');if(t){$('#pacto-texto').value=t.textContent;revisarPacto()}});
+  $('#form-pacto').addEventListener('input',revisarPacto);
+  $('#form-pacto').addEventListener('submit',publicarPacto);
+  $('#tapiz').addEventListener('click',e=>{const t=e.target.closest('[data-quitar]');if(t)quitarParche(t.dataset.quitar,t.dataset.dueno)});
+  pintarTapiz();
+  montarHistoria();
+
+  $('#lista-fuentes').innerHTML=FUENTES.map(([t,u])=>`<li>${esc(t)}${u?` <a href="${esc(u)}" target="_blank" rel="noopener">Abrir</a>`:''}</li>`).join('');
+  const h=location.hash.slice(1);if(VISTAS.includes(h))ir(h,false);
+  programarScroll();
+  conectar();
+}
+iniciar();
+})();
+</script>
+
+</body></html>
